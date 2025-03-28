@@ -1,0 +1,10 @@
+.DS_Store
+.vs
+.vscode/settings.json
+.vscode/c_cpp_properties.json
+CMakeSettings.json
+.idea
+cmake-build-*
+/build
+/target
+/data
