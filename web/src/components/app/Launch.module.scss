@@ -1,0 +1,8 @@
+@import "../common/common.scss";
+
+.root {
+    background-color: $editor-canvas-bg;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

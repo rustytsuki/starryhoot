@@ -1,0 +1,24 @@
+@import "../common/common.scss";
+
+.root {
+    background-color: $editor-canvas-bg;
+    height: 46px;
+
+    .first-tab {
+        width: auto !important;
+        min-width: 120px;
+    }
+    .other-tab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .close-btn {
+        font-size: 0.5rem;
+        width: 14px;
+        height: 14px;
+    }
+}

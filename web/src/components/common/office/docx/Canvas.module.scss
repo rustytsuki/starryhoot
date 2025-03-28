@@ -1,0 +1,29 @@
+@import "../../common.scss";
+
+.root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    .canvas {
+        position: absolute;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        background: $editor-canvas-bg;
+    }
+
+    .viewport {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+
+        .area {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

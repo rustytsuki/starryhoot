@@ -1,0 +1,48 @@
+@import '../../common.scss';
+
+.root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    .menu {
+        position: absolute;
+        width: 100%;
+        height: $top-bar-height;
+    }
+
+    .editor {
+        position: absolute;
+        top: $top-bar-height;
+        bottom: $status-bar-height;
+        width: 100%;
+
+        .left {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+        }
+
+        .canvas {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            background-color: $editor-canvas-bg;
+        }
+
+        .right {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+        }
+    }
+
+    .statusbar {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        height: $status-bar-height;
+    }
+}
