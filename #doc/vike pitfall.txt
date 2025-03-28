@@ -1,0 +1,16 @@
+How to inject value to pageContext
+
+https://vike.dev/pageContext#custom
+
+if you use ssg, two things need to do at the same time:
+1) set the onRenderHtml() hook in +onRenderHtml.jsx.
+2) set the onBeforeRender() hook in every page. or using upcoming feature onBoot() (#962).
+
+
+How to conditional compile?
+
+https://vike.dev/env
+
+add envrionment val to .env
+the env both in server and client will be statically replaced.
+use vite mode to define multiple .env.[mode]

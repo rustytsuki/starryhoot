@@ -1,0 +1,20 @@
+{
+    // https://github.com/microsoft/vscode/issues/202691
+    // VS Code is still adding /d /c to task commands
+    // https://github.com/microsoft/vscode/issues/169821
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "[starryhoot] web prod",
+            "type": "npm",
+            "script": "web:build",
+            "path": "web"
+        },
+        {
+            "label": "[starryhoot] web prod electron",
+            "type": "npm",
+            "script": "electron:build",
+            "path": "web"
+        }
+    ]
+}

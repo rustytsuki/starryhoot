@@ -1,0 +1,89 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "web dev",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "web:dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "cwd": "${workspaceFolder}/web",
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "web dev electron",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "electron:dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "cwd": "${workspaceFolder}/web",
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "app electron dev",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "cwd": "${workspaceFolder}/app",
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "app electron prod",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "prod"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "cwd": "${workspaceFolder}/app",
+            "presentation": {
+                "hidden": true
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "app electron",
+            "configurations": [
+                "web dev electron",
+                "app electron dev"
+            ],
+        },
+        {
+            "name": "app electron production",
+            "preLaunchTask": "[starryhoot] web prod electron",
+            "configurations": [
+                "app electron prod"
+            ],
+        }
+    ]
+}
