@@ -1,22 +1,23 @@
-import { app, BrowserWindow, protocol, dialog, ipcMain } from 'electron/main';
+import { app, BrowserWindow, BrowserView, protocol, dialog, ipcMain } from 'electron/main';
 import path from 'path';
 import url from 'url';
 import fs from 'fs';
+import * as tabviews_mgr from './tabviews_mgr';
 
 const createWindow = () => {
-    const win = new BrowserWindow({
+    const main_win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, '../preload/index.js'),
+            preload: path.join(__dirname, '../preload/tabs.js'),
             sandbox: false,
         },
     });
 
     if (process.env.NODE_ENV === 'development') {
-        win.loadURL('http://127.0.0.1:65432');
+        main_win.loadURL('http://127.0.0.1:65432/tabs');
     } else {
-        win.loadURL(
+        main_win.loadURL(
             url.format({
                 pathname: '/index.html',
                 protocol: 'file',
@@ -24,6 +25,9 @@ const createWindow = () => {
             })
         );
     }
+
+    tabviews_mgr.set_main_window(main_win);
+    tabviews_mgr.create_home_view();
 };
 
 app.whenReady().then(() => {
@@ -49,14 +53,17 @@ app.whenReady().then(() => {
 
     createWindow();
 
-    app.on('activate', function () {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (BrowserWindow.getAllWindows().length === 0) createWindow();
-    });
+    // app.on('activate', function () {
+    //     // On macOS it's common to re-create a window in the app when the
+    //     // dock icon is clicked and there are no other windows open.
+    //     if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    // });
 
     ipcMain.on('open_file_dialog', () => {
-        dialog.showOpenDialog({ properties: ['openFile'] });
+        const file_path = dialog.showOpenDialogSync({ properties: ['openFile'] });
+        if (file_path && file_path[0]) {
+            tabviews_mgr.open_file(file_path[0]);
+        }
     });
 });
 

@@ -19,16 +19,16 @@ export function Tabs() {
     useEffect(() => {
         if (!effectRun.current) {
             console.log('---------------------register tab event-----------------------');
-            listen('new_tab_added', (event) => {
-                const new_tab_info = event.payload;
-                if (new_tab_info.new_tab_index > 0 && new_tab_info.new_tab_index <= tabsRef.current.length) {
-                    const newTab = { title: new_tab_info.title };
-                    const updatedTabs = [...tabsRef.current];
-                    updatedTabs.splice(new_tab_info.new_tab_index, 0, newTab);
-                    set_tabs(updatedTabs);
-                    set_actived_index(new_tab_info.actived_tab_index);
-                }
-            });
+            // listen('new_tab_added', (event) => {
+            //     const new_tab_info = event.payload;
+            //     if (new_tab_info.new_tab_index > 0 && new_tab_info.new_tab_index <= tabsRef.current.length) {
+            //         const newTab = { title: new_tab_info.title };
+            //         const updatedTabs = [...tabsRef.current];
+            //         updatedTabs.splice(new_tab_info.new_tab_index, 0, newTab);
+            //         set_tabs(updatedTabs);
+            //         set_actived_index(new_tab_info.actived_tab_index);
+            //     }
+            // });
             effectRun.current = true;
         }
 
