@@ -68,22 +68,91 @@
             "presentation": {
                 "hidden": true
             }
-        }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "server dev",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--package=starryhoot-server",
+                ],
+                "filter": {
+                    "name": "starryhoot-server",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "--config",
+                "./data/server/config.ini"
+            ],
+            "cwd": "${workspaceFolder}/target/debug",
+            "env": {
+                "PATH": "${workspaceFolder}/target/debug/deps",
+                "DYLD_LIBRARY_PATH": "${workspaceFolder}/target/debug/deps"
+            },
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "server prod",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--package=starryhoot-server",
+                    "--features=production"
+                ],
+                "filter": {
+                    "name": "starryhoot-server",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "--config",
+                "./data/server/config.ini"
+            ],
+            "cwd": "${workspaceFolder}/target/debug",
+            "env": {
+                "PATH": "${workspaceFolder}/target/debug/deps",
+                "DYLD_LIBRARY_PATH": "${workspaceFolder}/target/debug/deps"
+            },
+            "presentation": {
+                "hidden": true
+            }
+        },
     ],
     "compounds": [
         {
-            "name": "app electron",
+            "name": "app",
             "configurations": [
                 "web dev electron",
                 "app electron dev"
             ],
         },
         {
-            "name": "app electron production",
+            "name": "app production",
             "preLaunchTask": "[starryhoot] web prod electron",
             "configurations": [
                 "app electron prod"
             ],
-        }
+        },
+        {
+            "name": "server",
+            "configurations": [
+                "web dev",
+                "server dev",
+            ],
+        },
+        {
+            "name": "server production",
+            "preLaunchTask": "[starryhoot] web prod",
+            "configurations": [
+                "server prod",
+            ],
+        },
     ]
 }
