@@ -36,13 +36,7 @@ export function create_home_view() {
     if (process.env.NODE_ENV === 'development') {
         home_view.webContents.loadURL(`http://127.0.0.1:65432`);
     } else {
-        home_view.webContents.loadURL(
-            url.format({
-                pathname: '/index.html',
-                protocol: 'file',
-                slashes: true,
-            })
-        );
+        home_view.webContents.loadURL(`file:///index.html`);
     }
     set_home_view(home_view);
 }
@@ -117,12 +111,8 @@ export function open_file(file_path) {
 
 function get_file_uri(file_type, file_path) {
     if (process.env.NODE_ENV === 'development') {
-        return `http://127.0.0.1:65432/edit/docx?id=${btoa(file_path)}`;
+        return `http://127.0.0.1:65432/edit/${file_type}?id=${btoa(file_path)}`;
     } else {
-        return url.format({
-            pathname: `/edit/${file_type}/index.html?id=${btoa(file_path)}`,
-            protocol: 'file',
-            slashes: true,
-        });
+        return `file:///edit/${file_type}/index.html?id=${btoa(file_path)}`;
     }
 }

@@ -10,6 +10,7 @@ const createWindow = () => {
         width: 800,
         height: 600,
         webPreferences: {
+            webSecurity: false,
             preload: path.join(__dirname, '../preload/tabs.js'),
             sandbox: false,
         },
@@ -18,13 +19,7 @@ const createWindow = () => {
     if (process.env.NODE_ENV === 'development') {
         main_win.loadURL('http://127.0.0.1:65432/tabs');
     } else {
-        main_win.loadURL(
-            url.format({
-                pathname: '/tabs/index.html',
-                protocol: 'file',
-                slashes: true,
-            })
-        );
+        main_win.loadURL('file:///tabs/index.html');
     }
 
     tabviews_mgr.set_main_window(main_win);
