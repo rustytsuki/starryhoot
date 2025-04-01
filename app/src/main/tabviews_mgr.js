@@ -11,6 +11,14 @@ export function set_main_window(main_window) {
     main_window_ = main_window;
 }
 
+export function get_main_window() {
+    return main_window_;
+}
+
+export function get_current_view() {
+    return main_window_.getBrowserView();
+}
+
 export function create_home_view() {
     const home_view = new BrowserView({
         webPreferences: {

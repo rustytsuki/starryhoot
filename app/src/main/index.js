@@ -1,7 +1,8 @@
-import { app, BrowserWindow, BrowserView, protocol, dialog, ipcMain } from 'electron/main';
+import { app, BrowserWindow, Menu, protocol, dialog, ipcMain } from 'electron/main';
 import path from 'path';
 import url from 'url';
 import fs from 'fs';
+import * as menu_mgr from './menu_mgr';
 import * as tabviews_mgr from './tabviews_mgr';
 
 const createWindow = () => {
@@ -51,8 +52,6 @@ app.whenReady().then(() => {
         }
     );
 
-    createWindow();
-
     // app.on('activate', function () {
     //     // On macOS it's common to re-create a window in the app when the
     //     // dock icon is clicked and there are no other windows open.
@@ -73,6 +72,9 @@ app.whenReady().then(() => {
     ipcMain.on('close_tab', (event, index) => {
         tabviews_mgr.close_tab(index);
     });
+    
+    menu_mgr.create_main_menu();
+    createWindow();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
