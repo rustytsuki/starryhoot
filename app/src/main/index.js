@@ -59,11 +59,19 @@ app.whenReady().then(() => {
     //     if (BrowserWindow.getAllWindows().length === 0) createWindow();
     // });
 
-    ipcMain.on('open_file_dialog', () => {
+    ipcMain.on('open_file_dialog', (event) => {
         const file_path = dialog.showOpenDialogSync({ properties: ['openFile'] });
         if (file_path && file_path[0]) {
             tabviews_mgr.open_file(file_path[0]);
         }
+    });
+
+    ipcMain.on('set_active_tab', (event, index) => {
+        tabviews_mgr.set_active_index(index);
+    });
+
+    ipcMain.on('close_tab', (event, index) => {
+        tabviews_mgr.close_tab(index);
     });
 });
 

@@ -5,7 +5,7 @@ const TABSBAR_HEIGHT = 46;
 
 let main_window_ = null;
 let tab_views_ = [];
-let path_to_view_indexes_ = {};
+let id_to_view_indexes_ = {};
 
 export function set_main_window(main_window) {
     main_window_ = main_window;
@@ -29,26 +29,44 @@ export function create_home_view() {
     set_home_view(home_view);
 }
 
+function make_view_struct(id, view) {
+    return {id, view};
+}
+
 function set_home_view(home_view) {
+    const view = make_view_struct('home', home_view);
     if (tab_views_.length > 0) {
-        tab_views_[0] = home_view;
+        tab_views_[0] = view;
     } else {
-        tab_views_.push(home_view);
+        tab_views_.push(view);
     }
 }
 
-function set_active_index(index) {
+export function set_active_index(index, need_notify) {
     const view = tab_views_[index];
     if (view) {
-        main_window_.setBrowserView(view);
-        main_window_.setTopBrowserView(view);
+        main_window_.setBrowserView(view.view);
+        view.view.webContents.focus();
+        if (need_notify) {
+            main_window_.webContents.send('active_tab', index);
+        }
+    }
+}
+
+export function close_tab(index) {
+    const view = tab_views_[index];
+    if (view) {
+        delete id_to_view_indexes_[view.id];
+        tab_views_.splice(index, 1);
+        set_active_index(0, true);
+        view.view.webContents.destroy();
     }
 }
 
 export function open_file(file_path) {
-    const index = path_to_view_indexes_[file_path];
+    const index = id_to_view_indexes_[file_path];
     if (index) {
-        set_active_index(index);
+        set_active_index(index, true);
     } else {
         const editor_view = new BrowserView({
             webPreferences: {
@@ -60,10 +78,12 @@ export function open_file(file_path) {
         editor_view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
         editor_view.setAutoResize({ width: true, height: true });
         editor_view.webContents.loadURL('http://127.0.0.1:65432/about');
-    
-        tab_views_.push(editor_view);
+        
+        // add new tab
+        tab_views_.push(make_view_struct(file_path, editor_view));
         const index = tab_views_.length - 1;
-        path_to_view_indexes_[file_path] = index;
-        set_active_index(index);
+        id_to_view_indexes_[file_path] = index;
+        main_window_.webContents.send('add_tab', index, 'haha');
+        set_active_index(index, true);
     }
 }

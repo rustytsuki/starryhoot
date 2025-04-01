@@ -5,7 +5,7 @@ import { str_to_base64 } from '../common/utils/base64';
 
 export function Launch() {
     async function openfile_electron() {
-        console.log(`factorial(9): ${starryhoot.roffice.factorial(9)}`);
+        // console.log(`factorial(9): ${starryhoot.roffice.factorial(9)}`);
         starryhoot.open_file_dialog();
     }
 

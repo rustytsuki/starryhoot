@@ -19,16 +19,19 @@ export function Tabs() {
     useEffect(() => {
         if (!effectRun.current) {
             console.log('---------------------register tab event-----------------------');
-            // listen('new_tab_added', (event) => {
-            //     const new_tab_info = event.payload;
-            //     if (new_tab_info.new_tab_index > 0 && new_tab_info.new_tab_index <= tabsRef.current.length) {
-            //         const newTab = { title: new_tab_info.title };
-            //         const updatedTabs = [...tabsRef.current];
-            //         updatedTabs.splice(new_tab_info.new_tab_index, 0, newTab);
-            //         set_tabs(updatedTabs);
-            //         set_actived_index(new_tab_info.actived_tab_index);
-            //     }
-            // });
+            starryhoot.on_add_tab((index, title) => {
+                if (index > 0 && index <= tabsRef.current.length) {
+                    const newTab = { title: title };
+                    const updatedTabs = [...tabsRef.current];
+                    updatedTabs.splice(index, 0, newTab);
+                    set_tabs(updatedTabs);
+                    
+                }
+            });
+            starryhoot.on_active_tab(index => {
+                set_actived_index(index);
+            });
+
             effectRun.current = true;
         }
 
@@ -54,7 +57,7 @@ export function Tabs() {
             selectTab(actived_index_ - 1);
         }
 
-        invoke('close_tab', { index });
+        starryhoot.close_tab(index);
     };
 
     const selectTab = (index) => {
@@ -63,7 +66,7 @@ export function Tabs() {
         }
 
         set_actived_index(index);
-        invoke('active_tab', { index });
+        starryhoot.set_active_tab(index);
     };
 
     return (
