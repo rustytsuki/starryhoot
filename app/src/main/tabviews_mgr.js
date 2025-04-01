@@ -91,14 +91,8 @@ export function open_file(file_path) {
         editor_view.setAutoResize({ width: true, height: true });
 
         const file_name = path.basename(file_path);
-        const ext = path.extname(file_path).toLowerCase();
-        if ('.docx' === ext) {
-            editor_view.webContents.loadURL(get_file_uri('docx', file_path));
-        } else if ('.pptx' === ext) {
-            editor_view.webContents.loadURL(get_file_uri('pptx', file_path));
-        } else if ('.xlsx' === ext) {
-            editor_view.webContents.loadURL(get_file_uri('xlsx', file_path));
-        }
+        const ext = path.extname(file_path).toLowerCase().substring(1);
+        editor_view.webContents.loadURL(get_file_uri(ext, file_path));
 
         // add new tab
         tab_views_.push(make_view_struct(file_path, editor_view));
@@ -110,9 +104,11 @@ export function open_file(file_path) {
 }
 
 function get_file_uri(file_type, file_path) {
-    if (process.env.NODE_ENV === 'development') {
-        return `http://127.0.0.1:65432/edit/${file_type}?id=${btoa(file_path)}`;
-    } else {
-        return `file:///edit/${file_type}/index.html?id=${btoa(file_path)}`;
+    if ('docx' === file_type || 'pptx' === file_type || 'xlsx' === file_type) {
+        if (process.env.NODE_ENV === 'development') {
+            return `http://127.0.0.1:65432/edit/${file_type}?id=${btoa(file_path)}`;
+        } else {
+            return `file:///edit/${file_type}/index.html?id=${btoa(file_path)}`;
+        }
     }
 }

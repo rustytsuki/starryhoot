@@ -30,8 +30,9 @@ app.whenReady().then(() => {
     protocol.interceptFileProtocol(
         'file',
         (request, callback) => {
-            const url = request.url.substring(8); /* all urls start with 'file:///' */
-            let file = path.normalize(path.join(__dirname, `../renderer/${url}`));
+            const parsedUrl = new URL(request.url);
+            const urlPath = parsedUrl.pathname;
+            let file = path.normalize(path.join(__dirname, `../renderer/${urlPath}`));
             if (!fs.existsSync(file)) {
                 file += '/index.html';
             } else {
