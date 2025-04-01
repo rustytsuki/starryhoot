@@ -61,14 +61,14 @@ export class OfficeEditorWeb extends OfficeEditor {
         this.load_file(bytes);
     }
 
-    async unload() {
+    unload() {
         if (this.handle_) {
             get_roffice().roffice_close_file(this.handle_);
             this.handle_ = 0;
         }
     }
 
-    async update() {
+    update() {
         if (!this.is_dom_ready() || !this.handle_) {
             return;
         }

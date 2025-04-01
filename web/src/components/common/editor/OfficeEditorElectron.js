@@ -14,16 +14,18 @@ export class OfficeEditorElectron extends OfficeEditor {
             return;
         }
 
+        console.log(`factorial(9): ${starryhoot.roffice.factorial(9)}`);
+
         this.is_loaded = true;
     }
 
-    async unload() {
+    unload() {
         if (this.is_loaded) {
             this.is_loaded = false;
         }
     }
 
-    async update() {
+    update() {
         if (!this.is_dom_ready() || !this.is_loaded) {
             return;
         }

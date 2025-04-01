@@ -12,11 +12,11 @@ export class OfficeEditor {
         throw '';
     }
 
-    async unload() {
+    unload() {
         throw '';
     }
 
-    async update() {
+    update() {
         throw '';
     }
 

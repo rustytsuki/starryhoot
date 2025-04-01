@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, protocol, dialog, ipcMain } from 'electron/main';
+import { app, BrowserWindow, protocol, dialog, ipcMain } from 'electron/main';
 import path from 'path';
 import url from 'url';
 import fs from 'fs';
@@ -20,7 +20,7 @@ const createWindow = () => {
     } else {
         main_win.loadURL(
             url.format({
-                pathname: '/index.html',
+                pathname: '/tabs/index.html',
                 protocol: 'file',
                 slashes: true,
             })
@@ -35,7 +35,7 @@ app.whenReady().then(() => {
     protocol.interceptFileProtocol(
         'file',
         (request, callback) => {
-            const url = request.url.substr(8); /* all urls start with 'file:///' */
+            const url = request.url.substring(8); /* all urls start with 'file:///' */
             let file = path.normalize(path.join(__dirname, `../renderer/${url}`));
             if (!fs.existsSync(file)) {
                 file += '/index.html';
@@ -59,7 +59,10 @@ app.whenReady().then(() => {
     // });
 
     ipcMain.on('open_file_dialog', (event) => {
-        const file_path = dialog.showOpenDialogSync({ properties: ['openFile'] });
+        const file_path = dialog.showOpenDialogSync({
+            filters: [{ name: 'OOXML Files', extensions: ['docx', 'pptx', 'xlsx'] }],
+            properties: ['openFile'],
+        });
         if (file_path && file_path[0]) {
             tabviews_mgr.open_file(file_path[0]);
         }
@@ -72,7 +75,7 @@ app.whenReady().then(() => {
     ipcMain.on('close_tab', (event, index) => {
         tabviews_mgr.close_tab(index);
     });
-    
+
     menu_mgr.create_main_menu();
     createWindow();
 });

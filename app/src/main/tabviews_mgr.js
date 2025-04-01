@@ -33,12 +33,22 @@ export function create_home_view() {
         home_view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
     });
     home_view.setAutoResize({ width: true, height: true });
-    home_view.webContents.loadURL('http://127.0.0.1:65432');
+    if (process.env.NODE_ENV === 'development') {
+        home_view.webContents.loadURL(`http://127.0.0.1:65432`);
+    } else {
+        home_view.webContents.loadURL(
+            url.format({
+                pathname: '/index.html',
+                protocol: 'file',
+                slashes: true,
+            })
+        );
+    }
     set_home_view(home_view);
 }
 
 function make_view_struct(id, view) {
-    return {id, view};
+    return { id, view };
 }
 
 function set_home_view(home_view) {
@@ -85,13 +95,34 @@ export function open_file(file_path) {
         const [width, height] = main_window_.getContentSize();
         editor_view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
         editor_view.setAutoResize({ width: true, height: true });
-        editor_view.webContents.loadURL('http://127.0.0.1:65432/about');
-        
+
+        const file_name = path.basename(file_path);
+        const ext = path.extname(file_path).toLowerCase();
+        if ('.docx' === ext) {
+            editor_view.webContents.loadURL(get_file_uri('docx', file_path));
+        } else if ('.pptx' === ext) {
+            editor_view.webContents.loadURL(get_file_uri('pptx', file_path));
+        } else if ('.xlsx' === ext) {
+            editor_view.webContents.loadURL(get_file_uri('xlsx', file_path));
+        }
+
         // add new tab
         tab_views_.push(make_view_struct(file_path, editor_view));
         const index = tab_views_.length - 1;
         id_to_view_indexes_[file_path] = index;
-        main_window_.webContents.send('add_tab', index, 'haha');
+        main_window_.webContents.send('add_tab', index, file_name);
         set_active_index(index, true);
+    }
+}
+
+function get_file_uri(file_type, file_path) {
+    if (process.env.NODE_ENV === 'development') {
+        return `http://127.0.0.1:65432/edit/docx?id=${btoa(file_path)}`;
+    } else {
+        return url.format({
+            pathname: `/edit/${file_type}/index.html?id=${btoa(file_path)}`,
+            protocol: 'file',
+            slashes: true,
+        });
     }
 }

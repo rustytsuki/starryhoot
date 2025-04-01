@@ -14,13 +14,14 @@ const config = commandLineArgs(optionDefinitions);
 async function main() {
     if (config['postbuild']) {
         // copy web ssg pages to renderer
-        const renderer_src = path.join(__dirname, `../../../web/dist/client`);
+        const renderer_src = path.join(__dirname, `../../web/dist/client`);
         const renderer_dst = path.join(__dirname, `../out/renderer`);
         fs.copySync(renderer_src, renderer_dst, { recursive: true });
 
         // copy roffice node-api
         const { platform, arch } = process;
-        const roffice_src = path.join(__dirname, `../../../deploy/roffice/napi-${platform}-${arch}`);
+        // const roffice_src = path.join(__dirname, `../../deploy/roffice/napi-${platform}-${arch}`);
+        const roffice_src = path.join(__dirname, `../../deploy/roffice/x86_64-pc-windows-msvc/lib`);
         const roffice_dst = path.join(__dirname, `../out/roffice/napi-${platform}-${arch}`);
         fs.copySync(roffice_src, roffice_dst, { recursive: true });
     }
