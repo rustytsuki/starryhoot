@@ -8,7 +8,7 @@ import { StatusBar } from './StatusBar';
 // #v-ifdef VITE_STARRYHOOT_WEB
 import { DocxEditorWeb as OfficeEditorClass } from './editor/DocxEditorWeb';
 // #v-elif VITE_STARRYHOOT_ELECTRON
-import { OfficeEditorElectron as OfficeEditorClass } from '../../editor/OfficeEditorElectron';
+import { DocxEditorElectron as OfficeEditorClass } from './editor/DocxEditorElectron';
 // #v-endif
 
 const LEFT_BAR_WIDTH = 200;

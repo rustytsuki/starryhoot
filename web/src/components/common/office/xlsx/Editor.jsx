@@ -7,7 +7,7 @@ import { StatusBar } from './StatusBar';
 // #v-ifdef VITE_STARRYHOOT_WEB
 import { XLSXEditorWeb as OfficeEditorClass } from './editor/XLSXEditorWeb';
 // #v-elif VITE_STARRYHOOT_ELECTRON
-import { OfficeEditorElectron as OfficeEditorClass } from '../../editor/OfficeEditorElectron';
+import { XLSXEditorElectron as OfficeEditorClass } from './editor/XLSXEditorElectron';
 // #v-endif
 
 export function OfficeEditor({ fid }) {

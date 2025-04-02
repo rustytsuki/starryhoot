@@ -8,7 +8,7 @@ import { StatusBar } from './StatusBar';
 // #v-ifdef VITE_STARRYHOOT_WEB
 import { PPTXEditorWeb as OfficeEditorClass } from './editor/PPTXEditorWeb';
 // #v-elif VITE_STARRYHOOT_ELECTRON
-import { OfficeEditorElectron as OfficeEditorClass } from '../../editor/OfficeEditorElectron';
+import { PPTXEditorElectron as OfficeEditorClass } from './editor/PPTXEditorElectron';
 // #v-endif
 
 const LEFT_BAR_WIDTH = 300;
