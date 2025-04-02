@@ -14,8 +14,6 @@ import {
     SSRProvider as FluentSSRProvider,
 } from '@fluentui/react-components';
 
-const is_app = import.meta.env.PUBLIC_ENV__STARRYHOOT_HOUSE != 'web';
-
 function onRenderHtml(pageContext) {
     const { Page } = pageContext;
 
@@ -43,7 +41,10 @@ function onRenderHtml(pageContext) {
     // See https://vike.dev/head
     const title = getPageTitle(pageContext);
     const desc = pageContext.data?.description || pageContext.config.description || 'Demo of using Vike';
-    const session_js = is_app ? '' : `<script src="/auth/session.js" defer ></script>`;
+    let session_js = '';
+    // #v-ifdef VITE_STARRYHOOT_WEB
+    session_js = `<script src="/auth/session.js" defer ></script>`;
+    // #v-endif
 
     const documentHtml = escapeInject`<!DOCTYPE html>
     <html lang="en">

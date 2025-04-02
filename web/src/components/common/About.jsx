@@ -3,7 +3,13 @@ export function About() {
         <>
             <h1>About</h1>
             <p>StarryHoot🦉(夜貓) Office</p>
-            <p>{import.meta.env.PUBLIC_ENV__STARRYHOOT_HOUSE}</p>
+            <p>{
+                // #v-ifdef VITE_STARRYHOOT_WEB
+                'Web'
+                // #v-elif VITE_STARRYHOOT_ELECTRON
+                'Electron'
+                // #v-endif
+            }</p>
         </>
     );
 }

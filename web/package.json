@@ -36,6 +36,7 @@
         "sirv": "^2.0.4",
         "use-async-effect": "^2.2.7",
         "vike": "^0.4.166",
-        "vite": "^4.5.1"
+        "vite": "^4.5.1",
+        "vite-plugin-conditional-compiler": "^0.3.1"
     }
 }

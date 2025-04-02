@@ -1,15 +1,14 @@
-const is_app = import.meta.env.PUBLIC_ENV__STARRYHOOT_HOUSE != 'web';
-
 import styles from './Editor.module.scss';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import useAsyncEffect from 'use-async-effect';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
-import { XLSXEditorWeb } from './editor/XLSXEditorWeb';
-import { OfficeEditorElectron } from '../../editor/OfficeEditorElectron';
-
-const OfficeEditorClass = is_app ? OfficeEditorElectron : XLSXEditorWeb;
+// #v-ifdef VITE_STARRYHOOT_WEB
+import { XLSXEditorWeb as OfficeEditorClass } from './editor/XLSXEditorWeb';
+// #v-elif VITE_STARRYHOOT_ELECTRON
+import { OfficeEditorElectron as OfficeEditorClass } from '../../editor/OfficeEditorElectron';
+// #v-endif
 
 export function OfficeEditor({ fid }) {
     const [resize_, set_resize] = useState(false);

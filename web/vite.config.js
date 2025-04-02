@@ -3,6 +3,7 @@
 import react from '@vitejs/plugin-react-swc';
 import vike from 'vike/plugin';
 import { defineConfig } from 'vite';
+import ConditionalCompile from 'vite-plugin-conditional-compiler';
 
 export default defineConfig(({ command, mode, ssrBuild }) => {
     console.log(`load vite config: command: ${command}, mode: ${mode}, ssrBuild: ${ssrBuild}`);
@@ -63,6 +64,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         clearScreen: false,
         plugins: [
             react(),
+            ConditionalCompile(),
             vike({
                 prerender: true, // enable ssg
             }),
