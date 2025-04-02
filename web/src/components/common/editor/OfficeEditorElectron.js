@@ -1,6 +1,7 @@
 import { OfficeEditor } from './OfficeEditor';
 import { base64_to_str } from '../utils/base64';
 import { getFileNameFromPath } from '../utils/path_util';
+import { load_roffice, get_roffice } from '../office/roffice';
 
 export class OfficeEditorElectron extends OfficeEditor {
     constructor(...args) {
@@ -14,19 +15,10 @@ export class OfficeEditorElectron extends OfficeEditor {
             return;
         }
 
-        await (() => {
-            return new Promise((resolve) => {
-                starryhoot.roffice.roffice_log_init((level, text) => {
-                    console.log(text);
-                });
-    
-                starryhoot.roffice.roffice_init((data) => {
-                    resolve(data);
-                });
-            });
-        })();
+        // ensure roffice
+        await load_roffice();
         
-        console.log(`factorial(9): ${starryhoot.roffice.factorial(9)}`);
+        console.log(`factorial(9): ${get_roffice().factorial(9)}`);
 
         this.is_loaded = true;
     }

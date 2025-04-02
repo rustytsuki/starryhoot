@@ -73,7 +73,7 @@ export class OfficeEditorWeb extends OfficeEditor {
             return;
         }
 
-        let roffice = new get_roffice();
+        let roffice = get_roffice();
 
         const scroll_x = this.viewport_dom_['scrollLeft'];
         const scroll_y = this.viewport_dom_['scrollTop'];

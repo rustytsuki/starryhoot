@@ -5,13 +5,17 @@ export let load_roffice = async () => {
         return;
     }
 
+    // #v-ifdef VITE_STARRYHOOT_WEB
     let pkg = await import('../../../../../deploy/roffice/wasm32-unknown-emscripten/lib/roffice');
     let roffice = await pkg.default();
+    // #v-elif VITE_STARRYHOOT_ELECTRON
+    let roffice = starryhoot.roffice;
+    // #v-endif
 
     await (() => {
         return new Promise((resolve) => {
             roffice.roffice_log_init((level, text) => {
-                    
+                console.log(text);
             });
 
             roffice.roffice_init((data) => {
