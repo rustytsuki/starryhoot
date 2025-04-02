@@ -14,6 +14,18 @@ export class OfficeEditorElectron extends OfficeEditor {
             return;
         }
 
+        await (() => {
+            return new Promise((resolve) => {
+                starryhoot.roffice.roffice_log_init((level, text) => {
+                    console.log(text);
+                });
+    
+                starryhoot.roffice.roffice_init((data) => {
+                    resolve(data);
+                });
+            });
+        })();
+        
         console.log(`factorial(9): ${starryhoot.roffice.factorial(9)}`);
 
         this.is_loaded = true;
