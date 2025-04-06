@@ -22,7 +22,6 @@ async function getFileTree(id) {
 export class OfficeEditorWeb extends OfficeEditor {
     constructor(...args) {
         super(...args);
-        this.handle_ = 0;
 
         // msgpack test
         // const buf = new Uint8Array([0x93, 0x01, 0xa5, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x81, 0xa3, 0x6b, 0x65, 0x79, 0xa5, 0x76, 0x61, 0x6c, 0x75, 0x65]);
@@ -59,46 +58,6 @@ export class OfficeEditorWeb extends OfficeEditor {
         }
 
         this.load_file(bytes);
-    }
-
-    unload() {
-        if (this.handle_) {
-            get_roffice().roffice_close_file(this.handle_);
-            this.handle_ = 0;
-        }
-    }
-
-    update() {
-        if (!this.is_dom_ready() || !this.handle_) {
-            return;
-        }
-
-        let roffice = get_roffice();
-
-        const scroll_x = this.viewport_dom_['scrollLeft'];
-        const scroll_y = this.viewport_dom_['scrollTop'];
-        const viewport_w = this.viewport_dom_['clientWidth'];
-        const viewport_h = this.viewport_dom_['clientHeight'];
-        const canvas_w = this.canvas_dom_['width'];
-        const canvas_h = this.canvas_dom_['height'];
-
-        roffice.roffice_set_canvas(this.handle_, canvas_w, canvas_h, window.devicePixelRatio);
-        const scroll_bar_x = roffice.roffice_scroll_bar_x(this.handle_);
-        const scroll_bar_y = roffice.roffice_scroll_bar_y(this.handle_);
-
-        // compute scroll size ratio
-        const scale_x = viewport_w / scroll_bar_x.size;
-        const scale_y = viewport_h / scroll_bar_y.size;
-
-        this.area_dom_['style']['width'] = `${scroll_bar_x.total * scale_x}px`;
-        this.area_dom_['style']['height'] = `${scroll_bar_y.total * scale_y}px`;
-
-        roffice.roffice_scroll_to(this.handle_, scroll_x / scale_x, scroll_y / scale_y);
-
-        // render
-        let ctx = this.canvas_dom_.getContext('2d');
-
-        roffice.roffice_render_viewport_to_canvas2d(this.handle_, ctx);
     }
 
     async fetch_title() {

@@ -1,6 +1,9 @@
+import { get_roffice } from '../office/roffice';
+
 export class OfficeEditor {
     constructor(fid) {
         this.fid_ = fid;
+        this.handle_ = 0;
         this.destroyed_ = false;
 
         this.canvas_dom_ = null;
@@ -13,11 +16,43 @@ export class OfficeEditor {
     }
 
     unload() {
-        throw '';
+        if (this.handle_) {
+            get_roffice().roffice_close_file(this.handle_);
+            this.handle_ = 0;
+        }
     }
 
     update() {
-        throw '';
+        if (!this.is_dom_ready() || !this.handle_) {
+            return;
+        }
+
+        let roffice = get_roffice();
+
+        const scroll_x = this.viewport_dom_['scrollLeft'];
+        const scroll_y = this.viewport_dom_['scrollTop'];
+        const viewport_w = this.viewport_dom_['clientWidth'];
+        const viewport_h = this.viewport_dom_['clientHeight'];
+        const canvas_w = this.canvas_dom_['width'];
+        const canvas_h = this.canvas_dom_['height'];
+
+        roffice.roffice_set_canvas(this.handle_, canvas_w, canvas_h, window.devicePixelRatio);
+        const scroll_bar_x = roffice.roffice_scroll_bar_x(this.handle_);
+        const scroll_bar_y = roffice.roffice_scroll_bar_y(this.handle_);
+
+        // compute scroll size ratio
+        const scale_x = viewport_w / scroll_bar_x.size;
+        const scale_y = viewport_h / scroll_bar_y.size;
+
+        this.area_dom_['style']['width'] = `${scroll_bar_x.total * scale_x}px`;
+        this.area_dom_['style']['height'] = `${scroll_bar_y.total * scale_y}px`;
+
+        roffice.roffice_scroll_to(this.handle_, scroll_x / scale_x, scroll_y / scale_y);
+
+        // render
+        let ctx = this.canvas_dom_.getContext('2d');
+
+        roffice.roffice_render_viewport_to_canvas2d(this.handle_, ctx);
     }
 
     async fetch_title() {

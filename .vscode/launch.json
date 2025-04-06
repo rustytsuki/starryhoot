@@ -89,7 +89,7 @@
             ],
             "cwd": "${workspaceFolder}/target/debug",
             "env": {
-                "PATH": "${workspaceFolder}/target/debug/deps",
+                "PATH": "${workspaceFolder}/target/debug/deps;${env:PATH}",
                 "DYLD_LIBRARY_PATH": "${workspaceFolder}/target/debug/deps"
             },
             "presentation": {
@@ -117,7 +117,7 @@
             ],
             "cwd": "${workspaceFolder}/target/debug",
             "env": {
-                "PATH": "${workspaceFolder}/target/debug/deps",
+                "PATH": "${workspaceFolder}/target/debug/deps;${env:PATH}",
                 "DYLD_LIBRARY_PATH": "${workspaceFolder}/target/debug/deps"
             },
             "presentation": {
