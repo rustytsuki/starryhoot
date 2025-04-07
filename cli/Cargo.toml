@@ -1,0 +1,15 @@
+[package]
+name = "starryhoot-cli"
+version = "0.0.1"
+description = "StarryHoot Command Line Interface"
+authors = ["@rustytsuki"]
+edition = "2021"
+
+[[bin]]
+name = "starryhoot"
+path = "src/main.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+starryhoot_utils = { path = "../utils" }

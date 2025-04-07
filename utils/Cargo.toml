@@ -1,0 +1,16 @@
+[package]
+name = "starryhoot-utils"
+version = "0.0.1"
+description = "StarryHoot Utilities Lib"
+authors = ["@rustytsuki"]
+edition = "2021"
+
+[lib]
+name = "utils"
+crate-type = ["lib"]
+
+[build-dependencies]
+downloader = "0.2.7"
+tar = "0.4"
+flate2 = "1.0"
+zip-extract = "0.2.1"
