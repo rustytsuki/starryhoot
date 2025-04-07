@@ -23,8 +23,8 @@ fn main() {
     let host = env::var("HOST").unwrap();
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
-    fetch_kernel_release("wasm32-unknown-emscripten".into());
-    fetch_kernel_release(target);
+    // fetch_kernel_release("wasm32-unknown-emscripten".into());
+    // fetch_kernel_release(target);
 
     set_roffice_lib();
 }

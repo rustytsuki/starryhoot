@@ -3,6 +3,7 @@ import path from 'path';
 import { str_to_base64 } from '../../../web/src/components/common/utils/base64';
 
 const TABSBAR_HEIGHT = 46;
+const HOME_VIEW_ID = 'home';
 
 let main_window_ = null;
 let tab_views_ = [];
@@ -10,6 +11,14 @@ let id_to_view_indexes_ = {};
 
 export function set_main_window(main_window) {
     main_window_ = main_window;
+
+    main_window_.once('ready-to-show', () => {
+        update_views_bounds();
+    });
+
+    main_window_.on('resize', () => {
+        update_views_bounds();
+    });
 }
 
 export function get_main_window() {
@@ -27,27 +36,30 @@ export function create_home_view() {
             sandbox: false,
         },
     });
+    const view = make_view_struct(HOME_VIEW_ID, home_view);
     main_window_.setBrowserView(home_view);
     main_window_.setTopBrowserView(home_view);
-    main_window_.once('ready-to-show', () => {
-        const [width, height] = main_window_.getContentSize();
-        home_view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
-    });
-    home_view.setAutoResize({ width: true, height: true });
+    home_view.setAutoResize({ width: false, height: false });
     if (process.env.NODE_ENV === 'development') {
         home_view.webContents.loadURL(`http://127.0.0.1:65432`);
     } else {
         home_view.webContents.loadURL(`file:///index.html`);
     }
-    set_home_view(home_view);
+    set_home_view(view);
 }
 
 function make_view_struct(id, view) {
     return { id, view };
 }
 
-function set_home_view(home_view) {
-    const view = make_view_struct('home', home_view);
+function update_views_bounds() {
+    const [width, height] = main_window_.getContentSize();
+    for (let i = 0; i < tab_views_.length; ++i) {
+        tab_views_[i].view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
+    }
+}
+
+function set_home_view(view) {
     if (tab_views_.length > 0) {
         tab_views_[0] = view;
     } else {
@@ -89,7 +101,7 @@ export function open_file(file_path) {
         });
         const [width, height] = main_window_.getContentSize();
         editor_view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
-        editor_view.setAutoResize({ width: true, height: true });
+        editor_view.setAutoResize({ width: false, height: false });
 
         const file_name = path.basename(file_path);
         const ext = path.extname(file_path).toLowerCase().substring(1);
