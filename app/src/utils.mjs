@@ -20,10 +20,12 @@ async function main() {
 
         // copy roffice node-api
         const { platform, arch } = process;
-        // const roffice_src = path.join(__dirname, `../../deploy/roffice/napi-${platform}-${arch}`);
+        const files = ['roffice.node', 'roffice.dll'];
         const roffice_src = path.join(__dirname, `../../deploy/roffice/x86_64-pc-windows-msvc/bin`);
-        const roffice_dst = path.join(__dirname, `../out/roffice/napi-${platform}-${arch}`);
-        fs.copySync(roffice_src, roffice_dst, { recursive: true });
+        const roffice_dst = path.join(__dirname, `../out/roffice`);
+        for (let i = 0; i < files.length; ++i) {
+            fs.copySync(path.join(roffice_src, files[i]), path.join(roffice_dst, files[i]));
+        }
     }
 }
 

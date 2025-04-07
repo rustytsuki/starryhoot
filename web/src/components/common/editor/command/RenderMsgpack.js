@@ -1,13 +1,7 @@
 import * as msgpackr from 'msgpackr';
 import { CMD_TYPE, bcp47_to_default_facetype, fallback_typefaces } from './Command';
 
-export function render_msgpack(ctx, commands_str) {
-    let decoded = atob(commands_str);
-    let buf = new Uint8Array(decoded.length);
-    for (let i = 0; i < decoded.length; i++) {
-        buf[i] = decoded.charCodeAt(i);
-    }
-
+export function render_msgpack(ctx, buf) {
     let stack = [];
 
     msgpackr.unpackMultiple(buf, (value) => {

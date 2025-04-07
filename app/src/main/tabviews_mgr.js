@@ -1,5 +1,6 @@
 import { BrowserView } from 'electron/main';
 import path from 'path';
+import { str_to_base64 } from '../../../web/src/components/common/utils/base64';
 
 const TABSBAR_HEIGHT = 46;
 
@@ -105,10 +106,11 @@ export function open_file(file_path) {
 
 function get_file_uri(file_type, file_path) {
     if ('docx' === file_type || 'pptx' === file_type || 'xlsx' === file_type) {
+        const id = str_to_base64(file_path);
         if (process.env.NODE_ENV === 'development') {
-            return `http://127.0.0.1:65432/edit/${file_type}?id=${btoa(file_path)}`;
+            return `http://127.0.0.1:65432/edit/${file_type}?id=${id}`;
         } else {
-            return `file:///edit/${file_type}/index.html?id=${btoa(file_path)}`;
+            return `file:///edit/${file_type}/index.html?id=${id}`;
         }
     }
 }

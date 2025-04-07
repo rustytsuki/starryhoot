@@ -15,7 +15,7 @@ export let load_roffice = async () => {
     await (() => {
         return new Promise((resolve) => {
             roffice.roffice_log_init((level, text) => {
-                console.log(text);
+                // console.log(text);
             });
 
             roffice.roffice_init((data) => {

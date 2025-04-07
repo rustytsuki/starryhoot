@@ -1,4 +1,7 @@
 import { get_roffice } from '../office/roffice';
+// #v-ifdef VITE_STARRYHOOT_ELECTRON
+import { render_msgpack } from './command/RenderMsgpack';
+// #v-endif
 
 export class OfficeEditor {
     constructor(fid) {
@@ -52,7 +55,12 @@ export class OfficeEditor {
         // render
         let ctx = this.canvas_dom_.getContext('2d');
 
+        // #v-ifdef VITE_STARRYHOOT_WEB
         roffice.roffice_render_viewport_to_canvas2d(this.handle_, ctx);
+        // #v-elif VITE_STARRYHOOT_ELECTRON
+        const buf = roffice.roffice_render_viewport_to_cmd_msgpack(this.handle_);
+        render_msgpack(ctx, buf);
+        // #v-endif
     }
 
     async fetch_title() {
