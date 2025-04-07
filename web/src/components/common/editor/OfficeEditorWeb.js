@@ -1,6 +1,5 @@
 import { OfficeEditor } from './OfficeEditor';
-import { load_roffice, get_roffice } from '../office/roffice';
-import * as msgpackr from 'msgpackr';
+import { load_roffice } from '../office/roffice';
 
 async function getFileTree(id) {
     const response = await fetch('/drive/tree', {
@@ -22,13 +21,6 @@ async function getFileTree(id) {
 export class OfficeEditorWeb extends OfficeEditor {
     constructor(...args) {
         super(...args);
-
-        // msgpack test
-        // const buf = new Uint8Array([0x93, 0x01, 0xa5, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x81, 0xa3, 0x6b, 0x65, 0x79, 0xa5, 0x76, 0x61, 0x6c, 0x75, 0x65]);
-        let buf = new Uint8Array([1, 2, 3]);
-        msgpackr.unpackMultiple(buf, (value) => {
-            console.log(value);
-        });
     }
 
     load_file(bytes) {

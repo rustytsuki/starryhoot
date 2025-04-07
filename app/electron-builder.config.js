@@ -7,11 +7,17 @@ const config = {
     directories: {
         buildResources: 'build',
     },
-    files: ['out', 'resources'],
+    files: ['out', 'resources', '!out/roffice/roffice.dll'],
     asarUnpack: ['resources/**'],
     win: {
         executableName: exe_name,
         target: ['nsis'],
+        extraFiles: [
+            {
+                from: 'out/roffice/roffice.dll',
+                to: 'roffice.dll',
+            },
+        ],
     },
     msi: {
         oneClick: false,

@@ -1,4 +1,4 @@
-import { BrowserView } from 'electron/main';
+import { BrowserView, dialog } from 'electron/main';
 import path from 'path';
 import { str_to_base64 } from '../../../web/src/components/common/utils/base64';
 
@@ -88,7 +88,17 @@ export function close_tab(index) {
     }
 }
 
-export function open_file(file_path) {
+export function open_file_dialog() {
+    const file_path = dialog.showOpenDialogSync({
+        filters: [{ name: 'OOXML Files', extensions: ['docx', 'pptx', 'xlsx'] }],
+        properties: ['openFile'],
+    });
+    if (file_path && file_path[0]) {
+        open_file(file_path[0]);
+    }
+}
+
+function open_file(file_path) {
     const index = id_to_view_indexes_[file_path];
     if (index) {
         set_active_index(index, true);

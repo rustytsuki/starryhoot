@@ -1,4 +1,4 @@
-import { app, BrowserWindow, protocol, dialog, ipcMain } from 'electron/main';
+import { app, BrowserWindow, protocol, ipcMain } from 'electron/main';
 import path from 'path';
 import url from 'url';
 import fs from 'fs';
@@ -55,13 +55,7 @@ app.whenReady().then(() => {
     // });
 
     ipcMain.on('open_file_dialog', (event) => {
-        const file_path = dialog.showOpenDialogSync({
-            filters: [{ name: 'OOXML Files', extensions: ['docx', 'pptx', 'xlsx'] }],
-            properties: ['openFile'],
-        });
-        if (file_path && file_path[0]) {
-            tabviews_mgr.open_file(file_path[0]);
-        }
+        tabviews_mgr.open_file_dialog();
     });
 
     ipcMain.on('set_active_tab', (event, index) => {

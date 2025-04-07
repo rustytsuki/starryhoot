@@ -2586,7 +2586,7 @@ checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
 name = "starryhoot-cli"
 version = "0.0.1"
 dependencies = [
- "starryhoot_utils",
+ "starryhoot-utils",
 ]
 
 [[package]]
@@ -2620,7 +2620,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "starryhoot_utils"
+name = "starryhoot-utils"
 version = "0.0.1"
 dependencies = [
  "downloader",

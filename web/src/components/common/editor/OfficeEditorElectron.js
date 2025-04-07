@@ -25,7 +25,6 @@ export class OfficeEditorElectron extends OfficeEditor {
             return;
         }
         
-        console.log(`factorial(9): ${get_roffice().factorial(9)}`);
         this.load_file(this.file_path_);
     }
 

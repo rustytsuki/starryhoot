@@ -27,7 +27,20 @@ export function create_main_menu() {
         // { role: 'fileMenu' }
         {
             label: 'File',
-            submenu: [isMac ? { role: 'close' } : { role: 'quit' }],
+            submenu: [
+                {
+                    label: 'Open',
+                    click: async () => {
+                        tabviews_mgr.open_file_dialog();
+                    },
+                },
+                {
+                    label: 'Close',
+                    click: async () => {},
+                },
+                { type: 'separator' },
+                isMac ? { role: 'close' } : { role: 'quit' },
+            ],
         },
         // { role: 'editMenu' }
         {
