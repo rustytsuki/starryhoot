@@ -4,17 +4,17 @@ const path = require('path');
 const version_json = JSON.parse(fs.readFileSync(path.join(__dirname, '../deploy/version.json'), 'utf8'));
 const version = `${version_json.ver_major}.${version_json.ver_minor}.${version_json.ver_patch}`;
 
-let exe_name = 'starryhoot-gui';
+let exe_name = 'StarryHoot Office';
 
 const config = {
     appId: 'com.starryhoot.app',
-    productName: 'StarryHoot',
+    productName: 'StarryHoot Office',
     "extraMetadata": {
-        "name": "StarryHoot",
+        // "name": "StarryHoot",
         "version": version,
-        "description": "StarryHoot Setup",
-        "author": "@rustytsuki",
-        "license": "BSD-3-CLAUSE"
+        // "description": "StarryHoot Office",
+        // "author": "@rustytsuki", // do not set!!! or copyright cannot find ${author}!!! use package.json
+        // "license": "BSD-3-CLAUSE"
     },
     directories: {
         buildResources: 'build',
@@ -35,13 +35,19 @@ const config = {
         oneClick: false,
     },
     nsis: {
-        artifactName: '${productName}-v${version}-setup.${ext}',
+        artifactName: 'starryhoot-v${version}-setup.${ext}',
         shortcutName: '${productName}',
         uninstallDisplayName: '${productName}',
         createDesktopShortcut: 'always',
+        createStartMenuShortcut: true,
         oneClick: false,
         allowToChangeInstallationDirectory: true,
-        include: 'build/nsis/main.nsh',
+        deleteAppDataOnUninstall: false,
+        menuCategory: 'RustyTsuki',
+        runAfterFinish: true,
+        license: '../LICENSE',
+        warningsAsErrors: false,
+        // include: 'build/nsis/main.nsh',
     },
     mac: {
         entitlementsInherit: 'electron/build/entitlements.mac.plist',
@@ -54,7 +60,7 @@ const config = {
         notarize: false,
     },
     dmg: {
-        artifactName: '${productName}-v${version}.${ext}',
+        artifactName: 'starryhoot-v${version}.${ext}',
     },
     linux: {
         target: ['AppImage', 'snap', 'deb'],
@@ -62,7 +68,7 @@ const config = {
         category: 'Utility',
     },
     appImage: {
-        artifactName: '${productName}-v${version}.${ext}',
+        artifactName: 'starryhoot-v${version}.${ext}',
     },
     npmRebuild: false,
     publish: {

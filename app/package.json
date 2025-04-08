@@ -1,7 +1,7 @@
 {
     "name": "starryhoot",
     "version": "1.0.0",
-    "description": "StarryHoot App",
+    "description": "StarryHoot Office",
     "author": "@rustytsuki",
     "license": "BSD-3-CLAUSE",
     "main": "./out/main/index.js",
