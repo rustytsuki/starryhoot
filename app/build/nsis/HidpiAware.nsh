@@ -1,0 +1,2 @@
+RequestExecutionLevel admin
+ManifestDPIAware true

@@ -1,9 +1,21 @@
-let prod_name = 'starryhoot';
+const fs = require('fs');
+const path = require('path');
+
+const version_json = JSON.parse(fs.readFileSync(path.join(__dirname, '../deploy/version.json'), 'utf8'));
+const version = `${version_json.ver_major}.${version_json.ver_minor}.${version_json.ver_patch}`;
+
 let exe_name = 'starryhoot-gui';
 
 const config = {
     appId: 'com.starryhoot.app',
-    productName: prod_name,
+    productName: 'StarryHoot',
+    "extraMetadata": {
+        "name": "StarryHoot",
+        "version": version,
+        "description": "StarryHoot Setup",
+        "author": "@rustytsuki",
+        "license": "BSD-3-CLAUSE"
+    },
     directories: {
         buildResources: 'build',
     },
@@ -29,6 +41,7 @@ const config = {
         createDesktopShortcut: 'always',
         oneClick: false,
         allowToChangeInstallationDirectory: true,
+        include: 'build/nsis/main.nsh',
     },
     mac: {
         entitlementsInherit: 'electron/build/entitlements.mac.plist',
