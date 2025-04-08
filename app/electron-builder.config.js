@@ -31,9 +31,6 @@ const config = {
             },
         ],
     },
-    msi: {
-        oneClick: false,
-    },
     nsis: {
         artifactName: 'starryhoot-v${version}-setup.${ext}',
         shortcutName: '${productName}',
@@ -43,11 +40,11 @@ const config = {
         oneClick: false,
         allowToChangeInstallationDirectory: true,
         deleteAppDataOnUninstall: false,
-        menuCategory: 'RustyTsuki',
+        menuCategory: 'StarryHoot Office',
         runAfterFinish: true,
         license: '../LICENSE',
         warningsAsErrors: false,
-        // include: 'build/nsis/main.nsh',
+        include: 'build/nsis/main.nsh',
     },
     mac: {
         entitlementsInherit: 'electron/build/entitlements.mac.plist',
