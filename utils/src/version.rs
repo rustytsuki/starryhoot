@@ -14,11 +14,11 @@ struct Asset;
 #[derive(Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Version {
-    ver_major: String,
-    ver_minor: String,
-    ver_patch: String,
-    architecture: String,
-    build_time: String,
+    pub ver_major: String,
+    pub ver_minor: String,
+    pub ver_patch: String,
+    pub architecture: String,
+    pub build_time: String,
 }
 
 #[cfg(feature = "production")]

@@ -9,7 +9,10 @@ edition = "2021"
 name = "starryhoot"
 path = "src/main.rs"
 
+[features]
+production = ["starryhoot-utils/production"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-starryhoot-utils = { path = "../utils" }
+starryhoot-utils = { path = "../utils"}
