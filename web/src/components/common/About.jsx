@@ -1,4 +1,6 @@
+// #v-ifdef PROD
 import version from '../../../../deploy/version/version.json';
+// #v-endif
 
 export function About() {
     return (
@@ -13,7 +15,11 @@ export function About() {
                 // #v-endif
             }</p>
             <p>
-                {`Ver: ${version.ver_major}.${version.ver_minor}.${version.ver_patch}`}
+                {
+                // #v-ifdef PROD
+                `Ver: ${version.ver_major}.${version.ver_minor}.${version.ver_patch}`
+                // #v-endif
+                }
             </p>
         </>
     );
