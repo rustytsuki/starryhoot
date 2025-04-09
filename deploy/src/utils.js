@@ -1,7 +1,11 @@
 import path from 'path';
 import url from 'url';
+import fs from 'fs-extra';
 import childProcess from 'child_process';
 import os from 'os';
+import follow_redirects from 'follow-redirects';
+import * as tar from 'tar';
+import AdmZip from 'adm-zip';
 
 const platform = os.platform();
 
@@ -20,6 +24,58 @@ export function get_app_abs_path() {
     return path.resolve(project_root_abs_path, 'app');
 }
 
+export async function download_file(url, file_path) {
+    console.log(`Downloading: ${url}`);
+    return new Promise((resolve) => {
+        follow_redirects.https
+            .get(url, (res) => {
+                const file_stream = fs.createWriteStream(file_path);
+                res.pipe(file_stream);
+
+                file_stream.on('finish', () => {
+                    file_stream.close();
+                    console.error('Download file to:', file_path);
+                    resolve(0);
+                });
+            })
+            .on('error', (err) => {
+                console.error('Download failed:', err.message);
+                fs.unlinkSync(file_path);
+                resolve(1);
+            });
+    });
+}
+
+export async function extract_file(file_path, out_path, is_tar_gz) {
+    return new Promise((resolve) => {
+        if (is_tar_gz) {
+            tar.x({
+                file: file_path,
+                cwd: out_path,
+                sync: true,
+            })
+                .then(() => {
+                    console.log(`✅ Extracted TAR.GZ: ${file_path} -> ${out_path}`);
+                    resolve(0);
+                })
+                .catch((err) => {
+                    console.error(`❌ Failed to extract TAR.GZ: ${file_path}`, err.message);
+                    resolve(1);
+                });
+        } else {
+            try {
+                const zip = new AdmZip(file_path);
+                zip.extractAllTo(out_path, true);
+                console.log(`✅ Extracted ZIP: ${file_path} -> ${out_path}`);
+                resolve(0);
+            } catch (err) {
+                console.error(`❌ Failed to extract ZIP: ${file_path}`, err.message);
+                resolve(1);
+            }
+        }
+    });
+}
+
 export async function exec(cmd, cwd) {
     const options = {
         'cwd': cwd,
@@ -28,9 +84,14 @@ export async function exec(cmd, cwd) {
         },
         'shell': true,
     };
+
     if (platform === 'darwin') {
         options['shell'] = '/bin/zsh';
+    } else if (platform === 'linux') {
+        options['shell'] = '/bin/bash';
     }
+
+    console.log(`exec: ${cmd}`);
 
     return new Promise((resolve) => {
         let ps = childProcess.spawn(cmd, options);

@@ -1,2 +1,2 @@
-pub const VER: &str = "0.1182";
-pub const HASH: &str = "8043424";
+pub const VER: &str = "0.1213";
+pub const HASH: &str = "491f2ec";

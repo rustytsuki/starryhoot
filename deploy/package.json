@@ -7,10 +7,15 @@
     "author": "@rustytsuki",
     "license": "BSD-3-CLAUSE",
     "scripts": {
-        "fetch_kernel": "node index.js --fetch -t x86_64-pc-windows-msvc",
+        "fetch_kernel": "node index.js --fetch",
+        "fetch_dev": "npm run fetch_kernel -- -t wasm32-unknown-emscripten,x86_64-pc-windows-msvc",
         "build:app_win": "node index.js -t x86_64-pc-windows-msvc"
     },
     "devDependencies": {
-        "command-line-args": "^5.2.1"
+        "adm-zip": "^0.5.16",
+        "command-line-args": "^5.2.1",
+        "follow-redirects": "^1.15.9",
+        "fs-extra": "^11.3.0",
+        "tar": "^7.4.3"
     }
 }
