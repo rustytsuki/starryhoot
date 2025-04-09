@@ -1,4 +1,4 @@
-// #v-ifdef PROD
+// #v-ifdef VITE_STARRYHOOT_PUBLISH
 import version from '../../../../deploy/version/version.json';
 // #v-endif
 
@@ -16,7 +16,7 @@ export function About() {
             }</p>
             <p>
                 {
-                // #v-ifdef PROD
+                // #v-ifdef VITE_STARRYHOOT_PUBLISH
                 `Ver: ${version.ver_major}.${version.ver_minor}.${version.ver_patch}`
                 // #v-endif
                 }

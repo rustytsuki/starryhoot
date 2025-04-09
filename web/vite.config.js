@@ -52,10 +52,8 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     };
 
     // https://vitejs.dev/config/build-options#build-target
-    if ('electron' === mode || 'web' === mode) {
-        // Vite will replace 'modules' to ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14']
-        build.target = 'modules';
-    }
+    // Vite will replace 'modules' to ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14']
+    build.target = 'modules';
 
     const config = {
         base: '/',
