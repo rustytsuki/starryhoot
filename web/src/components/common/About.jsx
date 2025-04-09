@@ -1,3 +1,5 @@
+import version from '../../../../deploy/version/version.json';
+
 export function About() {
     return (
         <>
@@ -10,6 +12,9 @@ export function About() {
                 'Electron'
                 // #v-endif
             }</p>
+            <p>
+                {`Ver: ${version.ver_major}.${version.ver_minor}.${version.ver_patch}`}
+            </p>
         </>
     );
 }

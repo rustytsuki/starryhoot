@@ -9,6 +9,16 @@ edition = "2021"
 name = "utils"
 crate-type = ["lib"]
 
+[features]
+# this feature is used for production builds
+# DO NOT REMOVE!!
+production = ["dep:rust-embed"]
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+rust-embed = { version = "8.2", features = ["include-exclude"], optional = true }
+
 [build-dependencies]
 downloader = "0.2.7"
 tar = "0.4"

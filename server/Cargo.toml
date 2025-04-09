@@ -35,7 +35,7 @@ axum_session = { version = "0.12.4", features = [ "sqlite-rustls"], default-feat
 sha-crypt = "0.5"
 async-trait = "0.1.56"
 zip = { version = "0.6.6", features = ["deflate"], default-features = false }
-rust-embed = { version = "8.2", optional = true }
+rust-embed = { version = "8.2", features = ["include-exclude"], optional = true }
 mime_guess = "2.0"
 percent-encoding = "2.1"
 regex = "1.10.3"

@@ -9,8 +9,6 @@
     "scripts": {
         "web:dev": "cross-env VITE_MODE=web npm run server",
         "web:build": "cross-env NODE_ENV=production VITE_MODE=web vite build --mode web",
-        "tauri:dev": "cross-env VITE_MODE=tauri npm run server",
-        "tauri:build": "cross-env NODE_ENV=production VITE_MODE=tauri vite build --mode tauri",
         "electron:dev": "cross-env VITE_MODE=electron npm run server",
         "electron:build": "cross-env NODE_ENV=production VITE_MODE=electron vite build --mode electron",
         "server": "cross-env PORT=65432 node ./src/server/index.mjs"

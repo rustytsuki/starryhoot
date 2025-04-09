@@ -11,6 +11,7 @@ use tower_http::services::ServeDir;
 
 #[derive(RustEmbed)]
 #[folder = "../web/dist/client"]
+#[exclude = ".DS_Store"]
 struct Asset;
 
 pub fn route(app: Router) -> Router {

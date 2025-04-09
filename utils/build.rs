@@ -7,7 +7,7 @@ use downloader::Downloader;
 use flate2::read::GzDecoder;
 use tar::Archive;
 
-#[path = "src/version.rs"]
+#[path = "src/kernel_version.rs"]
 mod kernel_version;
 
 const VERBOSE: bool = false;

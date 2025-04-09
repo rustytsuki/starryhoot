@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import { download_file, extract_file } from './utils.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const version_rs = fs.readFileSync(path.resolve(__dirname, '../../utils/src/version.rs'), 'utf8');
+const version_rs = fs.readFileSync(path.resolve(__dirname, '../../utils/src/kernel_version.rs'), 'utf8');
 
 const VER = version_rs.match(/VER:\s*&str\s*=\s*"([^"]+)"/)[1];
 const HASH = version_rs.match(/HASH:\s*&str\s*=\s*"([^"]+)"/)[1];
