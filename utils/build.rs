@@ -1,7 +1,10 @@
 #![allow(dead_code, unused_variables, unused_imports, unused_unsafe)]
 #![allow(non_snake_case, non_camel_case_types, non_upper_case_globals)]
 
-use std::{env, fs, path::{Path, PathBuf}};
+use std::{
+    env, fs,
+    path::{Path, PathBuf},
+};
 
 use downloader::Downloader;
 use flate2::read::GzDecoder;
@@ -11,6 +14,7 @@ use tar::Archive;
 mod kernel_version;
 
 const VERBOSE: bool = false;
+const NOT_FETCH_KERNEL: bool = false;
 
 fn print_warn(text: &str) {
     if VERBOSE {
@@ -23,10 +27,13 @@ fn main() {
     let host = env::var("HOST").unwrap();
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
-    fetch_kernel_release("wasm32-unknown-emscripten".into());
-    fetch_kernel_release(target);
+    if !NOT_FETCH_KERNEL {
+        fetch_kernel_release("wasm32-unknown-emscripten".into());
+        fetch_kernel_release(target);
+    }
 
     set_roffice_lib();
+    copy_roffice_bin();
 }
 
 fn set_roffice_lib() {
@@ -48,6 +55,28 @@ fn set_roffice_lib() {
     let bin_search = get_roffice_bin_search();
     println!("cargo:rustc-link-search=native={}", lib_search.to_str().unwrap());
     println!("cargo:rustc-link-lib=dylib=roffice");
+}
+
+fn copy_roffice_bin() {
+    let target = env::var("TARGET").unwrap();
+    if target.find("windows").is_none() {
+        return;
+    }
+
+    let file_name = "roffice.dll";
+    let mut bin_search = get_roffice_bin_search();
+    bin_search.push(file_name);
+
+    let mut target_profile_dir = get_target_profile_dir();
+    target_profile_dir.push(file_name);
+
+    print_warn(&format!(
+        "copy {} -> {}",
+        bin_search.as_os_str().to_string_lossy(),
+        target_profile_dir.as_os_str().to_string_lossy()
+    ));
+
+    fs::copy(bin_search, target_profile_dir).unwrap();
 }
 
 fn get_roffice_lib_search() -> PathBuf {
@@ -87,6 +116,13 @@ fn get_kernel_path() -> PathBuf {
     kernel
 }
 
+// starryhoot/target/debug or starryhoot/target/release
+fn get_target_profile_dir() -> PathBuf {
+    let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
+    let target_profile_dir = out_dir.parent().unwrap().parent().unwrap().parent().unwrap();
+    PathBuf::from(target_profile_dir)
+}
+
 fn ensure_dir(dir: &PathBuf) -> bool {
     if dir.is_dir() {
         return true;
@@ -105,13 +141,7 @@ fn fetch_kernel_release(target: String) {
     let is_tar_gz = !target.find("wasm32").is_some() && !target.find("windows").is_some();
     let ext = if is_tar_gz { "tar.gz" } else { "zip" };
 
-    let file_name = format!(
-        "roffice-v{}-{}-{}.{}",
-        kernel_version::VER,
-        kernel_version::HASH,
-        target,
-        ext
-    );
+    let file_name = format!("roffice-v{}-{}-{}.{}", kernel_version::VER, kernel_version::HASH, target, ext);
     let url = format!(
         "https://github.com/rustytsuki/roffice/releases/download/v{}/{}",
         kernel_version::VER,
