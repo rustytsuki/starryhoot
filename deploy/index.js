@@ -1,6 +1,6 @@
 import commandLineArgs from 'command-line-args';
 import * as builder from './src/builder.js';
-import { fetch_kernel } from './src/fetch_kernel.js';
+import { fetch_kernel, fetch_kernel_auto } from './src/fetch_kernel.js';
 
 const optionDefinitions = [
     { name: 'fetch', alias: 'f', type: Boolean },
@@ -12,21 +12,31 @@ const config = commandLineArgs(optionDefinitions);
 
 async function main() {
     if (config['fetch']) {
-        let targets = config['target'].split(',');
-        for (let i in targets) {
-            if (await fetch_kernel(targets[i])) {
-                console.error(`fetch kernel: ${targets[i]} failed!`);
-                return 1;
-            }
-        }
-        return 0;
+        process.exit(await fetch_kernel_auto());
     }
 
+    if (await fetch_kernel('wasm32-unknown-emscripten')) {
+        console.error(`fetch kernel error: wasm32-unknown-emscripten failed!`);
+        process.exit(1);
+    }
+
+    let has_error = false;
     let targets = config['target'].split(',');
     for (let i in targets) {
-        if (await builder.build_electron(targets[i])) {
-            console.error(`build: ${targets[i]} failed!`);
+        const target = targets[i];
+        if (await fetch_kernel(target)) {
+            has_error = true;
+            console.error(`fetch kernel error: ${target} failed!`);
+            continue;
         }
+
+        if (await builder.build_all(target)) {
+            has_error = true;
+            console.error(`build: ${target} failed!`);
+        }
+    }
+    if (has_error) {
+        process.exit(1);
     }
 }
 

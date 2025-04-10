@@ -7,8 +7,6 @@ import follow_redirects from 'follow-redirects';
 import * as tar from 'tar';
 import AdmZip from 'adm-zip';
 
-const platform = os.platform();
-
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const project_root_abs_path = path.resolve(__dirname, '../../');
 
@@ -76,6 +74,33 @@ export async function extract_file(file_path, out_path, is_tar_gz) {
     });
 }
 
+export function get_auto_target() {
+    const platform = os.platform();
+    const arch = os.arch();
+
+    if ('win32' === platform) {
+        if ('x64' === arch) {
+            return 'x86_64-pc-windows-msvc';
+        } else if ('arm64' === arch) {
+            return 'aarch64-pc-windows-msvc';
+        } else if ('ia32' === arch) {
+            return 'i686-pc-windows-msvc';
+        }
+    } else if ('darwin' === platform) {
+        if ('x64' === arch) {
+            return 'x86_64-apple-darwin';
+        } else if ('arm64' === arch) {
+            return 'aarch64-apple-darwin';
+        }
+    } else if ('linux' === platform) {
+        if ('x64' === arch) {
+            return 'x86_64-unknown-linux-gnu';
+        } else if ('arm64' === arch) {
+            return 'aarch64-unknown-linux-gnu';
+        }
+    }
+}
+
 export async function exec(cmd, cwd) {
     const options = {
         'cwd': cwd,
@@ -85,6 +110,7 @@ export async function exec(cmd, cwd) {
         'shell': true,
     };
 
+    const platform = os.platform();
     if (platform === 'darwin') {
         options['shell'] = '/bin/zsh';
     } else if (platform === 'linux') {

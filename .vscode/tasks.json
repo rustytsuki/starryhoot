@@ -5,16 +5,28 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "[starryhoot] fetch kernel",
+            "type": "npm",
+            "script": "fetch_kernel",
+            "path": "deploy",
+        },
+        {
             "label": "[starryhoot] web prod",
             "type": "npm",
             "script": "web:build",
-            "path": "web"
+            "path": "web",
+            "dependsOn": [
+                "[starryhoot] fetch kernel"
+            ]
         },
         {
             "label": "[starryhoot] web prod electron",
             "type": "npm",
             "script": "electron:build",
-            "path": "web"
+            "path": "web",
+            "dependsOn": [
+                "[starryhoot] fetch kernel"
+            ]
         }
     ]
 }

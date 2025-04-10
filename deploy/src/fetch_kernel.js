@@ -1,7 +1,7 @@
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
-import { download_file, extract_file } from './utils.js';
+import { download_file, extract_file, get_auto_target } from './utils.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const version_rs = fs.readFileSync(path.resolve(__dirname, '../../utils/src/kernel_version.rs'), 'utf8');
@@ -37,5 +37,13 @@ export async function fetch_kernel(target) {
         return 1;
     }
 
+    return 0;
+}
+
+export async function fetch_kernel_auto() {
+    const target = get_auto_target();
+    if (await fetch_kernel('wasm32-unknown-emscripten') || await fetch_kernel(target)) {
+        return 1;
+    }
     return 0;
 }

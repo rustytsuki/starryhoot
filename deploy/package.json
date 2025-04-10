@@ -8,7 +8,6 @@
     "license": "BSD-3-CLAUSE",
     "scripts": {
         "fetch_kernel": "node index.js --fetch",
-        "fetch_dev": "npm run fetch_kernel -- -t wasm32-unknown-emscripten,x86_64-pc-windows-msvc",
         "build:app_win": "node index.js -t x86_64-pc-windows-msvc"
     },
     "devDependencies": {
