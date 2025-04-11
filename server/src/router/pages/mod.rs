@@ -17,7 +17,7 @@ use hyper_util::{client::legacy::connect::HttpConnector, rt::TokioExecutor};
 type Client = hyper_util::client::legacy::Client<HttpConnector, Body>;
 
 pub fn route(app: Router) -> Router {
-    let app = app.route("/", get(|| async { Redirect::permanent("/home") }));
+    let app = app.route("/", get(|| async { Redirect::temporary("/home") }));
 
     #[cfg(feature = "production")]
     {

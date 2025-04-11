@@ -44,3 +44,26 @@ pub async fn open_shell_folder(path: &PathBuf) {
         }
     }
 }
+
+pub fn get_data_path() -> PathBuf {
+    let mut path = dirs::data_local_dir().unwrap();
+    path.push("starryhoot");
+
+    path
+}
+
+pub const SQL_LITE_DB_FILE: &str = "starryhoot_server.db";
+
+pub fn get_sql_lite_db_path() -> PathBuf {
+    let mut path = get_data_path();
+    path.push("server/storage/db");
+
+    path
+}
+
+pub fn get_files_path() -> PathBuf {
+    let mut path = get_data_path();
+    path.push("server/storage/files");
+
+    path
+}

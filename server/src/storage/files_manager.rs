@@ -5,9 +5,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use crate::db::{file::File, DB};
-
-pub const STORAGE_PATH: &str = "./data/server/storage/files";
+use crate::{db::{file::File, DB}, utils::get_files_path};
 
 #[derive(Serialize, Deserialize)]
 pub struct FileInfo {
@@ -51,7 +49,7 @@ pub fn get_file_info(file: &File) -> FileInfo {
 }
 
 pub async fn open_file_folder(fid: i64) {
-    let mut file_folder_path = PathBuf::from(STORAGE_PATH);
+    let mut file_folder_path = get_files_path();
     file_folder_path.push(&format!("{}", fid));
 
     crate::utils::open_shell_folder(&file_folder_path).await;
@@ -71,7 +69,7 @@ pub async fn delete_user_file(user_id: i64, fid: i64) -> bool {
 
 async fn delete_file_storage(fid: i64) -> bool {
     let file_id = format!("{}", &fid);
-    let mut file_folder_path = PathBuf::from(STORAGE_PATH);
+    let mut file_folder_path = get_files_path();
     file_folder_path.push(file_id);
     if let Ok(file_folder_path) = crate::utils::to_abs_path(file_folder_path) {
         if let Ok(_) = tokio::fs::remove_dir_all(file_folder_path).await {
@@ -105,7 +103,7 @@ pub fn get_file_unpack_tree(file_id: i64, json: &mut serde_json::Value) -> bool 
         true
     }
 
-    let mut unpack_path = PathBuf::from(STORAGE_PATH);
+    let mut unpack_path = get_files_path();
     unpack_path.push(file_id.to_string());
     unpack_path.push("unpacked");
 
@@ -117,7 +115,7 @@ pub async fn upload_file(user_id: i64, file_name: String, data: impl AsRef<[u8]>
         let file_id = file_info.id;
 
         // storage/fid
-        let mut file_dir_path = PathBuf::from(STORAGE_PATH);
+        let mut file_dir_path = get_files_path();
         file_dir_path.push(file_id.to_string());
         if !crate::utils::ensure_dir(&file_dir_path) {
             delete_user_file(user_id, file_id).await;

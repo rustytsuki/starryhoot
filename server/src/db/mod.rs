@@ -9,8 +9,7 @@ use sqlx::{
     Pool, Sqlite,
 };
 
-const SQL_LITE_DB_PATH: &str = "./data/server/storage/db";
-const SQL_LITE_DB_FILE: &str = "starryhoot_server.db";
+use crate::utils::{get_sql_lite_db_path, SQL_LITE_DB_FILE};
 
 lazy_static!{
     static ref DATA_BASE: RwLock<Option<DB>> = RwLock::new(None);
@@ -29,7 +28,7 @@ impl DB {
     }
 
     pub async fn connect() {
-        let mut db_path = PathBuf::from(SQL_LITE_DB_PATH);
+        let mut db_path = get_sql_lite_db_path();
         crate::utils::ensure_dir(&db_path);
         db_path.push(SQL_LITE_DB_FILE);
 
