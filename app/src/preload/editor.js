@@ -4,7 +4,7 @@ import path from 'path';
 function load_roffice() {
     const { platform, arch } = process;
     // console.log(`platform: ${platform}, arch: ${arch}`);
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' || process.env.DEV_WITH_PROD_PAGES) {
         return require(path.join(__dirname, `../../../deploy/roffice/x86_64-pc-windows-msvc/bin/roffice.node`));
     } else {
         return require(path.join(path.dirname(process.execPath), 'roffice.node'));

@@ -7,7 +7,7 @@
     "main": "./out/main/index.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=development electron-vite dev",
-        "prod": "npm run build && cross-env electron .",
+        "prod": "npm run build && cross-env DEV_WITH_PROD_PAGES=1 electron .",
         "build": "cross-env electron-vite build && node src/utils.mjs --postbuild",
         "build:publish": "cross-env electron-vite build && node src/utils.mjs --postbuild --publish",
         "pack:dir": "npm run build:publish && electron-builder --dir --config electron-builder.config.js",
