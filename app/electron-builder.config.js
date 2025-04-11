@@ -9,9 +9,9 @@ let exe_name = 'StarryHoot Office';
 const config = {
     appId: 'com.starryhoot.app',
     productName: 'StarryHoot Office',
-    "extraMetadata": {
+    'extraMetadata': {
         // "name": "StarryHoot",
-        "version": version,
+        'version': version,
         // "description": "StarryHoot Office",
         // "author": "@rustytsuki", // do not set!!! or copyright cannot find ${author}!!! use package.json
         // "license": "BSD-3-CLAUSE"
@@ -19,7 +19,13 @@ const config = {
     directories: {
         buildResources: 'build',
     },
-    files: ['out', 'resources', '!out/roffice/roffice.dll'],
+    files: [
+        'out',
+        'resources',
+        '!out/roffice/roffice.dll',
+        '!out/roffice/starryhoot.exe',
+        '!out/roffice/starryhoot-server.exe',
+    ],
     asarUnpack: ['resources/**'],
     win: {
         executableName: exe_name,
@@ -28,6 +34,14 @@ const config = {
             {
                 from: 'out/roffice/roffice.dll',
                 to: 'roffice.dll',
+            },
+            {
+                from: 'out/roffice/starryhoot.exe',
+                to: 'starryhoot.exe',
+            },
+            {
+                from: 'out/roffice/starryhoot-server.exe',
+                to: 'starryhoot-server.exe',
             },
         ],
     },

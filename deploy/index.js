@@ -33,6 +33,7 @@ async function main() {
         if (await builder.build_all(target)) {
             has_error = true;
             console.error(`build: ${target} failed!`);
+            continue;
         }
     }
     if (has_error) {
