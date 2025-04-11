@@ -106,6 +106,7 @@
                     "--package=starryhoot-server",
                     "--features=production"
                 ],
+                "cwd": "${workspaceFolder}/target/debug",
                 "filter": {
                     "name": "starryhoot-server",
                     "kind": "bin"

@@ -21,11 +21,11 @@ export async function build_all(target) {
         return 2;
     }
 
-    if (await build_pages_for_electron(target)) {
+    if (await build_rs(target)) {
         return 3;
     }
 
-    if (await build_rs(target)) {
+    if (await build_pages_for_electron(target)) {
         return 4;
     }
 
