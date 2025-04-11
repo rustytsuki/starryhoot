@@ -22,9 +22,7 @@ const config = {
     files: [
         'out',
         'resources',
-        '!out/roffice/roffice.dll',
-        '!out/roffice/starryhoot.exe',
-        '!out/roffice/starryhoot-server.exe',
+        '!out/roffice/**',
     ],
     asarUnpack: ['resources/**'],
     win: {
@@ -32,16 +30,9 @@ const config = {
         target: ['nsis'],
         extraFiles: [
             {
-                from: 'out/roffice/roffice.dll',
-                to: 'roffice.dll',
-            },
-            {
-                from: 'out/roffice/starryhoot.exe',
-                to: 'starryhoot.exe',
-            },
-            {
-                from: 'out/roffice/starryhoot-server.exe',
-                to: 'starryhoot-server.exe',
+                from: 'out/roffice/',
+                to: '',
+                "filter": ["**/*"],
             },
         ],
     },

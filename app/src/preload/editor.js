@@ -7,7 +7,7 @@ function load_roffice() {
     if (process.env.NODE_ENV === 'development') {
         return require(path.join(__dirname, `../../../deploy/roffice/x86_64-pc-windows-msvc/bin/roffice.node`));
     } else {
-        return require(path.join(__dirname, `../roffice/roffice.node`));
+        return require(path.join(path.dirname(process.execPath), 'roffice.node'));
     }
 }
 
