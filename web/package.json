@@ -13,7 +13,11 @@
         "electron:dev": "cross-env VITE_MODE=electron npm run server",
         "electron:build": "cross-env NODE_ENV=production VITE_MODE=electron vite build --mode electron",
         "electron:publish": "cross-env NODE_ENV=production VITE_MODE=electron vite build --mode electron_publish",
-        "server": "cross-env PORT=65432 node ./src/server/index.mjs"
+        "site:dev": "cross-env VITE_MODE=site npm run server",
+        "site:build": "cross-env NODE_ENV=production VITE_MODE=site vite build --mode site",
+        "site:publish": "cross-env NODE_ENV=production VITE_MODE=site vite build --mode site_publish",
+        "server": "cross-env PORT=65432 node ./src/server/index.mjs",
+        "server:dist": "http-server dist/client"
     },
     "devDependencies": {
         "@fluentui/react-components": "^9.60.0",
@@ -26,6 +30,7 @@
         "compression": "^1.7.4",
         "cross-env": "^7.0.3",
         "express": "^4.18.2",
+        "http-server": "^14.1.1",
         "msgpackr": "^1.10.1",
         "prop-types": "15.8.1",
         "react": "^18.2.0",

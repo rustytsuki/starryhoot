@@ -5,7 +5,7 @@ export let load_roffice = async () => {
         return;
     }
 
-    // #v-ifdef VITE_STARRYHOOT_WEB
+    // #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_SITE
     let pkg = await import('../../../../../deploy/roffice/wasm32-unknown-emscripten/lib/roffice');
     let roffice = await pkg.default();
     // #v-elif VITE_STARRYHOOT_ELECTRON

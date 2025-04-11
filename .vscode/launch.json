@@ -36,6 +36,40 @@
             }
         },
         {
+            "name": "site dev",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "site:dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "cwd": "${workspaceFolder}/web",
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "serve dist",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "server:dist"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "cwd": "${workspaceFolder}/web",
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
             "name": "app electron dev",
             "request": "launch",
             "runtimeArgs": [
@@ -129,6 +163,7 @@
     "compounds": [
         {
             "name": "app",
+            "preLaunchTask": "[starryhoot] fetch kernel",
             "configurations": [
                 "web dev electron",
                 "app electron dev"
@@ -143,6 +178,7 @@
         },
         {
             "name": "server",
+            "preLaunchTask": "[starryhoot] fetch kernel",
             "configurations": [
                 "web dev",
                 "server dev",
@@ -153,6 +189,20 @@
             "preLaunchTask": "[starryhoot] web prod",
             "configurations": [
                 "server prod",
+            ],
+        },
+        {
+            "name": "site",
+            "preLaunchTask": "[starryhoot] fetch kernel",
+            "configurations": [
+                "site dev",
+            ],
+        },
+        {
+            "name": "site production",
+            "preLaunchTask": "[starryhoot] site prod",
+            "configurations": [
+                "serve dist"
             ],
         },
     ]

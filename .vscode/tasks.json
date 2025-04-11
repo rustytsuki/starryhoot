@@ -27,6 +27,15 @@
             "dependsOn": [
                 "[starryhoot] fetch kernel"
             ]
-        }
+        },
+        {
+            "label": "[starryhoot] site prod",
+            "type": "npm",
+            "script": "site:build",
+            "path": "web",
+            "dependsOn": [
+                "[starryhoot] fetch kernel"
+            ]
+        },
     ]
 }

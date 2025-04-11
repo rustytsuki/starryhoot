@@ -5,7 +5,7 @@ import { Navigation } from './Navigation';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
-// #v-ifdef VITE_STARRYHOOT_WEB
+// #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_SITE
 import { DocxEditorWeb as OfficeEditorClass } from './editor/DocxEditorWeb';
 // #v-elif VITE_STARRYHOOT_ELECTRON
 import { DocxEditorElectron as OfficeEditorClass } from './editor/DocxEditorElectron';

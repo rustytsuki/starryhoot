@@ -10,6 +10,8 @@ export function About() {
             <p>{
                 // #v-ifdef VITE_STARRYHOOT_WEB
                 'Web'
+                // #v-elif VITE_STARRYHOOT_SITE
+                'Site'
                 // #v-elif VITE_STARRYHOOT_ELECTRON
                 'Electron'
                 // #v-endif

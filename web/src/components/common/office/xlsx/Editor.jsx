@@ -4,7 +4,7 @@ import useAsyncEffect from 'use-async-effect';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
-// #v-ifdef VITE_STARRYHOOT_WEB
+// #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_SITE
 import { XLSXEditorWeb as OfficeEditorClass } from './editor/XLSXEditorWeb';
 // #v-elif VITE_STARRYHOOT_ELECTRON
 import { XLSXEditorElectron as OfficeEditorClass } from './editor/XLSXEditorElectron';
