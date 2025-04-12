@@ -19,11 +19,7 @@ const config = {
     directories: {
         buildResources: 'build',
     },
-    files: [
-        'out',
-        'resources',
-        '!out/roffice/**',
-    ],
+    files: ['out', 'resources', '!out/roffice/**'],
     asarUnpack: ['resources/**'],
     win: {
         executableName: exe_name,
@@ -32,12 +28,12 @@ const config = {
             {
                 from: 'out/roffice/',
                 to: '',
-                "filter": ["**/*"],
+                'filter': ['**/*'],
             },
         ],
     },
     nsis: {
-        artifactName: 'starryhoot-v${version}-setup.${ext}',
+        artifactName: 'starryhoot-setup-${platform}-${arch}-v${version}.${ext}',
         shortcutName: '${productName}',
         uninstallDisplayName: '${productName}',
         createDesktopShortcut: 'always',
@@ -76,6 +72,7 @@ const config = {
     publish: {
         provider: 'generic',
         url: 'https://example.com/auto-updates',
+        channel: 'latest-${platform}-${arch}', // https://github.com/electron-userland/electron-builder/issues/5592#issuecomment-2571750991
     },
 };
 
