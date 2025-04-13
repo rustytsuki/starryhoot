@@ -5,7 +5,7 @@ import { fetch_kernel, fetch_kernel_auto } from './src/fetch_kernel.js';
 const optionDefinitions = [
     { name: 'fetch', alias: 'f', type: Boolean },
     { name: 'target', alias: 't', type: String },
-    { name: 'upload', alias: 'u', type: Boolean },
+    { name: 'publish', alias: 'p', type: Boolean },
 ];
 
 const config = commandLineArgs(optionDefinitions);
@@ -30,7 +30,7 @@ async function main() {
             continue;
         }
 
-        if (await builder.build_all(target)) {
+        if (await builder.build_all(target, config['publish'])) {
             has_error = true;
             console.error(`build: ${target} failed!`);
             continue;

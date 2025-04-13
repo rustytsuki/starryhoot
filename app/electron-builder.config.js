@@ -70,8 +70,15 @@ const config = {
     },
     npmRebuild: false,
     publish: {
-        provider: 'generic',
-        url: 'https://example.com/auto-updates',
+        provider: 'github',
+        host: 'github.com',
+        owner: 'rustytsuki',
+        repo: 'starryhoot',
+        private: false,
+        protocol: 'https',
+        publishAutoUpdate: true,
+        releaseType: 'release',
+        vPrefixedTagName: true,
         channel: 'latest-${platform}-${arch}', // https://github.com/electron-userland/electron-builder/issues/5592#issuecomment-2571750991
     },
 };
