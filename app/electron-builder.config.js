@@ -71,12 +71,9 @@ const config = {
     npmRebuild: false,
     publish: {
         provider: 'github',
-        host: 'github.com',
         owner: 'rustytsuki',
         repo: 'starryhoot',
-        token: process.env.GH_TOKEN,
         private: false,
-        protocol: 'https',
         publishAutoUpdate: true,
         releaseType: 'release',
         vPrefixedTagName: true,
