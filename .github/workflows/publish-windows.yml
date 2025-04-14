@@ -31,9 +31,22 @@ jobs:
                   cd deploy && npm ci && cd ..
                   cd web && npm ci && cd ..
 
+            - name: Extract tag version
+              id: extract_version
+              run: |
+                  echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+                  VERSION=${GITHUB_REF#refs/tags/v}
+                  IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+                  echo "VERSION_MAJOR=$MAJOR" >> $GITHUB_ENV
+                  echo "VERSION_MINOR=$MINOR" >> $GITHUB_ENV
+                  echo "VERSION_PATCH=$PATCH" >> $GITHUB_ENV
+
             - name: Run publish script for Windows
               working-directory: ./deploy
               env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GH_TOKEN: ${{ secrets.STARRYHOOT_RELEASE }}
+                  VERSION_MAJOR: ${{ env.VERSION_MAJOR }}
+                  VERSION_MINOR: ${{ env.VERSION_MINOR }}
+                  VERSION_PATCH: ${{ env.VERSION_PATCH }}
               run: |
                   npm run publish:win

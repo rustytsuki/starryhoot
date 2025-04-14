@@ -22,6 +22,14 @@ export function get_app_abs_path() {
     return path.resolve(project_root_abs_path, 'app');
 }
 
+export function get_deploy_abs_path() {
+    return path.resolve(project_root_abs_path, 'deploy');
+}
+
+export function get_version_file_path() {
+    return path.join(get_deploy_abs_path(), 'version', 'version.json');
+}
+
 export async function download_file(url, file_path) {
     console.log(`Downloading: ${url}`);
     return new Promise((resolve) => {
