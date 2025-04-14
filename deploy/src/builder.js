@@ -48,7 +48,7 @@ function build_version_info(target) {
     const file_path = utils.get_version_file_path();
     const version_str = JSON.stringify(version_json);
     fs.writeFileSync(file_path, version_str);
-    console.log(`generate: ${file_path}, ${version_json}`);
+    console.log(`generate: ${file_path}, ${version_str}`);
 }
 
 async function build_pages_for_electron(target) {

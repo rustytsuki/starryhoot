@@ -11,7 +11,7 @@
         "build": "cross-env electron-vite build && node src/utils.mjs --postbuild",
         "build:publish": "cross-env electron-vite build && node src/utils.mjs --postbuild --publish",
         "pack:x86_64-pc-windows-msvc": "npm run build:publish && electron-builder --win --x64 --config electron-builder.config.js",
-        "publish:x86_64-pc-windows-msvc": "npm run build:publish && electron-builder publish --win --x64 --config electron-builder.config.js", 
+        "publish:x86_64-pc-windows-msvc": "npm run build:publish && electron-builder --win --x64  --publish always --config electron-builder.config.js", 
         "pack:mac": "npm run build:publish && electron-builder --mac --config electron-builder.config.js"
     },
     "devDependencies": {
