@@ -74,6 +74,7 @@ const config = {
         host: 'github.com',
         owner: 'rustytsuki',
         repo: 'starryhoot',
+        token: process.env.GH_TOKEN,
         private: false,
         protocol: 'https',
         publishAutoUpdate: true,

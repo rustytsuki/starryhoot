@@ -6,9 +6,9 @@ import fs from 'fs-extra';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const optionDefinitions = [
-    { name: 'postbuild', type: Boolean},
-    { name: 'publish', type: Boolean},
-    { name: 'target', type: String},
+    { name: 'postbuild', type: Boolean },
+    { name: 'publish', type: Boolean },
+    { name: 'target', type: String },
 ];
 
 const config = commandLineArgs(optionDefinitions);
@@ -40,6 +40,13 @@ async function main() {
                 for (let i = 0; i < files.length; ++i) {
                     fs.copySync(path.join(src, files[i]), path.join(dst, files[i]));
                 }
+            }
+
+            const token = process.env.GH_TOKEN;
+            if (typeof token !== 'string' || token.trim() === '') {
+                console.error('❌ GH_TOKEN is not set or is empty.');
+            } else {
+                console.log(`✅ GH_TOKEN length: ${token.trim().length}`);
             }
         }
     }

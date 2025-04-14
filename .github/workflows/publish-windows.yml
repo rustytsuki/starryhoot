@@ -51,7 +51,7 @@ jobs:
             - name: Run publish script for Windows
               working-directory: ./deploy
               env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GH_TOKEN: ${{ secrets.STARRYHOOT_RELEASE }}
                   VERSION_MAJOR: ${{ env.VERSION_MAJOR }}
                   VERSION_MINOR: ${{ env.VERSION_MINOR }}
                   VERSION_PATCH: ${{ env.VERSION_PATCH }}
