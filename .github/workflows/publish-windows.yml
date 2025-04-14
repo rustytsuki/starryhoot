@@ -34,18 +34,19 @@ jobs:
             - name: Extract tag version
               id: extract_version
               run: |
-                  TAG_NAME="${GITHUB_REF#refs/tags/}"
-                  echo "TAG_NAME=$TAG_NAME" >> "$GITHUB_ENV"
+                  $tagName = "$env:GITHUB_REF" -replace '^refs/tags/', ''
+                  echo "TAG_NAME=$tagName" >> $env:GITHUB_ENV
 
-                  VERSION="${TAG_NAME#v}"
-                  MAJOR="${VERSION%%.*}"
-                  REST="${VERSION#*.}"
-                  MINOR="${REST%%.*}"
-                  PATCH="${REST#*.}"
+                  $version = $tagName -replace '^v', ''
+                  $parts = $version -split '\.'
 
-                  echo "VERSION_MAJOR=$MAJOR" >> "$GITHUB_ENV"
-                  echo "VERSION_MINOR=$MINOR" >> "$GITHUB_ENV"
-                  echo "VERSION_PATCH=$PATCH" >> "$GITHUB_ENV"
+                  if ($parts.Length -lt 3) {
+                  throw "Invalid version format: $version"
+                  }
+
+                  echo "VERSION_MAJOR=$($parts[0])" >> $env:GITHUB_ENV
+                  echo "VERSION_MINOR=$($parts[1])" >> $env:GITHUB_ENV
+                  echo "VERSION_PATCH=$($parts[2])" >> $env:GITHUB_ENV
 
             - name: Run publish script for Windows
               working-directory: ./deploy
