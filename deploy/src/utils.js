@@ -32,6 +32,8 @@ export function get_version_file_path() {
 
 export async function download_file(url, file_path) {
     console.log(`Downloading: ${url}`);
+    const dir = path.dirname(file_path);
+    await fs.ensureDir(dir);
     return new Promise((resolve) => {
         follow_redirects.https
             .get(url, (res) => {
