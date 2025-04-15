@@ -5,11 +5,14 @@ export let load_roffice = async () => {
         return;
     }
 
+    let roffice;
     // #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_SITE
     let pkg = await import('../../../../../deploy/roffice/wasm32-unknown-emscripten/lib/roffice');
-    let roffice = await pkg.default();
+    roffice = await pkg.default();
+    console.log('load kernel(wasm).');
     // #v-elif VITE_STARRYHOOT_ELECTRON
-    let roffice = starryhoot.roffice;
+    roffice = starryhoot.roffice;
+    console.log('load kernel(node).');
     // #v-endif
 
     await (() => {

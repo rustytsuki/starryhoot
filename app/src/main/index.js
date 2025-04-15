@@ -4,6 +4,7 @@ import url from 'url';
 import fs from 'fs';
 import * as menu_mgr from './menu_mgr';
 import * as tabviews_mgr from './tabviews_mgr';
+import { check_update_with_prompt } from './updater';
 
 const createWindow = () => {
     const main_win = new BrowserWindow({
@@ -24,6 +25,11 @@ const createWindow = () => {
 
     tabviews_mgr.set_main_window(main_win);
     tabviews_mgr.create_home_view();
+
+    // check update
+    if (process.env.NODE_ENV != 'development') {
+        check_update_with_prompt();
+    }
 };
 
 app.whenReady().then(() => {

@@ -7,7 +7,7 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const optionDefinitions = [
     { name: 'postbuild', type: Boolean },
-    { name: 'publish', type: Boolean },
+    { name: 'pack', type: Boolean },
     { name: 'target', type: String },
 ];
 
@@ -31,7 +31,7 @@ async function main() {
             }
         }
 
-        if (config['publish']) {
+        if (config['pack']) {
             // copy cli and server
             if (target.indexOf('windows') >= 0) {
                 const files = ['starryhoot.exe', 'starryhoot-server.exe'];
@@ -40,13 +40,6 @@ async function main() {
                 for (let i = 0; i < files.length; ++i) {
                     fs.copySync(path.join(src, files[i]), path.join(dst, files[i]));
                 }
-            }
-
-            const token = process.env.GH_TOKEN;
-            if (typeof token !== 'string' || token.trim() === '') {
-                console.error('❌ GH_TOKEN is not set or is empty.');
-            } else {
-                console.log(`✅ GH_TOKEN length: ${token.trim().length}`);
             }
         }
     }

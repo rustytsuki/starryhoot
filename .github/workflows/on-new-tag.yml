@@ -1,0 +1,12 @@
+# name: On New Tag Publish
+
+# on:
+#     push:
+#         tags:
+#             - 'v*'
+
+# jobs:
+#     call-publish:
+#         uses: ./.github/workflows/publish-windows.yml
+#         with:
+#             tag: ${{ github.ref_name }}

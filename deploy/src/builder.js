@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import * as utils from './utils.js';
 
-export async function build_all(target, publish) {
+export async function build_all(target) {
     if (target.indexOf('windows') >= 0 && process.platform !== "win32") {
         console.error(`build target ${target} need on windows host.`);
         return 1;
@@ -31,7 +31,7 @@ export async function build_all(target, publish) {
         return 4;
     }
 
-    if (await build_electron(target, publish)) {
+    if (await build_electron(target)) {
         return 5;
     }
 }
@@ -61,13 +61,9 @@ async function build_pages_for_server(target) {
     return await utils.exec('npm run web:publish', cwd);
 }
 
-async function build_electron(target, publish) {
+async function build_electron(target) {
     const cwd = utils.get_app_abs_path();
-    if (!publish) {
-        return await utils.exec(`npm run pack:${target}`, cwd);
-    } else {
-        return await utils.exec(`npm run publish:${target}`, cwd);
-    }
+    return await utils.exec(`npm run pack:${target}`, cwd);
 }
 
 export async function build_rs(target) {

@@ -1,5 +1,6 @@
 import commandLineArgs from 'command-line-args';
 import * as builder from './src/builder.js';
+import * as publisher from './src/publisher.js';
 import { fetch_kernel, fetch_kernel_auto } from './src/fetch_kernel.js';
 
 const optionDefinitions = [
@@ -30,10 +31,17 @@ async function main() {
             continue;
         }
 
-        if (await builder.build_all(target, config['publish'])) {
+        if (await builder.build_all(target)) {
             has_error = true;
             console.error(`build: ${target} failed!`);
             continue;
+        }
+
+        if (config['publish']) {
+            if (await publisher.upload_assets(target)) {
+                has_error = true;
+                continue;
+            }
         }
     }
     if (has_error) {

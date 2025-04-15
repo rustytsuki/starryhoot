@@ -1,9 +1,11 @@
 name: Publish Windows
 
 on:
-    push:
-        tags:
-            - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Publish Windows"
+        required: true
 
 jobs:
     build-win:
@@ -34,7 +36,7 @@ jobs:
             - name: Extract tag version
               id: extract_version
               run: |
-                  $tagName = "$env:GITHUB_REF" -replace '^refs/tags/', ''
+                  $tagName = "${{ github.event.inputs.tag }}"
                   echo "TAG_NAME=$tagName" >> $env:GITHUB_ENV
 
                   $version = $tagName -replace '^v', ''
