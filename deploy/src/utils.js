@@ -48,8 +48,9 @@ export function get_release_note() {
     return release_note[tag_ver] || '';
 }
 
-export function get_packed_files(target) {
-    const electron_build_config = import(path.join(__dirname, "../../app/electron-builder.config.js"));
+export async function get_packed_files(target) {
+    const pkg = await import("../../app/electron-builder.config.js");
+    const electron_build_config = pkg.default;
 
     let file_name = '';
     if (target.indexOf('windows') >= 0) {
