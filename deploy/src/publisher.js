@@ -4,10 +4,10 @@ import * as utils from './utils.js';
 import { Octokit } from 'octokit';
 
 const GH_TOKEN = process.env.GH_TOKEN;
-if (typeof token !== 'string' || token.trim() === '') {
+if (typeof GH_TOKEN !== 'string' || GH_TOKEN.trim() === '') {
     console.error('❌ GH_TOKEN is not set or is empty.');
 } else {
-    console.log(`✅ GH_TOKEN length: ${token.trim().length}`);
+    console.log(`✅ GH_TOKEN length: ${GH_TOKEN.trim().length}`);
 }
 
 const OWNER = 'rustytsuki';
@@ -50,7 +50,7 @@ export async function upload_assets(target) {
             continue;
         }
     
-        if (upload_release_asset(release_id, asset_path, asset_name)) {
+        if (await upload_release_asset(release_id, asset_path, asset_name)) {
             return 1;
         }
     }
@@ -59,6 +59,7 @@ export async function upload_assets(target) {
 }
 
 async function get_tag(tag_ver) {
+    console.log(`try to get tag: ${tag_ver}`);
     try {
         let tag = await octokit.request('GET /repos/{owner}/{repo}/git/ref/{ref}', {
             owner: OWNER,
@@ -167,6 +168,11 @@ async function upload_release_asset(release_id, file_path, name) {
     console.log('upload asset to release: ', file_path);
 
     try {
+        if (!fs.existsSync(file_path)) {
+            console.error(`${file_path} doesn't exist!`);
+            return 1;
+        }
+
         const data = await fs.readFile(file_path);
 
         let ret = await octokit_upload.request('POST /repos/{owner}/{repo}/releases/{release_id}/assets{?name,label}', {
@@ -184,6 +190,7 @@ async function upload_release_asset(release_id, file_path, name) {
         if (ret && ret.data) {
             return 0;
         } else {
+            console.error(`upload asset: ${name} failed!`);
             return 1;
         }
     } catch (e) {

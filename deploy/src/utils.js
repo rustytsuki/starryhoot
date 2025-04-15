@@ -24,7 +24,7 @@ export function get_app_abs_path() {
 }
 
 export function get_app_dist_abs_path() {
-    return path.join(get_app_abs_path(), 'app', 'dist');
+    return path.join(get_app_abs_path(), 'dist');
 }
 
 export function get_deploy_abs_path() {
@@ -47,11 +47,21 @@ export function get_packed_files(target) {
     let file_name = '';
     if (target.indexOf('windows') >= 0) {
         file_name = electron_build_config.nsis.artifactName;
+        file_name = file_name.replace('${ext}', 'exe');
     } else if (target.indexOf('darwin') >= 0) {
         file_name = electron_build_config.dmg.artifactName;
+        file_name = file_name.replace('${ext}', 'dmg');
     } else if (target.indexOf('linux') >= 0) {
         
     }
+
+    const platform = os.platform();
+    const arch = os.arch();
+    const tag_ver = get_tag_version();
+
+    file_name = file_name.replace('${platform}', platform);
+    file_name = file_name.replace('${arch}', arch);
+    file_name = file_name.replace('v${version}', tag_ver);
 
     if (!file_name) {
         return [];
@@ -59,10 +69,12 @@ export function get_packed_files(target) {
 
     let files = [];
     files.push(path.resolve(get_app_dist_abs_path(), file_name));
-    files.push(path.resolve(get_app_dist_abs_path(), `${file_name}.blockmap)`));
+    files.push(path.resolve(get_app_dist_abs_path(), `${file_name}.blockmap`));
     
-    const publish_channel = electron_build_config.publish.channel;
-    files.push(path.resolve(get_app_dist_abs_path(), `${publish_channel}.yml)`));
+    let publish_channel = electron_build_config.publish.channel;
+    publish_channel = publish_channel.replace('${platform}', platform);
+    publish_channel = publish_channel.replace('${arch}', arch);
+    files.push(path.resolve(get_app_dist_abs_path(), `${publish_channel}.yml`));
 
     return files;
 }
