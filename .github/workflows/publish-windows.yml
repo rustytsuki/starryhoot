@@ -14,6 +14,9 @@ on:
                 description: 'Publish Windows'
                 required: true
                 type: string
+        secrets:
+            STARRYHOOT_RELEASE:
+                required: true
 
 jobs:
     build-win:
