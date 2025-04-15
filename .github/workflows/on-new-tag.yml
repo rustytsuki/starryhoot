@@ -10,3 +10,5 @@ jobs:
         uses: ./.github/workflows/publish-windows.yml
         with:
             tag: ${{ github.ref_name }}
+        secrets:
+            STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
