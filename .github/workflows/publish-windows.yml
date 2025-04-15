@@ -11,6 +11,7 @@ on:
     workflow_call:
         inputs:
             tag:
+                description: 'Publish Windows'
                 required: true
                 type: string
 
@@ -44,8 +45,10 @@ jobs:
 
             - name: Extract tag version
               id: extract_version
+              env:
+                  TAG_NAME: ${{ inputs.tag || github.event.inputs.tag }}
               run: |
-                  $tagName = "${{ github.event.inputs.tag }}"
+                  $tagName = "$env:TAG_NAME"
                   echo "TAG_NAME=$tagName" >> $env:GITHUB_ENV
 
                   $version = $tagName -replace '^v', ''
