@@ -6,6 +6,13 @@ on:
             tag:
                 description: 'Publish Windows'
                 required: true
+                type: string
+
+    workflow_call:
+        inputs:
+            tag:
+                required: true
+                type: string
 
 jobs:
     build-win:
