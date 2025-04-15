@@ -118,7 +118,7 @@ async function create_release(tag_ver) {
             tag_name: tag_ver,
             target_commitish: 'main',
             name: tag_ver,
-            body: '',
+            body: utils.get_release_note(),
             draft: false,
             prerelease: false,
             generate_release_notes: false,

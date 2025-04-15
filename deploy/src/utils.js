@@ -11,6 +11,8 @@ import electron_build_config from "../../app/electron-builder.config.js"
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const project_root_abs_path = path.resolve(__dirname, '../../');
 
+const release_note = JSON.parse(fs.readFileSync(path.join(__dirname, '../version/release_note.json'), 'utf8'));
+
 export function get_project_root_abs_path() {
     return project_root_abs_path;
 }
@@ -35,12 +37,16 @@ export function get_version_file_path() {
     return path.join(get_deploy_abs_path(), 'version', 'version.json');
 }
 
-
 export function get_tag_version() {
     const major = process.env.VERSION_MAJOR || '0';
     const minor = process.env.VERSION_MINOR || '0';
     const patch = process.env.VERSION_PATCH || '0';
     return `v${major}.${minor}.${patch}`;
+}
+
+export function get_release_note() {
+    const tag_ver = get_tag_version();
+    return release_note[tag_ver] || '';
 }
 
 export function get_packed_files(target) {
