@@ -6,7 +6,6 @@ import os from 'os';
 import follow_redirects from 'follow-redirects';
 import * as tar from 'tar';
 import AdmZip from 'adm-zip';
-import electron_build_config from "../../app/electron-builder.config.js"
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const project_root_abs_path = path.resolve(__dirname, '../../');
@@ -50,6 +49,8 @@ export function get_release_note() {
 }
 
 export function get_packed_files(target) {
+    const electron_build_config = import(path.join(__dirname, "../../app/electron-builder.config.js"));
+
     let file_name = '';
     if (target.indexOf('windows') >= 0) {
         file_name = electron_build_config.nsis.artifactName;
