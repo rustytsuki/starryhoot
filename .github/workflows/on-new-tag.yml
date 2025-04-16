@@ -5,6 +5,11 @@ on:
         tags:
             - 'v*'
 
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
 jobs:
     # call-publish-windows:
     #     uses: ./.github/workflows/publish-windows.yml

@@ -18,6 +18,11 @@ on:
             STARRYHOOT_RELEASE:
                 required: true
 
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
 jobs:
     build-win:
         runs-on: ubuntu-latest
