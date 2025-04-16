@@ -54,8 +54,10 @@ function make_view_struct(id, view) {
 
 function update_views_bounds() {
     const [width, height] = main_window_.getContentSize();
+    const win_size_with_title_bar = main_window_.getBounds();
+    const title_bar_height = win_size_with_title_bar.height - height;
     for (let i = 0; i < tab_views_.length; ++i) {
-        tab_views_[i].view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
+        tab_views_[i].view.setBounds({ x: 0, y: title_bar_height + TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
     }
 }
 
@@ -110,7 +112,9 @@ function open_file(file_path) {
             },
         });
         const [width, height] = main_window_.getContentSize();
-        editor_view.setBounds({ x: 0, y: TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
+        const win_size_with_title_bar = main_window_.getBounds();
+        const title_bar_height = win_size_with_title_bar.height - height;
+        editor_view.setBounds({ x: 0, y: title_bar_height + TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
         editor_view.setAutoResize({ width: false, height: false });
 
         const file_name = path.basename(file_path);

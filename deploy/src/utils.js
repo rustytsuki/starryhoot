@@ -49,8 +49,8 @@ export function get_release_note() {
 }
 
 export async function get_packed_files(target, pkg) {
-    const pkg = await import("../../app/electron-builder.config.js");
-    const electron_build_config = pkg.default;
+    const electron_build_config_pkg = await import("../../app/electron-builder.config.js");
+    const electron_build_config = electron_build_config_pkg.default;
 
     let file_name = '';
     if (target.indexOf('windows') >= 0) {
@@ -122,7 +122,6 @@ export async function extract_file(file_path, out_path, is_tar_gz) {
             tar.x({
                 file: file_path,
                 cwd: out_path,
-                sync: true,
             })
                 .then(() => {
                     console.log(`✅ Extracted TAR.GZ: ${file_path} -> ${out_path}`);
