@@ -37,7 +37,7 @@ export async function build_all(target) {
 }
 
 export async function build_site() {
-    utils.build_version_info('wasm32-unknown-emscripten');
+    utils.build_version_info('website');
 
     const cwd = utils.get_web_abs_path();
     return await utils.exec('npm run site:publish', cwd);

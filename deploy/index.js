@@ -27,6 +27,11 @@ async function main() {
             console.error(`build website failed!`);
             process.exit(1);
         }
+
+        if (config['publish']) {
+            // do nothing, use workflow to upload pages
+        }
+
         process.exit(0);
     }
 

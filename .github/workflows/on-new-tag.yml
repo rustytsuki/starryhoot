@@ -6,8 +6,15 @@ on:
             - 'v*'
 
 jobs:
-    call-publish:
-        uses: ./.github/workflows/publish-windows.yml
+    # call-publish-windows:
+    #     uses: ./.github/workflows/publish-windows.yml
+    #     with:
+    #         tag: ${{ github.ref_name }}
+    #     secrets:
+    #         STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
+
+    call-publish-website:
+        uses: ./.github/workflows/publish-website.yml
         with:
             tag: ${{ github.ref_name }}
         secrets:
