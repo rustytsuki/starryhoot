@@ -6,6 +6,7 @@ import { fetch_kernel, fetch_kernel_auto } from './src/fetch_kernel.js';
 const optionDefinitions = [
     { name: 'fetch', alias: 'f', type: Boolean },
     { name: 'target', alias: 't', type: String },
+    { name: 'pkg', type: String },
     { name: 'publish', alias: 'p', type: Boolean },
     { name: 'site', alias: 's', type: Boolean },
 ];
@@ -45,14 +46,14 @@ async function main() {
             continue;
         }
 
-        if (await builder.build_all(target)) {
+        if (await builder.build_all(target, config['pkg'])) {
             has_error = true;
             console.error(`build: ${target} failed!`);
             continue;
         }
 
         if (config['publish']) {
-            if (await publisher.upload_assets(target)) {
+            if (await publisher.upload_assets(target, config['pkg'])) {
                 has_error = true;
                 continue;
             }

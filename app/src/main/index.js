@@ -1,6 +1,5 @@
-import { app, BrowserWindow, protocol, ipcMain } from 'electron/main';
+import { app, dialog, BrowserWindow, protocol, ipcMain } from 'electron/main';
 import path from 'path';
-import url from 'url';
 import fs from 'fs';
 import * as menu_mgr from './menu_mgr';
 import * as tabviews_mgr from './tabviews_mgr';
@@ -28,7 +27,19 @@ const createWindow = () => {
 
     // check update
     if (process.env.NODE_ENV != 'development') {
-        check_update_with_prompt();
+        const version_json_path = path.join(__dirname, 'version.json');
+        const raw = fs.readFileSync(version_json_path, 'utf-8');
+        const version = JSON.parse(raw);
+
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Version Info',
+            message: 'Application Version Information',
+            detail: JSON.stringify(version, null, 2),
+            buttons: ['OK'],
+        });
+
+        check_update_with_prompt(version.channel);
     }
 };
 

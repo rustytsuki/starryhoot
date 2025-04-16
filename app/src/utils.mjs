@@ -15,6 +15,11 @@ const config = commandLineArgs(optionDefinitions);
 
 async function main() {
     if (config['postbuild']) {
+        // copy version.json
+        const version_src = path.join(__dirname, `../../deploy/version/version.json`);
+        const version_dst = path.join(__dirname, `../out/main/version.json`);
+        fs.copySync(version_src, version_dst);
+
         // copy web ssg pages to renderer
         const renderer_src = path.join(__dirname, `../../web/dist/client`);
         const renderer_dst = path.join(__dirname, `../out/renderer`);

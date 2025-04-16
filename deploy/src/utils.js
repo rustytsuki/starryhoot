@@ -48,7 +48,7 @@ export function get_release_note() {
     return release_note[tag_ver] || '';
 }
 
-export async function get_packed_files(target) {
+export async function get_packed_files(target, pkg) {
     const pkg = await import("../../app/electron-builder.config.js");
     const electron_build_config = pkg.default;
 
@@ -59,8 +59,13 @@ export async function get_packed_files(target) {
     } else if (target.indexOf('darwin') >= 0) {
         file_name = electron_build_config.dmg.artifactName;
         file_name = file_name.replace('${ext}', 'dmg');
+        file_name = file_name.replace('${ext}', 'zip');
     } else if (target.indexOf('linux') >= 0) {
-        
+        if ('rpm' === pkg) {
+
+        } else if ('deb' === pkg) {
+
+        }
     }
 
     const platform = os.platform();
@@ -141,14 +146,23 @@ export async function extract_file(file_path, out_path, is_tar_gz) {
     });
 }
 
+export function build_version_info(target, pkg) {
+    const { platform, arch } = get_node_target(target);
+    let channel = `latest-${platform}-${arch}`;
 
-export function build_version_info(target) {
+    if ('linux' === platform) {
+        if (pkg) {
+            channel += `-${pkg}`;
+        }
+    }
+
     const version_json = {
         "ver_major": process.env.VERSION_MAJOR || '0',
         "ver_minor": process.env.VERSION_MINOR || '0',
         "ver_patch": process.env.VERSION_PATCH || '0',
         "architecture": target,
-        "build_time": new Date().toISOString()
+        "build_time": new Date().toISOString(),
+        "channel": channel
     }
 
     const file_path = get_version_file_path();

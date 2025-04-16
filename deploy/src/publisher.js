@@ -23,7 +23,7 @@ const octokit_upload = new Octokit({
     baseUrl: 'https://uploads.github.com',
 });
 
-export async function upload_assets(target) {
+export async function upload_assets(target, pkg) {
     const tag_ver = utils.get_tag_version();
     
     let release_id = await get_release(tag_ver);
@@ -41,7 +41,7 @@ export async function upload_assets(target) {
         return 1;
     }
 
-    const packed_files = await utils.get_packed_files(target);
+    const packed_files = await utils.get_packed_files(target, pkg);
     for (let i = 0; i < packed_files.length; ++i) {
         const asset_path = packed_files[i];
         const asset_name = path.basename(asset_path);

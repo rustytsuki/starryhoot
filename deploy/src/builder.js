@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import * as utils from './utils.js';
 
-export async function build_all(target) {
+export async function build_all(target, pkg) {
     if (target.indexOf('windows') >= 0 && process.platform !== "win32") {
         console.error(`build target ${target} need on windows host.`);
         return 1;
@@ -17,7 +17,7 @@ export async function build_all(target) {
         return 1;
     }
 
-    utils.build_version_info(target);
+    utils.build_version_info(target, pkg);
 
     if (await build_pages_for_server(target)) {
         return 2;

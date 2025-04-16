@@ -1,25 +1,19 @@
 import { autoUpdater } from 'electron-updater';
 import { dialog } from 'electron';
 import log from 'electron-log';
-import process from 'process';
 
-const { platform, arch } = process;
-
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
-
-autoUpdater.setFeedURL({
-    provider: 'github',
-    owner: 'rustytsuki',
-    repo: 'starryhoot',
-    channel: `latest-${platform}-${arch}`,
-});
-
-autoUpdater.autoDownload = false;
-autoUpdater.autoInstallOnAppQuit = false;
-
-export function check_update_with_prompt() {
-    autoUpdater.checkForUpdates();
+export function check_update_with_prompt(channel) {
+    autoUpdater.autoDownload = false;
+    autoUpdater.autoInstallOnAppQuit = false;
+    autoUpdater.logger = log;
+    autoUpdater.logger.transports.file.level = 'info';
+    
+    autoUpdater.setFeedURL({
+        provider: 'github',
+        owner: 'rustytsuki',
+        repo: 'starryhoot',
+        channel: channel,
+    });
 
     autoUpdater.once('update-available', (info) => {
         log.info('🆕 Update available:', info.version);
@@ -69,5 +63,6 @@ export function check_update_with_prompt() {
                 }
             });
     });
+    
+    autoUpdater.checkForUpdates();
 }
-
