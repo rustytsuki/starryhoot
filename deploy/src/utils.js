@@ -141,6 +141,22 @@ export async function extract_file(file_path, out_path, is_tar_gz) {
     });
 }
 
+
+export function build_version_info(target) {
+    const version_json = {
+        "ver_major": process.env.VERSION_MAJOR || '0',
+        "ver_minor": process.env.VERSION_MINOR || '0',
+        "ver_patch": process.env.VERSION_PATCH || '0',
+        "architecture": target,
+        "build_time": new Date().toISOString()
+    }
+
+    const file_path = get_version_file_path();
+    const version_str = JSON.stringify(version_json);
+    fs.writeFileSync(file_path, version_str);
+    console.log(`generate: ${file_path}, ${version_str}`);
+}
+
 export function get_auto_target() {
     const platform = os.platform();
     const arch = os.arch();

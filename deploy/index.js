@@ -7,6 +7,7 @@ const optionDefinitions = [
     { name: 'fetch', alias: 'f', type: Boolean },
     { name: 'target', alias: 't', type: String },
     { name: 'publish', alias: 'p', type: Boolean },
+    { name: 'site', alias: 's', type: Boolean },
 ];
 
 const config = commandLineArgs(optionDefinitions);
@@ -19,6 +20,14 @@ async function main() {
     if (await fetch_kernel('wasm32-unknown-emscripten')) {
         console.error(`fetch kernel error: wasm32-unknown-emscripten failed!`);
         process.exit(1);
+    }
+
+    if (config['site']) {
+        if (await builder.build_site()) {
+            console.error(`build website failed!`);
+            process.exit(1);
+        }
+        process.exit(0);
     }
 
     let has_error = false;
