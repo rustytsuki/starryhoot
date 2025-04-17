@@ -13,11 +13,11 @@ export function set_main_window(main_window) {
     main_window_ = main_window;
 
     main_window_.once('ready-to-show', () => {
-        update_views_bounds();
+        resize_views();
     });
 
     main_window_.on('resize', () => {
-        update_views_bounds();
+        resize_views();
     });
 }
 
@@ -52,13 +52,20 @@ function make_view_struct(id, view) {
     return { id, view };
 }
 
-function update_views_bounds() {
-    const [width, height] = main_window_.getContentSize();
-    const win_size_with_title_bar = main_window_.getBounds();
-    const title_bar_height = win_size_with_title_bar.height - height;
+function resize_views() {
     for (let i = 0; i < tab_views_.length; ++i) {
-        tab_views_[i].view.setBounds({ x: 0, y: title_bar_height + TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
+        update_view_bound(tab_views_[i].view);
     }
+}
+
+function update_view_bound(view) {
+    const [width, height] = main_window_.getContentSize();
+    let title_bar_height = 0;
+    if ('darwin' === process.platform) {
+        const win_size_with_title_bar = main_window_.getBounds();
+        title_bar_height = win_size_with_title_bar.height - height;
+    }
+    view.setBounds({ x: 0, y: title_bar_height + TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
 }
 
 function set_home_view(view) {
@@ -111,11 +118,8 @@ function open_file(file_path) {
                 sandbox: false,
             },
         });
-        const [width, height] = main_window_.getContentSize();
-        const win_size_with_title_bar = main_window_.getBounds();
-        const title_bar_height = win_size_with_title_bar.height - height;
-        editor_view.setBounds({ x: 0, y: title_bar_height + TABSBAR_HEIGHT, width: width, height: height - TABSBAR_HEIGHT });
         editor_view.setAutoResize({ width: false, height: false });
+        update_view_bound(editor_view);
 
         const file_name = path.basename(file_path);
         const ext = path.extname(file_path).toLowerCase().substring(1);
