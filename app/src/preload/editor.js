@@ -32,7 +32,7 @@ function load_roffice() {
         const target = get_target(platform, arch);
         return require(path.join(__dirname, `../../../deploy/roffice/${target}/bin/roffice.node`));
     } else {
-        return require(path.join(path.dirname(process.execPath), 'roffice.node'));
+        return require(path.join(path.dirname(process.execPath), '../../../../MacOS/roffice.node'));
     }
 }
 

@@ -17,7 +17,7 @@ const config = {
         // "author": "@rustytsuki", // do not set!!! or copyright cannot find ${author}!!! use package.json
         // "license": "BSD-3-CLAUSE"
     },
-    
+
     artifactName: 'starryhoot-setup-${platform}-${arch}-v${version}.${ext}',
     directories: {
         buildResources: 'build',
@@ -51,6 +51,15 @@ const config = {
         include: 'build/nsis/main.nsh',
     },
     mac: {
+        executableName: exe_name,
+        target: ['dmg', 'zip'],
+        extraFiles: [
+            {
+                from: 'out/roffice/',
+                to: 'MacOS',
+                'filter': ['**/*'],
+            },
+        ],
         entitlementsInherit: 'electron/build/entitlements.mac.plist',
         extendInfo: [
             { NSCameraUsageDescription: "Application requests access to the device's camera." },
@@ -61,14 +70,28 @@ const config = {
         notarize: false,
     },
     dmg: {
-        title: '${productName}'
+        title: '${productName}',
     },
     linux: {
+        executableName: exe_name,
         target: ['AppImage', 'snap', 'deb'],
+        extraFiles: [
+            {
+                from: 'out/roffice/',
+                to: '',
+                'filter': ['**/*'],
+            },
+        ],
         maintainer: 'electronjs.org',
         category: 'Utility',
-        afterInstall: 'scripts/postinstall.sh',
-        afterRemove: 'scripts/postremove.sh'
+    },
+    deb: {
+        afterInstall: 'build/linux/postinstall.sh',
+        afterRemove: 'build/linux/postremove.sh',
+    },
+    rpm: {
+        afterInstall: 'build/linux/postinstall.sh',
+        afterRemove: 'build/linux/postremove.sh',
     },
     npmRebuild: false,
     publish: {
@@ -79,7 +102,7 @@ const config = {
         publishAutoUpdate: true,
         releaseType: 'release',
         vPrefixedTagName: true,
-        channel: channel // https://github.com/electron-userland/electron-builder/issues/5592#issuecomment-2571750991
+        channel: channel,
     },
 };
 

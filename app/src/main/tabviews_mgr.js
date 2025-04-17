@@ -81,6 +81,7 @@ export function set_active_index(index, need_notify) {
     if (view) {
         main_window_.setBrowserView(view.view);
         view.view.webContents.focus();
+        update_view_bound(view.view);
         if (need_notify) {
             main_window_.webContents.send('active_tab', index);
         }
@@ -119,7 +120,6 @@ function open_file(file_path) {
             },
         });
         editor_view.setAutoResize({ width: false, height: false });
-        update_view_bound(editor_view);
 
         const file_name = path.basename(file_path);
         const ext = path.extname(file_path).toLowerCase().substring(1);

@@ -2,6 +2,7 @@ import commandLineArgs from 'command-line-args';
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
+import childProcess from 'child_process';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
@@ -68,7 +69,7 @@ async function main() {
         for (let i = 0; i < dst_files.length; ++i) {
             const file_path = dst_files[i];
             const file_name = path.basename(file_path);
-            const ext = path.extname(file);
+            const ext = path.extname(file_path);
 
             if (target.indexOf('apple') >= 0) {
                 if ('.node' == ext) {
@@ -128,15 +129,15 @@ async function modify_dylib_LC_ID_DYLIB(file, lc_id_dylib) {
 }
 
 async function modify_mac_exe_rpath(file, rpath) {
-    let cmd = path.resolve(__dirname, 'set_mac_rpath.sh');
+    let cmd = path.resolve(__dirname, '../build/sh/set_mac_rpath.sh');
     cmd += ` ${file} "${rpath}"`;
 
-    return await utils.exec_command(cmd, path.join(__dirname, `./`), `modify ${file} rptah to ${rpath}`);
+    return await exec_command(cmd, path.join(__dirname, `./`), `modify ${file} rptah to ${rpath}`);
 }
 
 async function modify_linux_exe_RUNPATH(file, runpath) {
     const cmd = `patchelf --set-rpath '${runpath}' ${file}`;
-    return await utils.exec_command(cmd, path.join(__dirname, `./`), `modify ${file} RUNPATH to ${runpath}`);
+    return await exec_command(cmd, path.join(__dirname, `./`), `modify ${file} RUNPATH to ${runpath}`);
 }
 
 export async function exec_command(cmd, cwd, text) {
