@@ -17,6 +17,8 @@ const config = {
         // "author": "@rustytsuki", // do not set!!! or copyright cannot find ${author}!!! use package.json
         // "license": "BSD-3-CLAUSE"
     },
+    
+    artifactName: 'starryhoot-setup-${platform}-${arch}-v${version}.${ext}',
     directories: {
         buildResources: 'build',
     },
@@ -34,7 +36,7 @@ const config = {
         ],
     },
     nsis: {
-        artifactName: 'starryhoot-setup-${platform}-${arch}-v${version}.${ext}',
+        guid: '65b83bba-af4b-421c-b36d-a98964523247',
         shortcutName: '${productName}',
         uninstallDisplayName: '${productName}',
         createDesktopShortcut: 'always',
@@ -59,15 +61,14 @@ const config = {
         notarize: false,
     },
     dmg: {
-        artifactName: 'starryhoot-v${version}.${ext}',
+        title: '${productName}'
     },
     linux: {
         target: ['AppImage', 'snap', 'deb'],
         maintainer: 'electronjs.org',
         category: 'Utility',
-    },
-    appImage: {
-        artifactName: 'starryhoot-v${version}.${ext}',
+        afterInstall: 'scripts/postinstall.sh',
+        afterRemove: 'scripts/postremove.sh'
     },
     npmRebuild: false,
     publish: {

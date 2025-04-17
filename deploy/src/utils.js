@@ -49,44 +49,45 @@ export function get_release_note() {
 }
 
 export async function get_packed_files(target, pkg) {
-    const electron_build_config_pkg = await import("../../app/electron-builder.config.js");
+    const electron_build_config_pkg = await import('../../app/electron-builder.config.js');
     const electron_build_config = electron_build_config_pkg.default;
 
-    let file_name = '';
+    let files = [];
+    const artifact_name = electron_build_config.artifactName;
     if (target.indexOf('windows') >= 0) {
-        file_name = electron_build_config.nsis.artifactName;
-        file_name = file_name.replace('${ext}', 'exe');
+        const file_name = artifact_name.replace('${ext}', 'exe');
+        files.push(path.resolve(get_app_dist_abs_path(), file_name));
+        files.push(path.resolve(get_app_dist_abs_path(), `${file_name}.blockmap`));
     } else if (target.indexOf('darwin') >= 0) {
-        file_name = electron_build_config.dmg.artifactName;
-        file_name = file_name.replace('${ext}', 'dmg');
-        file_name = file_name.replace('${ext}', 'zip');
+        const file_name_dmg = artifact_name.replace('${ext}', 'dmg');
+        const file_name_zip = artifact_name.replace('${ext}', 'zip');
+        files.push(path.resolve(get_app_dist_abs_path(), file_name_dmg));
+        files.push(path.resolve(get_app_dist_abs_path(), file_name_zip));
     } else if (target.indexOf('linux') >= 0) {
+        let file_name = '';
         if ('rpm' === pkg) {
-
+            file_name = artifact_name.replace('${ext}', 'rpm');
         } else if ('deb' === pkg) {
-
+            file_name = artifact_name.replace('${ext}', 'deb');
+        }
+        if (file_name) {
+            files.push(path.resolve(get_app_dist_abs_path(), file_name));
+        } else {
+            return [];
         }
     }
 
     const platform = os.platform();
     const arch = os.arch();
     const tag_ver = get_tag_version();
-
-    file_name = file_name.replace('${platform}', platform);
-    file_name = file_name.replace('${arch}', arch);
-    file_name = file_name.replace('v${version}', tag_ver);
-
-    if (!file_name) {
-        return [];
+    
+    for (let i = 0; i < files.length; ++i) {
+        files[i] = files[i].replace('${platform}', platform);
+        files[i] = files[i].replace('${arch}', arch);
+        files[i] = files[i].replace('v${version}', tag_ver);
     }
 
-    let files = [];
-    files.push(path.resolve(get_app_dist_abs_path(), file_name));
-    files.push(path.resolve(get_app_dist_abs_path(), `${file_name}.blockmap`));
-    
     let publish_channel = electron_build_config.publish.channel;
-    publish_channel = publish_channel.replace('${platform}', platform);
-    publish_channel = publish_channel.replace('${arch}', arch);
     files.push(path.resolve(get_app_dist_abs_path(), `${publish_channel}.yml`));
 
     return files;
@@ -156,13 +157,13 @@ export function build_version_info(target, pkg) {
     }
 
     const version_json = {
-        "ver_major": process.env.VERSION_MAJOR || '0',
-        "ver_minor": process.env.VERSION_MINOR || '0',
-        "ver_patch": process.env.VERSION_PATCH || '0',
-        "architecture": target,
-        "build_time": new Date().toISOString(),
-        "channel": channel
-    }
+        'ver_major': process.env.VERSION_MAJOR || '0',
+        'ver_minor': process.env.VERSION_MINOR || '0',
+        'ver_patch': process.env.VERSION_PATCH || '0',
+        'architecture': target,
+        'build_time': new Date().toISOString(),
+        'channel': channel,
+    };
 
     const file_path = get_version_file_path();
     const version_str = JSON.stringify(version_json);

@@ -12,6 +12,8 @@
         "publish:win": "node index.js -t x86_64-pc-windows-msvc -p",
         "build:linux:rpm": "node index.js -t x86_64-unknown-linux-gnu --pkg rpm -p",
         "build:linux:deb": "node index.js -t x86_64-unknown-linux-gnu --pkg deb -p",
+        "build:mac": "node index.js -t x86_64-apple-darwin",
+        "publish:mac": "node index.js -t x86_64-apple-darwin -p",
         "build:site": "node index.js -s -t wasm32-unknown-emscripten",
         "publish:site": "node index.js -s -t wasm32-unknown-emscripten -p"
         
