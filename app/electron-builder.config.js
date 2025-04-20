@@ -18,7 +18,7 @@ const config = {
         // "license": "BSD-3-CLAUSE"
     },
 
-    artifactName: 'starryhoot-setup-${platform}-${arch}-v${version}.${ext}',
+    artifactName: 'starryhoot-v${version}-${platform}-${arch}.${ext}',
     directories: {
         buildResources: 'build',
     },
