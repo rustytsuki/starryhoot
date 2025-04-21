@@ -44,7 +44,12 @@ export async function upload_assets(target, pkg) {
     const packed_files = await utils.get_packed_files(target, pkg);
     for (let i = 0; i < packed_files.length; ++i) {
         const asset_path = packed_files[i];
-        const asset_name = path.basename(asset_path);
+        let asset_name = path.basename(asset_path);
+        if (target.indexOf('linux') >= 0) {
+            asset_name = asset_name.replace(/-linux(?=\.yml$)/, '');
+        } else if (target.indexOf('apple') >= 0) {
+            asset_name = asset_name.replace(/-mac(?=\.yml$)/, '');
+        }
 
         if (assets.indexOf(asset_name) >= 0) {
             continue;

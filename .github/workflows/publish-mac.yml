@@ -1,17 +1,17 @@
-name: Publish Windows
+name: Publish Mac
 
 on:
     workflow_dispatch:
         inputs:
             tag:
-                description: 'Publish Windows'
+                description: 'Publish Mac'
                 required: true
                 type: string
 
     workflow_call:
         inputs:
             tag:
-                description: 'Publish Windows'
+                description: 'Publish Mac'
                 required: true
                 type: string
         secrets:
@@ -19,8 +19,8 @@ on:
                 required: true
 
 jobs:
-    build-win:
-        runs-on: windows-2022
+    build-mac:
+        runs-on: macos-14
 
         steps:
             - name: Checkout repo
@@ -38,8 +38,8 @@ jobs:
               with:
                   toolchain: stable
                   target: |
-                      x86_64-pc-windows-msvc
-                      aarch64-pc-windows-msvc
+                    x86_64-apple-darwin
+                    aarch64-apple-darwin
                   override: true
 
             - name: Install dependencies
@@ -53,21 +53,21 @@ jobs:
               env:
                   TAG_NAME: ${{ inputs.tag || github.event.inputs.tag }}
               run: |
-                  $tagName = "$env:TAG_NAME"
-                  echo "TAG_NAME=$tagName" >> $env:GITHUB_ENV
+                  echo "TAG_NAME=$TAG_NAME" >> "$GITHUB_ENV"
 
-                  $version = $tagName -replace '^v', ''
-                  $parts = $version -split '\.'
+                  VERSION="${TAG_NAME#v}"
+                  IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
 
-                  if ($parts.Length -lt 3) {
-                  throw "Invalid version format: $version"
-                  }
+                  if [ -z "$MAJOR" ] || [ -z "$MINOR" ] || [ -z "$PATCH" ]; then
+                  echo "Invalid version format: $VERSION"
+                  exit 1
+                  fi
 
-                  echo "VERSION_MAJOR=$($parts[0])" >> $env:GITHUB_ENV
-                  echo "VERSION_MINOR=$($parts[1])" >> $env:GITHUB_ENV
-                  echo "VERSION_PATCH=$($parts[2])" >> $env:GITHUB_ENV
+                  echo "VERSION_MAJOR=$MAJOR" >> "$GITHUB_ENV"
+                  echo "VERSION_MINOR=$MINOR" >> "$GITHUB_ENV"
+                  echo "VERSION_PATCH=$PATCH" >> "$GITHUB_ENV"
 
-            - name: Run publish script for Windows
+            - name: Run publish script for Mac
               working-directory: ./deploy
               env:
                   GH_TOKEN: ${{ secrets.STARRYHOOT_RELEASE }}
@@ -75,4 +75,4 @@ jobs:
                   VERSION_MINOR: ${{ env.VERSION_MINOR }}
                   VERSION_PATCH: ${{ env.VERSION_PATCH }}
               run: |
-                  npm run win:publish
+                  npm run mac:publish

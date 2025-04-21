@@ -60,5 +60,9 @@ async function build_electron(target) {
 
 export async function build_rs(target) {
     const cwd = utils.get_project_root_abs_path();
-    return await utils.exec(`cargo build --release --target=${target} -p starryhoot-cli -p starryhoot-server --features=production`, cwd);
+    let envs = {};
+    if (target.indexOf('linux') >= 0 && target.indexOf('aarch64') >= 0) {
+        envs['CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER'] = 'aarch64-linux-gnu-gcc';
+    }
+    return await utils.exec(`cargo build --release --target=${target} -p starryhoot-cli -p starryhoot-server --features=production`, cwd, envs);
 }

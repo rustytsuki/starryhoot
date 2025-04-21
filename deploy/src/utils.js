@@ -162,6 +162,7 @@ export function build_version_info(target, pkg) {
         'ver_patch': process.env.VERSION_PATCH || '0',
         'architecture': target,
         'build_time': new Date().toISOString(),
+        'pkg': pkg,
         'channel': channel,
     };
 
@@ -220,11 +221,17 @@ export function get_node_target(target) {
     return node_target;
 }
 
-export async function exec(cmd, cwd) {
+export async function exec(cmd, cwd, envs) {
+    if (!envs) {
+        envs = {};
+    }
+    
     const options = {
         'cwd': cwd,
         'env': {
             ...process.env,
+            ...envs,
+            PATH: process.env.PATH,
         },
         'shell': true,
     };

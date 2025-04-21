@@ -4,6 +4,7 @@ const path = require('path');
 const version_json = JSON.parse(fs.readFileSync(path.join(__dirname, '../deploy/version/version.json'), 'utf8'));
 const version = `${version_json.ver_major}.${version_json.ver_minor}.${version_json.ver_patch}`;
 const channel = version_json.channel;
+const pkg = version_json.pkg;
 
 let exe_name = 'StarryHoot Office';
 
@@ -13,6 +14,7 @@ const config = {
     'extraMetadata': {
         // "name": "StarryHoot",
         'version': version,
+        'homepage': "https://rustytsuki.github.io/starryhoot"
         // "description": "StarryHoot Office",
         // "author": "@rustytsuki", // do not set!!! or copyright cannot find ${author}!!! use package.json
         // "license": "BSD-3-CLAUSE"
@@ -74,7 +76,7 @@ const config = {
     },
     linux: {
         executableName: exe_name,
-        target: ['AppImage', 'snap', 'deb'],
+        target: [pkg],
         extraFiles: [
             {
                 from: 'out/roffice/',

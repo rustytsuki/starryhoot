@@ -11,6 +11,9 @@
         "build": "cross-env electron-vite build && node src/utils.mjs --postbuild",
         "build:pack": "cross-env electron-vite build && node src/utils.mjs --postbuild --pack",
         "pack:x86_64-pc-windows-msvc": "npm run build:pack && electron-builder --win --x64 --publish never --config electron-builder.config.js",
+        "pack:aarch64-pc-windows-msvc": "npm run build:pack && electron-builder --win --arm64 --publish never --config electron-builder.config.js",
+        "pack:x86_64-unknown-linux-gnu": "npm run build:pack && electron-builder --linux --x64 --publish never --config electron-builder.config.js",
+        "pack:aarch64-unknown-linux-gnu": "npm run build:pack && electron-builder --linux --arm64 --publish never --config electron-builder.config.js",
         "pack:x86_64-apple-darwin": "npm run build:pack && electron-builder --mac --x64 --config electron-builder.config.js",
         "pack:aarch64-apple-darwin": "npm run build:pack && electron-builder --mac --arm64 --config electron-builder.config.js"
     },

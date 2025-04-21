@@ -1,0 +1,107 @@
+name: Publish Linux
+
+on:
+    workflow_dispatch:
+        inputs:
+            tag:
+                description: 'Publish Linux'
+                required: true
+                type: string
+
+    workflow_call:
+        inputs:
+            tag:
+                description: 'Publish Linux'
+                required: true
+                type: string
+        secrets:
+            STARRYHOOT_RELEASE:
+                required: true
+
+jobs:
+    build-linux:
+        runs-on: ubuntu-22.04
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.inputs.tag }}
+
+            - name: Set up multiarch and sources.list
+              run: |
+                  sudo dpkg --add-architecture arm64
+
+                  # append ports.ubuntu.com source (ARM64)
+                  sudo tee -a /etc/apt/sources.list > /dev/null <<EOF
+                  deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy main universe multiverse restricted
+                  deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-updates main universe multiverse restricted
+                  deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-security main universe multiverse restricted
+                  EOF
+
+                  # Optional, make arm64 lower priority
+                  sudo tee /etc/apt/preferences.d/multiarch > /dev/null <<EOF
+                  Package: *
+                  Pin: architecture amd64
+                  Pin-Priority: 900
+
+                  Package: *
+                  Pin: architecture arm64
+                  Pin-Priority: 400
+                  EOF
+
+                  sudo apt update
+
+            - name: Install toolchain and ARM64 dependencies
+              run: |
+                  sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+                  sudo apt install -y libgl1:arm64 libglx-mesa0:arm64
+
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Install Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  target: |
+                      x86_64-pc-Linux-msvc
+                      aarch64-pc-windows-msvc
+                  override: true
+
+            - name: Install dependencies
+              run: |
+                  cd app && npm ci && cd ..
+                  cd deploy && npm ci && cd ..
+                  cd web && npm ci && cd ..
+
+            - name: Extract tag version
+              id: extract_version
+              env:
+                  TAG_NAME: ${{ inputs.tag || github.event.inputs.tag }}
+              run: |
+                  echo "TAG_NAME=$TAG_NAME" >> "$GITHUB_ENV"
+
+                  VERSION="${TAG_NAME#v}"
+                  IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+                  if [ -z "$MAJOR" ] || [ -z "$MINOR" ] || [ -z "$PATCH" ]; then
+                  echo "Invalid version format: $VERSION"
+                  exit 1
+                  fi
+
+                  echo "VERSION_MAJOR=$MAJOR" >> "$GITHUB_ENV"
+                  echo "VERSION_MINOR=$MINOR" >> "$GITHUB_ENV"
+                  echo "VERSION_PATCH=$PATCH" >> "$GITHUB_ENV"
+
+            - name: Run publish script for Linux
+              working-directory: ./deploy
+              env:
+                  GH_TOKEN: ${{ secrets.STARRYHOOT_RELEASE }}
+                  VERSION_MAJOR: ${{ env.VERSION_MAJOR }}
+                  VERSION_MINOR: ${{ env.VERSION_MINOR }}
+                  VERSION_PATCH: ${{ env.VERSION_PATCH }}
+              run: |
+                  npm run linux:publish:rpm && npm run linux:publish:deb && npm && linux:publish:tar
