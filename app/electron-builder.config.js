@@ -4,7 +4,7 @@ const path = require('path');
 const version_json = JSON.parse(fs.readFileSync(path.join(__dirname, '../deploy/version/version.json'), 'utf8'));
 const version = `${version_json.ver_major}.${version_json.ver_minor}.${version_json.ver_patch}`;
 const channel = version_json.channel;
-const pkg = version_json.pkg;
+const pkgs = version_json.pkg ? [version_json.pkg] : [];
 
 let exe_name = 'StarryHoot Office';
 
@@ -76,7 +76,7 @@ const config = {
     },
     linux: {
         executableName: exe_name,
-        target: [pkg],
+        target: pkgs,
         extraFiles: [
             {
                 from: 'out/roffice/',

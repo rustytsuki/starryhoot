@@ -10,12 +10,12 @@
         "prod": "npm run build && cross-env DEV_WITH_PROD_PAGES=1 electron .",
         "build": "cross-env electron-vite build && node src/utils.mjs --postbuild",
         "build:pack": "cross-env electron-vite build && node src/utils.mjs --postbuild --pack",
-        "pack:x86_64-pc-windows-msvc": "npm run build:pack && electron-builder --win --x64 --publish never --config electron-builder.config.js",
-        "pack:aarch64-pc-windows-msvc": "npm run build:pack && electron-builder --win --arm64 --publish never --config electron-builder.config.js",
-        "pack:x86_64-unknown-linux-gnu": "npm run build:pack && electron-builder --linux --x64 --publish never --config electron-builder.config.js",
-        "pack:aarch64-unknown-linux-gnu": "npm run build:pack && electron-builder --linux --arm64 --publish never --config electron-builder.config.js",
-        "pack:x86_64-apple-darwin": "npm run build:pack && electron-builder --mac --x64 --config electron-builder.config.js",
-        "pack:aarch64-apple-darwin": "npm run build:pack && electron-builder --mac --arm64 --config electron-builder.config.js"
+        "pack:x86_64-pc-windows-msvc": "npm run build:pack -- --target x86_64-pc-windows-msvc && electron-builder --win --x64 --publish never --config electron-builder.config.js",
+        "pack:aarch64-pc-windows-msvc": "npm run build:pack -- --target aarch64-pc-windows-msvc && electron-builder --win --arm64 --publish never --config electron-builder.config.js",
+        "pack:x86_64-unknown-linux-gnu": "npm run build:pack -- --target x86_64-unknown-linux-gnu && electron-builder --linux --x64 --publish never --config electron-builder.config.js",
+        "pack:aarch64-unknown-linux-gnu": "npm run build:pack -- --target aarch64-unknown-linux-gnu && electron-builder --linux --arm64 --publish never --config electron-builder.config.js",
+        "pack:x86_64-apple-darwin": "npm run build:pack -- --target x86_64-apple-darwin && electron-builder --mac --x64 --config electron-builder.config.js",
+        "pack:aarch64-apple-darwin": "npm run build:pack -- --target aarch64-apple-darwin && electron-builder --mac --arm64 --config electron-builder.config.js"
     },
     "devDependencies": {
         "command-line-args": "^5.2.1",
