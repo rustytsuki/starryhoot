@@ -49,8 +49,10 @@ export function get_release_note() {
 }
 
 export async function get_packed_files(target, pkg) {
+    const { platform, arch } = get_node_target(target);
     const electron_build_config_pkg = await import('../../app/electron-builder.config.js');
     const electron_build_config = electron_build_config_pkg.default;
+    let publish_channel = electron_build_config.publish.channel;
 
     let files = [];
     const artifact_name = electron_build_config.artifactName;
@@ -63,6 +65,7 @@ export async function get_packed_files(target, pkg) {
         const file_name_zip = artifact_name.replace('${ext}', 'zip');
         files.push(path.resolve(get_app_dist_abs_path(), file_name_dmg));
         files.push(path.resolve(get_app_dist_abs_path(), file_name_zip));
+        publish_channel += '-mac';
     } else if (target.indexOf('linux') >= 0) {
         let file_name = '';
         if ('rpm' === pkg) {
@@ -72,23 +75,27 @@ export async function get_packed_files(target, pkg) {
         }
         if (file_name) {
             files.push(path.resolve(get_app_dist_abs_path(), file_name));
+
+            if ('arm64' == arch) {
+                publish_channel += '-linux-arm64';
+            } else if ('x64' == arch) {
+                publish_channel += '-linux';
+            }
         } else {
             return [];
         }
     }
 
-    const platform = os.platform();
-    const arch = os.arch();
     const tag_ver = get_tag_version();
     
+    files.push(path.resolve(get_app_dist_abs_path(), `${publish_channel}.yml`));
+
     for (let i = 0; i < files.length; ++i) {
         files[i] = files[i].replace('${platform}', platform);
         files[i] = files[i].replace('${arch}', arch);
         files[i] = files[i].replace('v${version}', tag_ver);
     }
 
-    let publish_channel = electron_build_config.publish.channel;
-    files.push(path.resolve(get_app_dist_abs_path(), `${publish_channel}.yml`));
 
     return files;
 }

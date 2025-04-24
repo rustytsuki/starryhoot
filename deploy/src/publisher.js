@@ -46,7 +46,11 @@ export async function upload_assets(target, pkg) {
         const asset_path = packed_files[i];
         let asset_name = path.basename(asset_path);
         if (target.indexOf('linux') >= 0) {
-            asset_name = asset_name.replace(/-linux(?=\.yml$)/, '');
+            if (target.indexOf('aarch64' >= 0)) {
+                asset_name = asset_name.replace(/-linux-arm64(?=\.yml$)/, '');
+            } else if (target.indexOf('x86_64' >= 0)) {
+                asset_name = asset_name.replace(/-linux(?=\.yml$)/, '');
+            }
         } else if (target.indexOf('apple') >= 0) {
             asset_name = asset_name.replace(/-mac(?=\.yml$)/, '');
         }
