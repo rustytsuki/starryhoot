@@ -52,7 +52,7 @@ export async function get_packed_files(target, pkg) {
     const { platform, arch } = get_node_target(target);
     const electron_build_config_pkg = await import('../../app/electron-builder.config.js');
     const electron_build_config = electron_build_config_pkg.default;
-    let publish_channel = electron_build_config.publish.channel;
+    let publish_channel = get_channel(target, pkg);
 
     let files = [];
     const artifact_name = electron_build_config.artifactName;
@@ -154,16 +154,18 @@ export async function extract_file(file_path, out_path, is_tar_gz) {
     });
 }
 
-export function build_version_info(target, pkg) {
+function get_channel(target, pkg) {
     const { platform, arch } = get_node_target(target);
     let channel = `latest-${platform}-${arch}`;
-
     if ('linux' === platform) {
         if (pkg) {
             channel += `-${pkg}`;
         }
     }
+    return channel;
+}
 
+export function build_version_info(target, pkg) {
     const version_json = {
         'ver_major': process.env.VERSION_MAJOR || '0',
         'ver_minor': process.env.VERSION_MINOR || '0',
@@ -171,7 +173,7 @@ export function build_version_info(target, pkg) {
         'architecture': target,
         'build_time': new Date().toISOString(),
         'pkg': pkg,
-        'channel': channel,
+        'channel': get_channel(target, pkg),
     };
 
     const file_path = get_version_file_path();
