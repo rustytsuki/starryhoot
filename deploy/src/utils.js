@@ -68,9 +68,15 @@ export async function get_packed_files(target, pkg) {
     } else if (target.indexOf('linux') >= 0) {
         let file_name = '';
         if ('rpm' === pkg) {
-            file_name = artifact_name + '.rpm';
+            if ('arm64' == arch) {
+                file_name = `starryhoot-${tag_ver}-${platform}-aarch64.rpm`;
+            } else if ('x64' == arch) {
+                file_name = `starryhoot-${tag_ver}-${platform}-x86_64.rpm`;
+            }
         } else if ('deb' === pkg) {
             file_name = artifact_name + '.deb';
+        } else if ('tar.gz' === pkg) {
+            file_name = artifact_name + '.tar.gz';
         }
         if (file_name) {
             files.push(path.resolve(get_app_dist_abs_path(), file_name));
