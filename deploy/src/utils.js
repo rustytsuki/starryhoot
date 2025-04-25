@@ -50,28 +50,27 @@ export function get_release_note() {
 
 export async function get_packed_files(target, pkg) {
     const { platform, arch } = get_node_target(target);
-    const electron_build_config_pkg = await import('../../app/electron-builder.config.js');
-    const electron_build_config = electron_build_config_pkg.default;
+    const tag_ver = get_tag_version();
     let publish_channel = get_channel(target, pkg);
 
     let files = [];
-    const artifact_name = electron_build_config.artifactName;
+    let artifact_name = `starryhoot-v${tag_ver}-${platform}-${arch}`;
     if (target.indexOf('windows') >= 0) {
-        const file_name = artifact_name.replace('${ext}', 'exe');
+        const file_name = artifact_name + '.exe';
         files.push(path.resolve(get_app_dist_abs_path(), file_name));
         files.push(path.resolve(get_app_dist_abs_path(), `${file_name}.blockmap`));
     } else if (target.indexOf('darwin') >= 0) {
-        const file_name_dmg = artifact_name.replace('${ext}', 'dmg');
-        const file_name_zip = artifact_name.replace('${ext}', 'zip');
+        const file_name_dmg = artifact_name + '.dmg';
+        const file_name_zip = artifact_name + '.zip';
         files.push(path.resolve(get_app_dist_abs_path(), file_name_dmg));
         files.push(path.resolve(get_app_dist_abs_path(), file_name_zip));
         publish_channel += '-mac';
     } else if (target.indexOf('linux') >= 0) {
         let file_name = '';
         if ('rpm' === pkg) {
-            file_name = artifact_name.replace('${ext}', 'rpm');
+            file_name = artifact_name + '.rpm';
         } else if ('deb' === pkg) {
-            file_name = artifact_name.replace('${ext}', 'deb');
+            file_name = artifact_name + '.deb';
         }
         if (file_name) {
             files.push(path.resolve(get_app_dist_abs_path(), file_name));
@@ -86,17 +85,9 @@ export async function get_packed_files(target, pkg) {
         }
     }
 
-    const tag_ver = get_tag_version();
     const channel = `${publish_channel}.yml`;
     files.push(path.resolve(get_app_dist_abs_path(), channel));
     console.log('get channel file ready: ', channel);
-
-    for (let i = 0; i < files.length; ++i) {
-        files[i] = files[i].replace('${platform}', platform);
-        files[i] = files[i].replace('${arch}', arch);
-        files[i] = files[i].replace('v${version}', tag_ver);
-    }
-
 
     return files;
 }
