@@ -87,8 +87,9 @@ export async function get_packed_files(target, pkg) {
     }
 
     const tag_ver = get_tag_version();
-    
-    files.push(path.resolve(get_app_dist_abs_path(), `${publish_channel}.yml`));
+    const channel = `${publish_channel}.yml`;
+    files.push(path.resolve(get_app_dist_abs_path(), channel));
+    console.log('get channel file ready: ', channel);
 
     for (let i = 0; i < files.length; ++i) {
         files[i] = files[i].replace('${platform}', platform);
