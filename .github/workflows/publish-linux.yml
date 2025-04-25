@@ -50,7 +50,9 @@ jobs:
                   Pin-Priority: 400
                   EOF
 
+                  set +e
                   sudo apt update
+                  set -e
 
             - name: Install toolchain and ARM64 dependencies
               run: |
@@ -67,7 +69,7 @@ jobs:
               with:
                   toolchain: stable
                   target: |
-                      aarch64-pc-windows-msvc
+                      aarch64-unknown-linux-gnu
                   override: true
 
             - name: Install dependencies
