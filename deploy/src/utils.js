@@ -74,7 +74,11 @@ export async function get_packed_files(target, pkg) {
                 file_name = `starryhoot-${tag_ver}-${platform}-x86_64.rpm`;
             }
         } else if ('deb' === pkg) {
-            file_name = artifact_name + '.deb';
+            if ('arm64' == arch) {
+                file_name = artifact_name + '.deb';
+            } else if ('x64' == arch) {
+                file_name = `starryhoot-${tag_ver}-${platform}-amd64.rpm`;
+            }
         } else if ('tar.gz' === pkg) {
             file_name = artifact_name + '.tar.gz';
         }
@@ -91,10 +95,11 @@ export async function get_packed_files(target, pkg) {
         }
     }
     
-    console.log('publish to channel: ', publish_channel);
-
-    const channel = `${publish_channel}.yml`;
-    files.push(path.resolve(get_app_dist_abs_path(), channel));
+    if (pkg != 'tar.gz') {
+        console.log('publish to channel: ', publish_channel);
+        const channel = `${publish_channel}.yml`;
+        files.push(path.resolve(get_app_dist_abs_path(), channel));
+    }
 
     return files;
 }
