@@ -54,7 +54,7 @@ export async function get_packed_files(target, pkg) {
     let publish_channel = get_channel(target, pkg);
 
     let files = [];
-    let artifact_name = `starryhoot-v${tag_ver}-${platform}-${arch}`;
+    let artifact_name = `starryhoot-${tag_ver}-${platform}-${arch}`;
     if (target.indexOf('windows') >= 0) {
         const file_name = artifact_name + '.exe';
         files.push(path.resolve(get_app_dist_abs_path(), file_name));
@@ -84,10 +84,11 @@ export async function get_packed_files(target, pkg) {
             return [];
         }
     }
+    
+    console.log('publish to channel: ', publish_channel);
 
     const channel = `${publish_channel}.yml`;
     files.push(path.resolve(get_app_dist_abs_path(), channel));
-    console.log('get channel file ready: ', channel);
 
     return files;
 }
