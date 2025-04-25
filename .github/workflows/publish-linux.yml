@@ -105,4 +105,6 @@ jobs:
                   VERSION_MINOR: ${{ env.VERSION_MINOR }}
                   VERSION_PATCH: ${{ env.VERSION_PATCH }}
               run: |
-                  npm run linux:publish:rpm && npm run linux:publish:deb && npm && linux:publish:tar
+                  npm run linux:publish:rpm
+                  npm run linux:publish:deb
+                  npm run linux:publish:tar
