@@ -174,7 +174,7 @@ async function list_release_assets(release_id) {
 }
 
 async function upload_release_asset(release_id, file_path, name) {
-    console.log('upload asset to release: ', file_path);
+    console.log('upload asset to release:', file_path, name);
 
     try {
         if (!fs.existsSync(file_path)) {
