@@ -32,12 +32,14 @@ export async function upload_assets(target, pkg) {
     }
 
     if (!release_id) {
+        console.error('release_id is not valid!');
         return 1;
     }
 
     let assets = await list_release_assets(release_id);
 
     if (!Array.isArray(assets)) {
+        console.error('assets is not array!');
         return 1;
     }
 
@@ -60,6 +62,7 @@ export async function upload_assets(target, pkg) {
         }
     
         if (await upload_release_asset(release_id, asset_path, asset_name)) {
+            console.error('upload_release_asset failed!', asset_path, asset_name);
             return 1;
         }
     }

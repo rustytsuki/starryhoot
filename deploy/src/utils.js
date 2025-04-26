@@ -77,7 +77,7 @@ export async function get_packed_files(target, pkg) {
             if ('arm64' == arch) {
                 file_name = artifact_name + '.deb';
             } else if ('x64' == arch) {
-                file_name = `starryhoot-${tag_ver}-${platform}-amd64.rpm`;
+                file_name = `starryhoot-${tag_ver}-${platform}-amd64.deb`;
             }
         } else if ('tar.gz' === pkg) {
             file_name = artifact_name + '.tar.gz';

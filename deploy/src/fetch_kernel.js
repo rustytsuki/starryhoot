@@ -11,6 +11,7 @@ const HASH = version_rs.match(/HASH:\s*&str\s*=\s*"([^"]+)"/)[1];
 
 export async function fetch_kernel(target) {
     if (!target) {
+        console.error('no target!');
         return 1;
     }
 
@@ -27,6 +28,7 @@ export async function fetch_kernel(target) {
 
     if (!fs.existsSync(file_path)) {
         if (await download_file(url, file_path)) {
+            console.error('download_file failed:', url);
             return 1;
         }
     }
@@ -34,6 +36,7 @@ export async function fetch_kernel(target) {
     // unzip file
     fs.rmSync(path.resolve(kernel_dir, target), { recursive: true, force: true });
     if (await extract_file(file_path, kernel_dir, is_tar_gz)) {
+        console.error('extract_file failed:', file_path);
         return 1;
     }
 
@@ -43,6 +46,7 @@ export async function fetch_kernel(target) {
 export async function fetch_kernel_auto() {
     const target = get_auto_target();
     if (await fetch_kernel('wasm32-unknown-emscripten') || await fetch_kernel(target)) {
+        console.error('fetch_kernel failed!');
         return 1;
     }
     return 0;
