@@ -63,7 +63,9 @@ export async function get_packed_files(target, pkg) {
         const file_name_dmg = artifact_name + '.dmg';
         const file_name_zip = artifact_name + '.zip';
         files.push(path.resolve(get_app_dist_abs_path(), file_name_dmg));
+        files.push(path.resolve(get_app_dist_abs_path(), `${file_name_dmg}.blockmap`));
         files.push(path.resolve(get_app_dist_abs_path(), file_name_zip));
+        files.push(path.resolve(get_app_dist_abs_path(), `${file_name_zip}.blockmap`));
         publish_channel += '-mac';
     } else if (target.indexOf('linux') >= 0) {
         let file_name = '';
