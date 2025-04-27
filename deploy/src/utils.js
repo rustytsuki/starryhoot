@@ -159,7 +159,7 @@ export async function extract_file(file_path, out_path, is_tar_gz) {
 
 function get_channel(target, pkg) {
     const { platform, arch } = get_node_target(target);
-    let channel = `latest-${platform}-${arch}`;
+    let channel = `update-latest-${platform}-${arch}`;
     if ('linux' === platform) {
         if (pkg) {
             channel += `-${pkg}`;

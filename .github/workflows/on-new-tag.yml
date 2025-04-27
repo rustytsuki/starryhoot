@@ -11,12 +11,12 @@ permissions:
     id-token: write
 
 jobs:
-    # call-publish-windows:
-    #     uses: ./.github/workflows/publish-windows.yml
-    #     with:
-    #         tag: ${{ github.ref_name }}
-    #     secrets:
-    #         STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
+    call-publish-windows:
+        uses: ./.github/workflows/publish-windows.yml
+        with:
+            tag: ${{ github.ref_name }}
+        secrets:
+            STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
 
     call-publish-linux:
         uses: ./.github/workflows/publish-linux.yml
@@ -25,16 +25,16 @@ jobs:
         secrets:
             STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
 
-    # call-publish-mac:
-    #     uses: ./.github/workflows/publish-mac.yml
-    #     with:
-    #         tag: ${{ github.ref_name }}
-    #     secrets:
-    #         STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
+    call-publish-mac:
+        uses: ./.github/workflows/publish-mac.yml
+        with:
+            tag: ${{ github.ref_name }}
+        secrets:
+            STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
 
-    # call-publish-website:
-    #     uses: ./.github/workflows/publish-website.yml
-    #     with:
-    #         tag: ${{ github.ref_name }}
-    #     secrets:
-    #         STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
+    call-publish-website:
+        uses: ./.github/workflows/publish-website.yml
+        with:
+            tag: ${{ github.ref_name }}
+        secrets:
+            STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
