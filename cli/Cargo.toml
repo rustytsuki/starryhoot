@@ -16,3 +16,6 @@ production = ["starryhoot-utils/production"]
 
 [dependencies]
 starryhoot-utils = { path = "../utils"}
+
+[build-dependencies]
+embed-resource = "3.0"

@@ -169,6 +169,7 @@ function get_channel(target, pkg) {
 }
 
 export function build_version_info(target, pkg) {
+    // generate deploy/version/version.json
     const version_json = {
         'ver_major': process.env.VERSION_MAJOR || '0',
         'ver_minor': process.env.VERSION_MINOR || '0',
@@ -183,6 +184,22 @@ export function build_version_info(target, pkg) {
     const version_str = JSON.stringify(version_json);
     fs.writeFileSync(file_path, version_str);
     console.log(`generate: ${file_path}, ${version_str}`);
+
+    // generate windows version.rc
+    if (target.indexOf('windows') >= 0) {
+        generate_windows_version_rc(path.resolve(project_root_abs_path, 'cli'), version_json);
+        generate_windows_version_rc(path.resolve(project_root_abs_path, 'server'), version_json);
+    }
+}
+
+function generate_windows_version_rc(rc_foler, version_json) {
+    const template_file = path.resolve(rc_foler, 'version_template.rc');
+    const rc_file = path.resolve(rc_foler, 'version.rc');
+
+    let version_rc_string = fs.readFileSync(template_file, 'utf8');
+    version_rc_string = version_rc_string.replace('${VERSION}', `${version_json.ver_major},${version_json.ver_minor},${version_json.ver_patch}`);
+    version_rc_string = version_rc_string.replace('${COPYRIGHT}', `Copyright © ${new Date().getFullYear()} @rustytsuki`);
+    fs.writeFileSync(rc_file, version_rc_string);
 }
 
 export function get_auto_target() {

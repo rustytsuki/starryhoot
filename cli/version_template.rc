@@ -1,0 +1,22 @@
+#pragma code_page(65001)
+
+1 VERSIONINFO
+FILEVERSION ${VERSION}
+FILEOS 0x40004
+FILETYPE 0x1
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904b0"
+        {
+            VALUE "FileDescription", "Starryhoot Command Line Tools"
+            VALUE "OriginalFilename", "starryhoot.exe"
+            VALUE "ProductName", "Starryhoot CLI"
+            VALUE "LegalCopyright", "${COPYRIGHT}"
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x0409, 1200
+    }
+}
