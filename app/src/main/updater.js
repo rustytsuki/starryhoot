@@ -1,18 +1,46 @@
+import path from 'path';
+import fs from 'fs';
 import { autoUpdater } from 'electron-updater';
-import { dialog } from 'electron';
+import { dialog, shell } from 'electron';
 import log from 'electron-log';
 
-export function check_update_with_prompt(channel) {
+let version = {};
+
+export function load_version() {
+    if ('development' == process.env.NODE_ENV) {
+        return;
+    }
+
+    const version_json_path = path.join(__dirname, 'version.json');
+    const raw = fs.readFileSync(version_json_path, 'utf-8');
+    version = JSON.parse(raw);
+}
+
+export function show_version() {
+    dialog.showMessageBox({
+        type: 'info',
+        title: 'Version Info',
+        message: 'Application Version Information',
+        detail: JSON.stringify(version, null, 2),
+        buttons: ['OK'],
+    });
+}
+
+export function check_update_with_prompt() {
+    if ('development' == process.env.NODE_ENV) {
+        return;
+    }
+
     autoUpdater.autoDownload = false;
     autoUpdater.autoInstallOnAppQuit = false;
     autoUpdater.logger = log;
     autoUpdater.logger.transports.file.level = 'info';
-    
+
     autoUpdater.setFeedURL({
         provider: 'github',
         owner: 'rustytsuki',
         repo: 'starryhoot',
-        channel: channel,
+        channel: version.channel,
     });
 
     autoUpdater.once('update-available', (info) => {
@@ -43,6 +71,21 @@ export function check_update_with_prompt(channel) {
 
     autoUpdater.once('error', (err) => {
         log.error('❌ Update error:', err);
+        dialog
+            .showMessageBox({
+                type: 'info',
+                buttons: ['Goto to Update', 'Later'],
+                defaultId: 0,
+                cancelId: 1,
+                title: 'Cannot Update',
+                message: 'Do you want to update manually?',
+                detail: `${err}`,
+            })
+            .then((result) => {
+                if (result.response === 0) {
+                    shell.openExternal('https://github.com/rustytsuki/starryhoot/releases');
+                }
+            });
     });
 
     autoUpdater.once('update-downloaded', (info) => {
@@ -63,6 +106,6 @@ export function check_update_with_prompt(channel) {
                 }
             });
     });
-    
+
     autoUpdater.checkForUpdates();
 }

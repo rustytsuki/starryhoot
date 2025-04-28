@@ -1,5 +1,6 @@
-import { app, Menu } from 'electron/main';
+import { app, Menu, shell } from 'electron';
 import * as tabviews_mgr from './tabviews_mgr';
+import { show_version, check_update_with_prompt } from './updater';
 
 const isMac = process.platform === 'darwin';
 
@@ -116,10 +117,21 @@ export function create_main_menu() {
             role: 'help',
             submenu: [
                 {
-                    label: 'Learn More',
+                    label: 'Check Update',
                     click: async () => {
-                        const { shell } = require('electron');
-                        await shell.openExternal('https://electronjs.org');
+                        check_update_with_prompt();
+                    },
+                },
+                {
+                    label: 'Go to Update Website',
+                    click: async () => {
+                        shell.openExternal('https://github.com/rustytsuki/starryhoot/releases');
+                    },
+                },
+                {
+                    label: 'About',
+                    click: async () => {
+                        show_version();
                     },
                 },
             ],

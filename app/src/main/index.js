@@ -1,9 +1,9 @@
-import { app, dialog, BrowserWindow, protocol, ipcMain } from 'electron/main';
+import { app, BrowserWindow, protocol, ipcMain } from 'electron/main';
 import path from 'path';
 import fs from 'fs';
 import * as menu_mgr from './menu_mgr';
 import * as tabviews_mgr from './tabviews_mgr';
-import { check_update_with_prompt } from './updater';
+import { load_version, check_update_with_prompt } from './updater';
 
 const createWindow = () => {
     const main_win = new BrowserWindow({
@@ -26,21 +26,8 @@ const createWindow = () => {
     tabviews_mgr.create_home_view();
 
     // check update
-    if (process.env.NODE_ENV != 'development') {
-        const version_json_path = path.join(__dirname, 'version.json');
-        const raw = fs.readFileSync(version_json_path, 'utf-8');
-        const version = JSON.parse(raw);
-
-        dialog.showMessageBox({
-            type: 'info',
-            title: 'Version Info',
-            message: 'Application Version Information',
-            detail: JSON.stringify(version, null, 2),
-            buttons: ['OK'],
-        });
-
-        check_update_with_prompt(version.channel);
-    }
+    load_version();
+    check_update_with_prompt();
 };
 
 app.whenReady().then(() => {
