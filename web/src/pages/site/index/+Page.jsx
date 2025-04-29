@@ -1,7 +1,7 @@
+import { Index } from "../../../components/www/index/Index";
+
 export function Page() {
     return (
-        <>
-            <h1>StarryHoot Home Page</h1>
-        </>
+        <Index></Index>
     );
 }
