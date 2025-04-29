@@ -1,21 +1,35 @@
 import styles from './Index.module.scss';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Navigator } from '../Navigator';
 import { ROUTE } from '../ROUTE';
 import { goto } from '../../common/utils/route_util';
+import { auto_download, get_download_button_name } from '../downloader';
 
 export function Index() {
+    const [download_bt_name_, set_download_bt_name] = useState('Download');
+
+    useEffect(() => {
+        const name = get_download_button_name();
+        set_download_bt_name(name);
+        return () => {};
+    }, []);
+
     return (
         <>
             <Navigator />
             <h1 className={styles.title}>StarryHoot Home Page</h1>
-            <Button size="lg"
+            <Button
+                size="lg"
                 className={styles.download}
                 onClick={() => {
-                    goto(ROUTE.DOWNLOAD);
+                    auto_download();
                 }}
             >
-                Download
+                {download_bt_name_}
+            </Button>
+            <Button variant="link" ton size="sm" className={styles.other} href='/download'>
+                other platforms
             </Button>
         </>
     );

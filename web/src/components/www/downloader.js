@@ -1,3 +1,7 @@
+import { UAParser } from 'ua-parser-js';
+import { ROUTE } from './ROUTE';
+import { goto } from '../common/utils/route_util';
+
 // #v-ifdef VITE_STARRYHOOT_PUBLISH
 import version from '../../../../deploy/version/version.json';
 // #v-else
@@ -7,6 +11,50 @@ let version = {
     'ver_patch': '3',
 };
 // #v-endif
+
+export function get_download_button_name() {
+    const parser = new UAParser();
+    const result = parser.getResult();
+
+    let os = result.os.name?.toLowerCase() || 'unknown';
+    let cpu = result.cpu.architecture?.toLowerCase() || 'x64';
+
+    if ('unknown' == os) {
+        return 'Download';
+    }
+
+    return `Download for ${os} ${cpu}`;
+}
+
+export function auto_download() {
+    const parser = new UAParser();
+    const result = parser.getResult();
+
+    let os = result.os.name?.toLowerCase() || 'unknown';
+    let cpu = result.cpu.architecture?.toLowerCase() || 'x64';
+
+    if ('unknown' == os) {
+        goto(ROUTE.DOWNLOAD);
+        return;
+    }
+    console.log(os, cpu);
+
+    let platform, arch;
+    if ('windows' == os) {
+        platform = 'win32';
+    }
+
+    if ('amd64' == cpu) {
+        arch = 'x64';
+    }
+
+    const url = get_download_url(platform, arch);
+    if (url) {
+        window.open(url, '_blank');
+    } else {
+        goto(ROUTE.DOWNLOAD);
+    }
+}
 
 export function get_download_url(platform, arch, pkg) {
     const ver_str = `v${version.ver_major}.${version.ver_minor}.${version.ver_patch}`;

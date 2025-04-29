@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
-import { get_download_url } from '../downloader';
+import {get_download_url } from '../downloader';
 
 function open_release() {
     window.open('https://github.com/rustytsuki/starryhoot/releases', '_blank');

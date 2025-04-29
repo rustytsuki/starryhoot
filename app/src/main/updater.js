@@ -83,7 +83,7 @@ export function check_update_with_prompt() {
             })
             .then((result) => {
                 if (result.response === 0) {
-                    shell.openExternal('https://github.com/rustytsuki/starryhoot/releases');
+                    shell.openExternal('https://rustytsuki.github.io/starryhoot');
                 }
             });
     });
