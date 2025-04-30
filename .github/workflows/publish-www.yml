@@ -89,7 +89,7 @@ jobs:
                   VERSION_MINOR: ${{ env.VERSION_MINOR }}
                   VERSION_PATCH: ${{ env.VERSION_PATCH }}
               run: |
-                  npm run site:publish
+                  npm run www:publish
 
             - name: Setup GitHub Pages
               uses: actions/configure-pages@v5

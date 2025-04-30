@@ -36,11 +36,11 @@ export async function build_all(target, pkg) {
     }
 }
 
-export async function build_site() {
-    utils.build_version_info('website');
+export async function build_www() {
+    utils.build_version_info('www', '');
 
     const cwd = utils.get_web_abs_path();
-    return await utils.exec('npm run site:publish', cwd);
+    return await utils.exec('npm run www:publish', cwd);
 }
 
 async function build_pages_for_electron(target) {

@@ -1,6 +1,6 @@
 import { app, Menu, shell } from 'electron';
 import * as tabviews_mgr from './tabviews_mgr';
-import { show_version, check_update_with_prompt } from './updater';
+import { WWW, show_version, check_update_with_prompt } from './updater';
 
 const isMac = process.platform === 'darwin';
 
@@ -123,9 +123,9 @@ export function create_main_menu() {
                     },
                 },
                 {
-                    label: 'Go to Update Website',
+                    label: 'Update Manually',
                     click: async () => {
-                        shell.openExternal('https://github.com/rustytsuki/starryhoot/releases');
+                        shell.openExternal(WWW);
                     },
                 },
                 {

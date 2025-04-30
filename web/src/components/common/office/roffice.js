@@ -6,7 +6,7 @@ export let load_roffice = async () => {
     }
 
     let roffice;
-    // #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_SITE
+    // #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_WWW
     let pkg = await import('../../../../../deploy/roffice/wasm32-unknown-emscripten/lib/roffice');
     roffice = await pkg.default();
     console.log('load kernel(wasm).');

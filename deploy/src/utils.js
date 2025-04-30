@@ -160,6 +160,10 @@ export async function extract_file(file_path, out_path, is_tar_gz) {
 }
 
 function get_channel(target, pkg) {
+    if ('www' === target) {
+        return '';
+    }
+
     const { platform, arch } = get_node_target(target);
     let channel = `update-latest-${platform}-${arch}`;
     if ('linux' === platform) {

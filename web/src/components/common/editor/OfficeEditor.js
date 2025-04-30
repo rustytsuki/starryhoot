@@ -55,7 +55,7 @@ export class OfficeEditor {
         // render
         let ctx = this.canvas_dom_.getContext('2d');
 
-        // #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_SITE
+        // #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_WWW
         roffice.roffice_render_viewport_to_canvas2d(this.handle_, ctx);
         // #v-elif VITE_STARRYHOOT_ELECTRON
         const buf = roffice.roffice_render_viewport_to_cmd_msgpack(this.handle_);

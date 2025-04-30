@@ -32,8 +32,8 @@ jobs:
         secrets:
             STARRYHOOT_RELEASE: ${{ secrets.STARRYHOOT_RELEASE }}
 
-    call-publish-website:
-        uses: ./.github/workflows/publish-website.yml
+    call-publish-www:
+        uses: ./.github/workflows/publish-www.yml
         with:
             tag: ${{ github.ref_name }}
         secrets:

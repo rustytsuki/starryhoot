@@ -6,6 +6,8 @@ import log from 'electron-log';
 
 let version = {};
 
+export const WWW = 'https://rustytsuki.github.io/starryhoot';
+
 export function load_version() {
     if ('development' == process.env.NODE_ENV) {
         return;
@@ -83,7 +85,7 @@ export function check_update_with_prompt() {
             })
             .then((result) => {
                 if (result.response === 0) {
-                    shell.openExternal('https://rustytsuki.github.io/starryhoot');
+                    shell.openExternal(WWW);
                 }
             });
     });

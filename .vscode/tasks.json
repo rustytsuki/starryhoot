@@ -29,9 +29,9 @@
             ]
         },
         {
-            "label": "[starryhoot] site prod",
+            "label": "[starryhoot] www prod",
             "type": "npm",
-            "script": "site:build",
+            "script": "www:build",
             "path": "web",
             "dependsOn": [
                 "[starryhoot] fetch kernel"

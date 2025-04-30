@@ -5,7 +5,7 @@ import { Navigation } from './Navigation';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
-// #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_SITE
+// #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_WWW
 import { PPTXEditorWeb as OfficeEditorClass } from './editor/PPTXEditorWeb';
 // #v-elif VITE_STARRYHOOT_ELECTRON
 import { PPTXEditorElectron as OfficeEditorClass } from './editor/PPTXEditorElectron';

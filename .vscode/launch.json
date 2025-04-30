@@ -36,11 +36,11 @@
             }
         },
         {
-            "name": "site dev",
+            "name": "www dev",
             "request": "launch",
             "runtimeArgs": [
                 "run-script",
-                "site:dev"
+                "www:dev"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [
@@ -192,15 +192,15 @@
             ],
         },
         {
-            "name": "site",
+            "name": "www",
             "preLaunchTask": "[starryhoot] fetch kernel",
             "configurations": [
-                "site dev",
+                "www dev",
             ],
         },
         {
-            "name": "site production",
-            "preLaunchTask": "[starryhoot] site prod",
+            "name": "www production",
+            "preLaunchTask": "[starryhoot] www prod",
             "configurations": [
                 "serve dist"
             ],

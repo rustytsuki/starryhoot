@@ -8,7 +8,7 @@ const optionDefinitions = [
     { name: 'target', alias: 't', type: String },
     { name: 'pkg', type: String },
     { name: 'publish', alias: 'p', type: Boolean },
-    { name: 'site', alias: 's', type: Boolean },
+    { name: 'www', type: Boolean },
 ];
 
 const config = commandLineArgs(optionDefinitions);
@@ -23,9 +23,9 @@ async function main() {
         process.exit(1);
     }
 
-    if (config['site']) {
-        if (await builder.build_site()) {
-            console.error(`build website failed!`);
+    if (config['www']) {
+        if (await builder.build_www()) {
+            console.error(`build www failed!`);
             process.exit(1);
         }
 

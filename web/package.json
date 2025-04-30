@@ -13,9 +13,9 @@
         "electron:dev": "cross-env VITE_MODE=electron npm run server",
         "electron:build": "cross-env NODE_ENV=production VITE_MODE=electron vite build --mode electron",
         "electron:publish": "cross-env NODE_ENV=production VITE_MODE=electron vite build --mode electron_publish",
-        "site:dev": "cross-env VITE_MODE=site npm run server",
-        "site:build": "cross-env NODE_ENV=production VITE_MODE=site vite build --mode site",
-        "site:publish": "cross-env NODE_ENV=production VITE_MODE=site vite build --mode site_publish",
+        "www:dev": "cross-env VITE_MODE=www npm run server",
+        "www:build": "cross-env NODE_ENV=production VITE_MODE=www vite build --mode www",
+        "www:publish": "cross-env NODE_ENV=production VITE_MODE=www vite build --mode www_publish",
         "server": "cross-env PORT=65432 node ./src/server/index.mjs",
         "server:dist": "http-server dist/client"
     },
