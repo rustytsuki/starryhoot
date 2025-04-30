@@ -30,7 +30,7 @@ export function get_download_button_name() {
         } else if ('amd64' === cpu) {
             return `Download for ${os} (X64)`;
         }
-    } else if ('Mac' === os) {
+    } else if ('macOS' === os) {
         if ('arm64' === cpu) {
             return `Download for ${os} (Apple silicon)`;
         } else if ('amd64' === cpu) {
@@ -61,7 +61,7 @@ export function auto_download() {
         } else if ('amd64' === cpu) {
             url = get_download_url('win32', 'x64');
         }
-    } else if ('Mac' === os) {
+    } else if ('macOS' === os) {
         if ('arm64' === cpu) {
             url = get_download_url('darwin', 'arm64', 'dmg');
         } else if ('amd64' === cpu) {

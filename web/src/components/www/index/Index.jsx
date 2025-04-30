@@ -2,8 +2,6 @@ import styles from './Index.module.scss';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Navigator } from '../Navigator';
-import { ROUTE } from '../ROUTE';
-import { goto } from '../../common/utils/route_util';
 import { auto_download, get_download_button_name } from '../downloader';
 
 export function Index() {
@@ -18,7 +16,7 @@ export function Index() {
     return (
         <>
             <Navigator />
-            <h1 className={styles.title}>StarryHoot</h1>
+            <h1 className={styles.title}>StarryHoot Office</h1>
             <Button
                 size="lg"
                 className={styles.download}
