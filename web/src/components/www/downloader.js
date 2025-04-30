@@ -24,20 +24,18 @@ export function get_download_button_name() {
         return 'Download';
     }
 
-    if ('Windows' === os) {
-        if ('arm64' === cpu) {
-            return `Download for ${os} (Arm64)`;
-        } else if ('amd64' === cpu) {
-            return `Download for ${os} (X64)`;
-        }
-    } else if ('macOS' === os) {
+    if ('macOS' === os) {
         if ('arm64' === cpu) {
             return `Download for ${os} (Apple silicon)`;
         } else if ('amd64' === cpu) {
             return `Download for ${os} (Intel chip)`;
         }
-    } else if ('Linux' === os) {
-        return `Download for ${os}`;
+    } else if ('Windows' === os || 'Linux' === os) {
+        if ('arm64' === cpu) {
+            return `Download for ${os} (Arm64)`;
+        } else if ('amd64' === cpu) {
+            return `Download for ${os} (X64)`;
+        }
     }
 
     return `Download`;
