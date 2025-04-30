@@ -14,41 +14,61 @@ let version = {
 
 export function get_download_button_name() {
     const parser = new UAParser();
-    const result = parser.getResult();
 
-    let os = result.os.name?.toLowerCase() || 'unknown';
-    let cpu = result.cpu.architecture?.toLowerCase() || 'x64';
+    const os = parser.getOS().name;
+    const cpu = parser.getCPU().architecture || "amd64";
 
-    if ('unknown' == os) {
+    console.log('ua-paser', os, cpu);
+
+    if (!os) {
         return 'Download';
     }
 
-    return `Download for ${os} ${cpu}`;
+    if ('Windows' === os) {
+        if ('arm64' === cpu) {
+            return `Download for ${os} (Arm64)`;
+        } else if ('amd64' === cpu) {
+            return `Download for ${os} (X64)`;
+        }
+    } else if ('Mac' === os) {
+        if ('arm64' === cpu) {
+            return `Download for ${os} (Apple silicon)`;
+        } else if ('amd64' === cpu) {
+            return `Download for ${os} (Intel chip)`;
+        }
+    } else if ('Linux' === os) {
+        return `Download for ${os}`;
+    }
+
+    return `Download`;
 }
 
 export function auto_download() {
     const parser = new UAParser();
-    const result = parser.getResult();
 
-    let os = result.os.name?.toLowerCase() || 'unknown';
-    let cpu = result.cpu.architecture?.toLowerCase() || 'x64';
+    const os = parser.getOS().name;
+    const cpu = parser.getCPU().architecture || "amd64";
 
-    if ('unknown' == os) {
+    if (!os) {
         goto(ROUTE.DOWNLOAD);
         return;
     }
-    console.log(os, cpu);
 
-    let platform, arch;
-    if ('windows' == os) {
-        platform = 'win32';
+    let url = '';
+    if ('Windows' === os) {
+        if ('arm64' === cpu) {
+            url = get_download_url('win32', 'arm64');
+        } else if ('amd64' === cpu) {
+            url = get_download_url('win32', 'x64');
+        }
+    } else if ('Mac' === os) {
+        if ('arm64' === cpu) {
+            url = get_download_url('darwin', 'arm64', 'dmg');
+        } else if ('amd64' === cpu) {
+            url = get_download_url('darwin', 'x64', 'dmg');
+        }
     }
 
-    if ('amd64' == cpu) {
-        arch = 'x64';
-    }
-
-    const url = get_download_url(platform, arch);
     if (url) {
         window.open(url, '_blank');
     } else {

@@ -18,7 +18,7 @@ export function Index() {
     return (
         <>
             <Navigator />
-            <h1 className={styles.title}>StarryHoot Home Page</h1>
+            <h1 className={styles.title}>StarryHoot</h1>
             <Button
                 size="lg"
                 className={styles.download}
@@ -28,7 +28,7 @@ export function Index() {
             >
                 {download_bt_name_}
             </Button>
-            <Button variant="link" ton size="sm" className={styles.other} href='/download'>
+            <Button variant="link" size="sm" className={styles.other} href='/download'>
                 other platforms
             </Button>
         </>

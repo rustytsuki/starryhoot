@@ -3,26 +3,10 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import { useState, useEffect } from 'react';
-import { usePageContext } from '../../renderer/usePageContext.jsx';
 import { ROUTE } from './ROUTE';
-import { goto, redirect, get_current_route } from '../common/utils/route_util';
+import { goto } from '../common/utils/route_util';
 
 export function Navigator() {
-    const [loaded, setLoaded] = useState(false);
-
-    const pageContext = usePageContext();
-    const curr_route = get_current_route(pageContext);
-
-    useEffect(() => {
-        setLoaded(true);
-
-        return () => {};
-    }, []);
-
     return (
         <Navbar bg="light" expand="sm" sticky="top" className={styles.root}>
             <Container>
