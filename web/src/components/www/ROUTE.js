@@ -1,5 +1,7 @@
+const filesystemRoutingRoot = '/starryhoot';
+
 export const ROUTE = {
-    INDEX: '/',
-    FAQ: '/faq',
-    DOWNLOAD: '/download',
+    INDEX: `${filesystemRoutingRoot}`,
+    FAQ: `${filesystemRoutingRoot}/faq`,
+    DOWNLOAD: `${filesystemRoutingRoot}/download`,
 };
