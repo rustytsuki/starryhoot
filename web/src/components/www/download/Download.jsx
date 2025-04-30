@@ -4,23 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState, useEffect } from 'react';
-import {get_download_url } from '../downloader';
-
-function open_release() {
-    window.open('https://github.com/rustytsuki/starryhoot/releases', '_blank');
-}
+import { get_version, get_download_url } from '../downloader';
 
 export function Download() {
-    useEffect(() => {
-        return () => {};
-    }, []);
-
     return (
         <>
             <Navigator />
 
-            <h1 className={styles.title}>Download StarryHoot</h1>
+            <h1 className={styles.title}>Download StarryHoot Office {get_version()}</h1>
 
             <Container style={{ width: '960px' }}>
                 <Row>
@@ -41,11 +32,11 @@ export function Download() {
                                 <p>.exe </p>
                             </Col>
                             <Col sm={10}>
-                                <Button size="sm" href={get_download_url('win32', 'x64')}>
+                                <Button size="sm" href={get_download_url('win32', 'x64')} target="_blank">
                                     X64
                                 </Button>
                                 <span> </span>
-                                <Button size="sm" href={get_download_url('win32', 'arm64')}>
+                                <Button size="sm" href={get_download_url('win32', 'arm64')} target="_blank">
                                     Arm64
                                 </Button>
                             </Col>
@@ -57,11 +48,11 @@ export function Download() {
                                 <p>.deb</p>
                             </Col>
                             <Col sm={10}>
-                                <Button size="sm" href={get_download_url('linux', 'x64', 'deb')}>
+                                <Button size="sm" href={get_download_url('linux', 'x64', 'deb')} target="_blank">
                                     X64
                                 </Button>
                                 <span> </span>
-                                <Button size="sm" href={get_download_url('linux', 'arm64', 'deb')}>
+                                <Button size="sm" href={get_download_url('linux', 'arm64', 'deb')} target="_blank">
                                     Arm64
                                 </Button>
                             </Col>
@@ -71,11 +62,11 @@ export function Download() {
                                 <p>.rpm</p>
                             </Col>
                             <Col sm={10}>
-                                <Button size="sm" href={get_download_url('linux', 'x64', 'rpm')}>
+                                <Button size="sm" href={get_download_url('linux', 'x64', 'rpm')} target="_blank">
                                     X64
                                 </Button>
                                 <span> </span>
-                                <Button size="sm" href={get_download_url('linux', 'arm64', 'rpm')}>
+                                <Button size="sm" href={get_download_url('linux', 'arm64', 'rpm')} target="_blank">
                                     Arm64
                                 </Button>
                             </Col>
@@ -85,11 +76,11 @@ export function Download() {
                                 <p>.tar.gz</p>
                             </Col>
                             <Col sm={10}>
-                                <Button size="sm" href={get_download_url('linux', 'x64', 'tar.gz')}>
+                                <Button size="sm" href={get_download_url('linux', 'x64', 'tar.gz')} target="_blank">
                                     X64
                                 </Button>
                                 <span> </span>
-                                <Button size="sm" href={get_download_url('linux', 'arm64', 'tar.gz')}>
+                                <Button size="sm" href={get_download_url('linux', 'arm64', 'tar.gz')} target="_blank">
                                     Arm64
                                 </Button>
                             </Col>
@@ -101,11 +92,11 @@ export function Download() {
                                 <p>.dmg</p>
                             </Col>
                             <Col sm={10}>
-                                <Button size="sm" href={get_download_url('darwin', 'arm64', 'dmg')}>
+                                <Button size="sm" href={get_download_url('darwin', 'arm64', 'dmg')} target="_blank">
                                     Apple silicon
                                 </Button>
                                 <span> </span>
-                                <Button size="sm" href={get_download_url('darwin', 'x64', 'dmg')}>
+                                <Button size="sm" href={get_download_url('darwin', 'x64', 'dmg')} target="_blank">
                                     Intel chip
                                 </Button>
                             </Col>
@@ -115,15 +106,22 @@ export function Download() {
                                 <p>.zip</p>
                             </Col>
                             <Col sm={10}>
-                                <Button size="sm" href={get_download_url('darwin', 'arm64', 'zip')}>
+                                <Button size="sm" href={get_download_url('darwin', 'arm64', 'zip')} target="_blank">
                                     Apple silicon
                                 </Button>
                                 <span> </span>
-                                <Button size="sm" href={get_download_url('darwin', 'x64', 'zip')}>
+                                <Button size="sm" href={get_download_url('darwin', 'x64', 'zip')} target="_blank">
                                     Intel chip
                                 </Button>
                             </Col>
                         </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                    <Button variant="link" size="sm" href="https://github.com/rustytsuki/starryhoot/releases" target="_blank">
+                        Older Releases
+                    </Button>
                     </Col>
                 </Row>
             </Container>

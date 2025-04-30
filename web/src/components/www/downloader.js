@@ -8,9 +8,13 @@ import version from '../../../../deploy/version/version.json';
 let version = {
     'ver_major': '0',
     'ver_minor': '0',
-    'ver_patch': '3',
+    'ver_patch': '0',
 };
 // #v-endif
+
+export function get_version() {
+    return `v${version.ver_major}.${version.ver_minor}.${version.ver_patch}`;
+}
 
 export function get_download_button_name() {
     const parser = new UAParser();
@@ -18,7 +22,7 @@ export function get_download_button_name() {
     const os = parser.getOS().name;
     const cpu = parser.getCPU().architecture || "amd64";
 
-    console.log('ua-paser', os, cpu);
+    console.log('detected: ', os, cpu);
 
     if (!os) {
         return 'Download';
@@ -75,7 +79,7 @@ export function auto_download() {
 }
 
 export function get_download_url(platform, arch, pkg) {
-    const ver_str = `v${version.ver_major}.${version.ver_minor}.${version.ver_patch}`;
+    const ver_str = get_version();
     const base_url = `https://github.com/rustytsuki/starryhoot/releases/download/${ver_str}/starryhoot-${ver_str}-${platform}`;
     if ('win32' == platform) {
         return `${base_url}-${arch}.exe`;
