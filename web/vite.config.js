@@ -56,7 +56,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     build.target = 'modules';
 
     const config = {
-        base: '/',
+        base: 'www_publish' === mode ? '/starryhoot' : '/',
         build,
         ssr,
         clearScreen: false,
