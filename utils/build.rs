@@ -138,6 +138,13 @@ fn ensure_dir(dir: &PathBuf) -> bool {
 }
 
 fn fetch_kernel_release(target: String) {
+    let mut debug_mark = get_deploy_path();
+    debug_mark.push("debug");
+    println!("cargo:rerun-if-changed={}", debug_mark.to_str().unwrap());
+    if debug_mark.exists() {
+        return;
+    }
+
     let is_tar_gz = !target.find("wasm32").is_some() && !target.find("windows").is_some();
     let ext = if is_tar_gz { "tar.gz" } else { "zip" };
 

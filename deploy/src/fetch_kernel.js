@@ -1,7 +1,7 @@
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
-import { download_file, extract_file, get_auto_target } from './utils.js';
+import { download_file, extract_file, get_auto_target, get_deploy_abs_path } from './utils.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const version_rs = fs.readFileSync(path.resolve(__dirname, '../../utils/src/kernel_version.rs'), 'utf8');
@@ -9,7 +9,20 @@ const version_rs = fs.readFileSync(path.resolve(__dirname, '../../utils/src/kern
 const VER = version_rs.match(/VER:\s*&str\s*=\s*"([^"]+)"/)[1];
 const HASH = version_rs.match(/HASH:\s*&str\s*=\s*"([^"]+)"/)[1];
 
+function is_debug() {
+    let debug_mark = path.join(get_deploy_abs_path(), 'roffice', 'debug');
+    if (fs.existsSync(debug_mark)) {
+        return true;
+    }
+
+    return false;
+}
+
 export async function fetch_kernel(target) {
+    if (is_debug()) {
+        return;
+    }
+
     if (!target) {
         console.error('no target!');
         return 1;
@@ -44,6 +57,10 @@ export async function fetch_kernel(target) {
 }
 
 export async function fetch_kernel_auto() {
+    if (is_debug()) {
+        return;
+    }
+
     const target = get_auto_target();
     if (await fetch_kernel('wasm32-unknown-emscripten') || await fetch_kernel(target)) {
         console.error('fetch_kernel failed!');
