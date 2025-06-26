@@ -22,12 +22,14 @@ export const CMD_TYPE = {
     SET_GLOBAL_ALPHA: 20,
     SET_STROKE_COLOR: 21,
     SET_FILL_COLOR: 22,
-    CLIP_RECT: 23,
-    SET_FONT: 24,
-    FILL_CHAR: 25,
-    FILL_TEXT: 26,
+    CLIP: 23,
+    CLIP_RECT: 24,
+    SET_FONT: 25,
+    FILL_CHAR: 26,
+    FILL_TEXT: 27,
     DRAW_IMAGE: 27,
-    DRAW_IMAGE_SRC_DST: 28,
+    DRAW_IMAGE_FROM_RESOURCE: 28,
+    DRAW_IMAGE2_FROM_RESOURCE: 29,
 };
 
 export function bcp47_to_default_facetype(code) {
