@@ -71,6 +71,9 @@ export function render_json(ctx, commands_str) {
             case CMD_TYPE.SET_FILL_COLOR:
                 ctx.fillStyle = `rgba(${cmd['r'] * 255},${cmd['g'] * 255},${cmd['b'] * 255},${cmd['a']})`;
                 break;
+            case CMD_TYPE.CLIP:
+                ctx.clip();
+                break;
             case CMD_TYPE.CLIP_RECT:
                 let region = new Path2D();
                 region.rect(cmd['x'], cmd['y'], cmd['w'], cmd['h']);
@@ -117,9 +120,9 @@ export function render_json(ctx, commands_str) {
             case CMD_TYPE.FILL_TEXT:
                 ctx.fillText(cmd['t'], cmd['x'], cmd['y']);
                 break;
-            case CMD_TYPE.DRAW_IMAGE:
+            case CMD_TYPE.DRAW_IMAGE_FROM_RESOURCE:
                 break;
-            case CMD_TYPE.DRAW_IMAGE_SRC_DST:
+            case CMD_TYPE.DRAW_IMAGE2_FROM_RESOURCE:
                 break;
         }
     }

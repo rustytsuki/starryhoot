@@ -7,6 +7,7 @@ export class OfficeEditorElectron extends OfficeEditor {
     constructor(...args) {
         super(...args);
         this.file_path_ = base64_to_str(this.fid_);
+        this.resource_ = {};
     }
 
     load_file(file_path) {

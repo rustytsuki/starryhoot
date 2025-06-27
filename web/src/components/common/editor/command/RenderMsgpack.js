@@ -1,5 +1,6 @@
 import * as msgpackr from 'msgpackr';
 import { CMD_TYPE, bcp47_to_default_facetype, fallback_typefaces } from './Command';
+import { fetch_resource } from '../ResourceManager';
 
 export function render_msgpack(ctx, buf) {
     let stack = [];
@@ -127,6 +128,10 @@ export function render_msgpack(ctx, buf) {
                     stack = [];
                 }
                 break;
+            case CMD_TYPE.CLIP:
+                ctx.clip();
+                stack = [];
+                break;
             case CMD_TYPE.CLIP_RECT:
                 if (4 === stack.length - 1) {
                     let region = new Path2D();
@@ -185,13 +190,30 @@ export function render_msgpack(ctx, buf) {
                     stack = [];
                 }
                 break;
-            case CMD_TYPE.DRAW_IMAGE:
-                if (4 === stack.length - 1) {
+            case CMD_TYPE.DRAW_IMAGE_FROM_RESOURCE:
+                if (5 === stack.length - 1) {
+                    const res_id = stack[0];
+                    const image = fetch_resource(res_id);
+                    if (image) {
+                        ctx.drawImage(image, stack[1], stack[2], stack[3], stack[4]);
+                    }
                     stack = [];
                 }
                 break;
-            case CMD_TYPE.DRAW_IMAGE_SRC_DST:
-                stack = [];
+            case CMD_TYPE.DRAW_IMAGE2_FROM_RESOURCE:
+                if (9 === stack.length - 1) {
+                    const res_id = stack[0];
+                    const image = fetch_resource(res_id);
+                    if (image) {
+                        const l = img.width * stack[1];
+                        const t = img.height * stack[2];
+                        const r = img.width - img.width * stack[3];
+                        const b = img.height - img.height * stack[4];
+
+                        ctx.drawImage(image, l, t, r - l, b - t, stack[5], stack[6], stack[7], stack[8]);
+                    }
+                    stack = [];
+                }
                 break;
         }
     });
