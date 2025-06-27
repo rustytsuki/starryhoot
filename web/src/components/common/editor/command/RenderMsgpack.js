@@ -1,8 +1,7 @@
 import * as msgpackr from 'msgpackr';
 import { CMD_TYPE, bcp47_to_default_facetype, fallback_typefaces } from './Command';
-import { fetch_resource } from '../ResourceManager';
 
-export function render_msgpack(ctx, buf) {
+export function render_msgpack(ctx, buf, editor) {
     let stack = [];
 
     msgpackr.unpackMultiple(buf, (value) => {
@@ -193,7 +192,7 @@ export function render_msgpack(ctx, buf) {
             case CMD_TYPE.DRAW_IMAGE_FROM_RESOURCE:
                 if (5 === stack.length - 1) {
                     const res_id = stack[0];
-                    const image = fetch_resource(res_id);
+                    const image = editor.fetch_resource(res_id);
                     if (image) {
                         ctx.drawImage(image, stack[1], stack[2], stack[3], stack[4]);
                     }
@@ -203,7 +202,7 @@ export function render_msgpack(ctx, buf) {
             case CMD_TYPE.DRAW_IMAGE2_FROM_RESOURCE:
                 if (9 === stack.length - 1) {
                     const res_id = stack[0];
-                    const image = fetch_resource(res_id);
+                    const image = editor.fetch_resource(res_id);
                     if (image) {
                         const l = img.width * stack[1];
                         const t = img.height * stack[2];

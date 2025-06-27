@@ -59,7 +59,7 @@ export class OfficeEditor {
         roffice.roffice_render_viewport_to_canvas2d(this.handle_, ctx);
         // #v-elif VITE_STARRYHOOT_ELECTRON
         const buf = roffice.roffice_render_viewport_to_cmd_msgpack(this.handle_);
-        render_msgpack(ctx, buf);
+        render_msgpack(ctx, buf, this);
         // #v-endif
     }
 
