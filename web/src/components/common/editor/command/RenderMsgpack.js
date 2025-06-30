@@ -1,5 +1,5 @@
 import * as msgpackr from 'msgpackr';
-import { CMD_TYPE, bcp47_to_default_facetype, fallback_typefaces } from './Command';
+import { CMD_TYPE, bcp47_to_default_facetype, fallback_typefaces, color32_to_rgba_f } from './Command';
 
 export function render_msgpack(ctx, buf, editor) {
     let stack = [];
@@ -11,8 +11,8 @@ export function render_msgpack(ctx, buf, editor) {
 
         switch (stack[0]) {
             case CMD_TYPE.CLEAR:
-                if (4 === stack.length - 1) {
-                    ctx.fillStyle = `rgba(${stack[1] * 255},${stack[2] * 255},${stack[3] * 255},${stack[4]})`;
+                if (1 === stack.length - 1) {
+                    ctx.fillStyle = color32_to_rgba_f(stack[1]);
                     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                     stack = [];
                 }
@@ -116,14 +116,14 @@ export function render_msgpack(ctx, buf, editor) {
                 }
                 break;
             case CMD_TYPE.SET_STROKE_COLOR:
-                if (4 === stack.length - 1) {
-                    ctx.strokeStyle = `rgba(${stack[1] * 255},${stack[2] * 255},${stack[3] * 255},${stack[4]})`;
+                if (1 === stack.length - 1) {
+                    ctx.strokeStyle = color32_to_rgba_f(stack[1]);
                     stack = [];
                 }
                 break;
             case CMD_TYPE.SET_FILL_COLOR:
-                if (4 === stack.length - 1) {
-                    ctx.fillStyle = `rgba(${stack[1] * 255},${stack[2] * 255},${stack[3] * 255},${stack[4]})`;
+                if (1 === stack.length - 1) {
+                    ctx.fillStyle = color32_to_rgba_f(stack[1]);
                     stack = [];
                 }
                 break;
@@ -191,25 +191,23 @@ export function render_msgpack(ctx, buf, editor) {
                 break;
             case CMD_TYPE.DRAW_IMAGE_FROM_RESOURCE:
                 if (5 === stack.length - 1) {
-                    const res_id = stack[0];
-                    const image = editor.fetch_resource(res_id);
+                    const image = editor.fetch_resource(stack[1]);
                     if (image) {
-                        ctx.drawImage(image, stack[1], stack[2], stack[3], stack[4]);
+                        ctx.drawImage(image, stack[2], stack[3], stack[4], stack[5]);
                     }
                     stack = [];
                 }
                 break;
             case CMD_TYPE.DRAW_IMAGE2_FROM_RESOURCE:
                 if (9 === stack.length - 1) {
-                    const res_id = stack[0];
-                    const image = editor.fetch_resource(res_id);
+                    const image = editor.fetch_resource(stack[1]);
                     if (image) {
-                        const l = img.width * stack[1];
-                        const t = img.height * stack[2];
-                        const r = img.width - img.width * stack[3];
-                        const b = img.height - img.height * stack[4];
+                        const l = img.width * stack[2];
+                        const t = img.height * stack[3];
+                        const r = img.width - img.width * stack[4];
+                        const b = img.height - img.height * stack[5];
 
-                        ctx.drawImage(image, l, t, r - l, b - t, stack[5], stack[6], stack[7], stack[8]);
+                        ctx.drawImage(image, l, t, r - l, b - t, stack[6], stack[7], stack[8], stack[9]);
                     }
                     stack = [];
                 }

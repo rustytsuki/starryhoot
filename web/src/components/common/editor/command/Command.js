@@ -49,3 +49,10 @@ export function fallback_typefaces() {
     return ['SimSun', 'Arial'];
 }
 
+export function color32_to_rgba_f(rgba) {
+    const r = (rgba >>> 24) & 0xFF;
+    const g = (rgba >>> 16) & 0xFF;
+    const b = (rgba >>> 8)  & 0xFF;
+    const a = rgba & 0xFF / 255;
+    return `rgba(${r},${g},${b},${a})`;
+}

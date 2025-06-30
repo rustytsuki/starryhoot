@@ -1,12 +1,12 @@
-import { CMD_TYPE, bcp47_to_default_facetype, fallback_typefaces } from './Command';
+import { CMD_TYPE, bcp47_to_default_facetype, fallback_typefaces, color32_to_rgba_f } from './Command';
 
-export function render_json(ctx, commands_str) {
+export function render_json(ctx, commands_str, editor) {
     const commands = JSON.parse(commands_str);
 
     for (const cmd of commands) {
         switch (cmd['_']) {
             case CMD_TYPE.CLEAR:
-                ctx.fillStyle = `rgba(${cmd['r'] * 255},${cmd['g'] * 255},${cmd['b'] * 255},${cmd['a']})`;
+                ctx.fillStyle = color32_to_rgba_f(cmd['c']);
                 ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 break;
             case CMD_TYPE.SAVE:
@@ -66,10 +66,10 @@ export function render_json(ctx, commands_str) {
                 ctx.globalAlpha = cmd['a'];
                 break;
             case CMD_TYPE.SET_STROKE_COLOR:
-                ctx.strokeStyle = `rgba(${cmd['r'] * 255},${cmd['g'] * 255},${cmd['b'] * 255},${cmd['a']})`;
+                ctx.strokeStyle = color32_to_rgba_f(cmd['c']);
                 break;
             case CMD_TYPE.SET_FILL_COLOR:
-                ctx.fillStyle = `rgba(${cmd['r'] * 255},${cmd['g'] * 255},${cmd['b'] * 255},${cmd['a']})`;
+                ctx.fillStyle = color32_to_rgba_f(cmd['c']);
                 break;
             case CMD_TYPE.CLIP:
                 ctx.clip();
@@ -120,9 +120,24 @@ export function render_json(ctx, commands_str) {
             case CMD_TYPE.FILL_TEXT:
                 ctx.fillText(cmd['t'], cmd['x'], cmd['y']);
                 break;
-            case CMD_TYPE.DRAW_IMAGE_FROM_RESOURCE:
+            case CMD_TYPE.DRAW_IMAGE_FROM_RESOURCE: {
+                    const image = editor.fetch_resource(cmd['i']);
+                    if (image) {
+                        ctx.drawImage(image, cmd['x'], cmd['y'], cmd['w'], cmd['h']);
+                    }
+                }
                 break;
-            case CMD_TYPE.DRAW_IMAGE2_FROM_RESOURCE:
+            case CMD_TYPE.DRAW_IMAGE2_FROM_RESOURCE: {
+                    const image = editor.fetch_resource(cmd['i']);
+                    if (image) {
+                        const l = img.width * cmd['l'];
+                        const t = img.height * cmd['t'];
+                        const r = img.width - img.width * cmd['r'];
+                        const b = img.height - img.height * cmd['b'];
+
+                        ctx.drawImage(image, l, t, r - l, b - t, cmd['x'], cmd['y'], cmd['w'], cmd['h']);
+                    }
+                }
                 break;
         }
     }
