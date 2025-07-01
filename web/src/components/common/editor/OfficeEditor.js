@@ -25,6 +25,15 @@ export class OfficeEditor {
         }
     }
 
+    register_request_anim_frame() {
+        if (this.handle_) {
+            let roffice = get_roffice();
+            roffice.roffice_request_anim_frame(this.handle_, () => {
+                this.update();
+            });
+        }
+    }
+
     update() {
         if (!this.is_dom_ready() || !this.handle_) {
             return;

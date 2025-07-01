@@ -27,6 +27,7 @@ export class OfficeEditorElectron extends OfficeEditor {
         }
         
         this.load_file(this.file_path_);
+        this.register_request_anim_frame();
     }
 
     async fetch_title() {

@@ -50,6 +50,7 @@ export class OfficeEditorWeb extends OfficeEditor {
         }
 
         this.load_file(bytes);
+        this.register_request_anim_frame();
     }
 
     async fetch_title() {
