@@ -44,7 +44,7 @@ export class OfficeEditorElectron extends OfficeEditor {
                 let img = new Image();
                 img.onload = () => {
                     URL.revokeObjectURL(url);
-                    this.update();
+                    this.render();
                 };
                 img.src = url;
                 this.resource_[res_id] = img;
