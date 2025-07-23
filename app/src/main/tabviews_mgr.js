@@ -146,6 +146,12 @@ function open_file(file_path) {
         id_to_view_indexes_[file_path] = index;
         main_window_.webContents.send('add_tab', index, file_name);
         set_active_index(index, true);
+
+        // handle roffice module crashing
+        editor_view.webContents.on('render-process-gone', (event, details) => {
+            dialog.showErrorBox("", `There was a problem with the file:\n${file_path}\nIt needs to close. Please contact the official website.`);
+            close_tab(index, true);
+        });
     }
 }
 
