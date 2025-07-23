@@ -12,8 +12,15 @@ export function render_msgpack(ctx, buf, editor) {
         switch (stack[0]) {
             case CMD_TYPE.CLEAR:
                 if (1 === stack.length - 1) {
-                    ctx.fillStyle = color32_to_rgba_f(stack[1]);
-                    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                    ctx.save();
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                    const a = (stack[1] & 0xFF) / 255;
+                    if (a != 0) {
+                        ctx.fillStyle = color32_to_rgba_f(stack[1]);
+                        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                    }
+                    ctx.restore();
                     stack = [];
                 }
                 break;
@@ -25,9 +32,14 @@ export function render_msgpack(ctx, buf, editor) {
                 ctx.restore();
                 stack = [];
                 break;
+            case CMD_TYPE.RESET_TRANSFORM:
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                stack = [];
+                break;
             case CMD_TYPE.SET_TRANSFORM:
                 if (6 === stack.length - 1) {
                     ctx.setTransform(stack[1], stack[2], stack[3], stack[4], stack[5], stack[6]);
+                    stack = [];
                 }
                 break;
             case CMD_TYPE.TRANSLATE:

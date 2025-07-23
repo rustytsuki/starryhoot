@@ -6,14 +6,24 @@ export function render_json(ctx, commands_str, editor) {
     for (const cmd of commands) {
         switch (cmd['_']) {
             case CMD_TYPE.CLEAR:
-                ctx.fillStyle = color32_to_rgba_f(cmd['c']);
-                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.save();
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                const a = (cmd['c'] & 0xFF) / 255;
+                if (a != 0) {
+                    ctx.fillStyle = color32_to_rgba_f(cmd['c']);
+                    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                }
+                ctx.restore();
                 break;
             case CMD_TYPE.SAVE:
                 ctx.save();
                 break;
             case CMD_TYPE.RESTORE:
                 ctx.restore();
+                break;
+            case CMD_TYPE.RESET_TRANSFORM:
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
                 break;
             case CMD_TYPE.SET_TRANSFORM:
                 ctx.setTransform(cmd['sx'], cmd['shy'], cmd['shx'], cmd['sy'], cmd['tx'], cmd['ty']);

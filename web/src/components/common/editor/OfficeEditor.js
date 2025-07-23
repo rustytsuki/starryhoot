@@ -29,7 +29,7 @@ export class OfficeEditor {
         if (this.handle_) {
             let roffice = get_roffice();
             roffice.roffice_request_anim_frame(this.handle_, () => {
-                this.update();
+                this.render();
             });
         }
     }
@@ -60,8 +60,15 @@ export class OfficeEditor {
         this.area_dom_['style']['height'] = `${scroll_bar_y.total * scale_y}px`;
 
         roffice.roffice_scroll_to(this.handle_, scroll_x / scale_x, scroll_y / scale_y);
+    }
 
-        // render
+    render() {
+        if (!this.is_dom_ready() || !this.handle_) {
+            return;
+        }
+
+        let roffice = get_roffice();
+
         let ctx = this.canvas_dom_.getContext('2d');
 
         // #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_WWW
