@@ -10,14 +10,14 @@ export function Launch() {
     return (
         <div className={styles.root}>
             <Button onClick={openfile_electron}>Open File</Button>
-            <Button
+            {/* <Button
                 variant="link"
                 onClick={() => {
                     goto('/about');
                 }}
             >
                 About
-            </Button>
+            </Button> */}
         </div>
     );
 }

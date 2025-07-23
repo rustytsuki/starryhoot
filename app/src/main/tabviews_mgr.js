@@ -8,6 +8,7 @@ const HOME_VIEW_ID = 'home';
 let main_window_ = null;
 let tab_views_ = [];
 let id_to_view_indexes_ = {};
+let current_index_ = 0;
 
 export function set_main_window(main_window) {
     main_window_ = main_window;
@@ -79,6 +80,7 @@ function set_home_view(view) {
 export function set_active_index(index, need_notify) {
     const view = tab_views_[index];
     if (view) {
+        current_index_ = index;
         main_window_.setBrowserView(view.view);
         view.view.webContents.focus();
         update_view_bound(view.view);
@@ -88,14 +90,27 @@ export function set_active_index(index, need_notify) {
     }
 }
 
-export function close_tab(index) {
+export function close_tab(index, need_notify) {
+    if (0 === index) {
+        return;
+    }
     const view = tab_views_[index];
     if (view) {
         delete id_to_view_indexes_[view.id];
         tab_views_.splice(index, 1);
         set_active_index(0, true);
         view.view.webContents.destroy();
+        if (need_notify) {
+            main_window_.webContents.send('remove_tab', index);
+        }
     }
+}
+
+export function close_current_tab() {
+    if (0 === current_index_) {
+        return;
+    }
+    close_tab(current_index_, true);
 }
 
 export function open_file_dialog() {

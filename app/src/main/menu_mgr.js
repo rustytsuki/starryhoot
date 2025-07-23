@@ -37,7 +37,9 @@ export function create_main_menu() {
                 },
                 {
                     label: 'Close',
-                    click: async () => {},
+                    click: async () => {
+                        tabviews_mgr.close_current_tab();
+                    },
                 },
                 { type: 'separator' },
                 isMac ? { role: 'close' } : { role: 'quit' },

@@ -33,7 +33,7 @@ export function MenuBar({ editor, onNaviSwitch }) {
                             // #v-ifdef VITE_STARRYHOOT_WEB
                             goto('/drive');
                             // #v-elif VITE_STARRYHOOT_ELECTRON
-                            goto('/');
+                            starryhoot.goto_home_tab();
                             // #v-endif
                         }}
                     >

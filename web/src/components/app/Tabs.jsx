@@ -28,6 +28,13 @@ export function Tabs() {
                     
                 }
             });
+            starryhoot.on_remove_tab((index) => {
+                if (index > 0 && index < tabsRef.current.length) {
+                    const updatedTabs = [...tabsRef.current];
+                    updatedTabs.splice(index, 1);
+                    set_tabs(updatedTabs);
+                }
+            });
             starryhoot.on_active_tab(index => {
                 set_actived_index(index);
             });

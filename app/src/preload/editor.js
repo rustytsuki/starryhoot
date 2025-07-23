@@ -45,4 +45,7 @@ contextBridge.exposeInMainWorld('starryhoot', {
         ipcRenderer.send('open_file_dialog');
     },
     roffice: load_roffice(),
+    goto_home_tab() {
+        ipcRenderer.send('goto_home_tab');
+    }
 });

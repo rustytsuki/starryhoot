@@ -70,6 +70,10 @@ app.whenReady().then(() => {
         tabviews_mgr.close_tab(index);
     });
 
+    ipcMain.on('goto_home_tab', (event) => {
+        tabviews_mgr.set_active_index(0, true);
+    });
+
     menu_mgr.create_main_menu();
     createWindow();
 });
