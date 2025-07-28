@@ -61,9 +61,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         plugins: [
             react(),
             ConditionalCompile(),
-            vike({
-                prerender: true, // enable ssg
-            }),
+            vike(),
             cjs_interrop,
             tailwindcss()
         ],
