@@ -4,9 +4,10 @@ import react from '@vitejs/plugin-react-swc';
 import vike from 'vike/plugin';
 import { defineConfig } from 'vite';
 import ConditionalCompile from 'vite-plugin-conditional-compiler';
+import { cjsInterop } from 'vite-plugin-cjs-interop';
 
-export default defineConfig(({ command, mode, ssrBuild }) => {
-    console.log(`load vite config: command: ${command}, mode: ${mode}, ssrBuild: ${ssrBuild}`);
+export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
+    console.log(`load vite config: command: ${command}, mode: ${mode}, ssrBuild: ${isSsrBuild}`);
     console.log(`load vite config: NODE_ENV: ${process.env.NODE_ENV}`);
     console.log(`load vite config: host platform: ${process.platform}`);
 
@@ -17,13 +18,18 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     // vite-plugin-commonjs not work
     // a compromise solution: https://github.com/intlify/bundle-tools/issues/220
     // https://vike.dev/broken-npm-package
-    let ssr = ssrBuild
+
+    let cjs_interrop = cjsInterop({
+        // Add broken npm package here
+        dependencies: ['react-bootstrap/**', '@fluentui/**'],
+    });
+
+    let ssr = isSsrBuild
         ? {
               noExternal: [
                   'react-bootstrap',
                   'react-transition-group',
                   'dom-helpers',
-                  '@fluentui/react-components',
                   '@restart/hooks',
                   '@restart/ui',
                   '@react-aria/ssr',
@@ -31,16 +37,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
               ],
           }
         : {
-              noExternal: [
-                  '@fluentui/react-icons',
-                  '@fluentui/react-file-type-icons',
-                  '@fluentui/set-version',
-                  '@fluentui/style-utilities',
-                  '@fluentui/utilities',
-                  '@fluentui/merge-styles',
-                  '@fluentui/dom-utilities',
-                  '@fluentui/theme',
-              ],
+              noExternal: [],
           };
 
     let build = {
@@ -66,7 +63,13 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
             vike({
                 prerender: true, // enable ssg
             }),
+            cjs_interrop,
         ],
+        resolve: {
+            alias: {
+                '@': new URL('./', import.meta.url).pathname,
+            },
+        },
         server: {
             fs: {
                 // https://vitejs.dev/config/server-options#server-fs-allow
