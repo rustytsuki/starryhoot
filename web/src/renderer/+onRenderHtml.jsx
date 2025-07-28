@@ -7,12 +7,6 @@ import { escapeInject, dangerouslySkipEscape } from 'vike/server';
 import logoUrl from './logo.svg';
 import { getPageTitle } from './getPageTitle';
 import BootstrapSSRProvider from 'react-bootstrap/SSRProvider';
-import {
-    createDOMRenderer,
-    RendererProvider,
-    renderToStyleElements,
-    SSRProvider as FluentSSRProvider,
-} from '@fluentui/react-components';
 
 function onRenderHtml(pageContext) {
     const { Page } = pageContext;
@@ -22,21 +16,13 @@ function onRenderHtml(pageContext) {
     if (!Page) throw new Error('My onRenderHtml() hook expects pageContext.Page to be defined');
 
     // Alternativly, we can use an HTML stream, see https://vike.dev/stream
-    const renderer = createDOMRenderer();
     const pageHtml = ReactDOMServer.renderToString(
-        <RendererProvider renderer={renderer}>
-            <BootstrapSSRProvider>
-                <FluentSSRProvider>
-                    <PageShell pageContext={pageContext}>
-                        <Page />
-                    </PageShell>
-                </FluentSSRProvider>
-            </BootstrapSSRProvider>
-        </RendererProvider>
+        <BootstrapSSRProvider>
+            <PageShell pageContext={pageContext}>
+                <Page />
+            </PageShell>
+        </BootstrapSSRProvider>
     );
-
-    // Converting Fluent UI styles to style elements. 👇
-    const style = ReactDOMServer.renderToStaticMarkup(<>{renderToStyleElements(renderer)}</>);
 
     // See https://vike.dev/head
     const title = getPageTitle(pageContext);
@@ -54,7 +40,6 @@ function onRenderHtml(pageContext) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
         <title>${title}</title>
-        ${dangerouslySkipEscape(style)}
       </head>
       <body>
         ${dangerouslySkipEscape(session_js)}

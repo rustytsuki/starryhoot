@@ -1,7 +1,7 @@
 import styles from './MenuBar.module.scss';
 import { useState } from 'react';
 import useAsyncEffect from 'use-async-effect';
-import { FluentProvider, webLightTheme, Button, Switch, Link } from '@fluentui/react-components';
+import { Button } from '../../../../shadcn/components/ui/button';
 import { goto } from '../../utils/route_util';
 
 export function MenuBar({ editor, onNaviSwitch }) {
@@ -25,26 +25,25 @@ export function MenuBar({ editor, onNaviSwitch }) {
     );
 
     return (
-        <FluentProvider theme={webLightTheme}>
-            <div className={styles.root}>
-                <div className={styles.left}>
-                    <Link
-                        onClick={() => {
-                            // #v-ifdef VITE_STARRYHOOT_WEB
-                            goto('/drive');
-                            // #v-elif VITE_STARRYHOOT_ELECTRON
-                            starryhoot.goto_home_tab();
-                            // #v-endif
-                        }}
-                    >
-                        My Files
-                    </Link>
-                </div>
-                <div className={styles.center}>{title}</div>
-                <div className={styles.right}>
-                    <Button>Print</Button>
-                </div>
+        <div className={styles.root}>
+            <div className={styles.left}>
+                <Button
+                    variant="link"
+                    onClick={() => {
+                        // #v-ifdef VITE_STARRYHOOT_WEB
+                        goto('/drive');
+                        // #v-elif VITE_STARRYHOOT_ELECTRON
+                        starryhoot.goto_home_tab();
+                        // #v-endif
+                    }}
+                >
+                    My Files
+                </Button>
             </div>
-        </FluentProvider>
+            <div className={styles.center}>{title}</div>
+            <div className={styles.right}>
+                <Button>Print</Button>
+            </div>
+        </div>
     );
 }

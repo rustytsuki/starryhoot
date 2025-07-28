@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom/client';
 import { PageShell } from './PageShell';
 import { getPageTitle } from './getPageTitle';
 import BootstrapSSRProvider from 'react-bootstrap/SSRProvider';
-import { SSRProvider as FluentSSRProvider } from '@fluentui/react-components';
 
 let root;
 function onRenderClient(pageContext) {
@@ -20,11 +19,9 @@ function onRenderClient(pageContext) {
 
     const page = (
         <BootstrapSSRProvider>
-            <FluentSSRProvider>
-                <PageShell pageContext={pageContext}>
-                    <Page />
-                </PageShell>
-            </FluentSSRProvider>
+            <PageShell pageContext={pageContext}>
+                <Page />
+            </PageShell>
         </BootstrapSSRProvider>
     );
     if (pageContext.isHydration) {

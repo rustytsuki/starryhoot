@@ -22,7 +22,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 
     let cjs_interrop = cjsInterop({
         // Add broken npm package here
-        dependencies: ['react-bootstrap/**', '@fluentui/**'],
+        dependencies: ['react-bootstrap/**'],
     });
 
     let ssr = isSsrBuild
