@@ -52,7 +52,6 @@
         "tw-animate-css": "^1.3.6",
         "typescript": "^5.8.3",
         "ua-parser-js": "^2.0.3",
-        "use-async-effect": "^2.2.7",
         "vike": "^0.4.236",
         "vite": "^6.3.5",
         "vite-plugin-cjs-interop": "^2.2.0",

@@ -1,6 +1,5 @@
 import styles from './Editor.module.scss';
 import { useState, useCallback, useEffect, useRef } from 'react';
-import useAsyncEffect from 'use-async-effect';
 import { Navigation } from './Navigation';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
@@ -30,27 +29,30 @@ export function OfficeEditor({ fid }) {
         set_resize(!resize_);
     }
 
-    useAsyncEffect(
-        async (is_mounted) => {
-            if (!is_mounted() || !fid) {
-                return;
+    useEffect(() => {
+        let is_mounted = true;
+
+        if (!fid) {
+            return;
+        }
+
+        (async () => {
+            if (is_mounted) {
+                console.log(`open docx file id: ${fid}`);
+                try {
+                    set_editor(new OfficeEditorClass(fid));
+                } catch (error) {
+                    console.error('error fetching file:', error);
+                }
             }
-            console.log(`open file id: ${fid}`);
-            try {
-                set_editor(new OfficeEditorClass(fid));
-            } catch (error) {
-                console.error('error fetching file:', error);
-            }
-        },
-        () => {
-            if (!fid) {
-                return;
-            }
+        })();
+
+        return () => {
+            is_mounted = false;
             set_editor(null);
-            console.log(`close file id: ${fid}`);
-        },
-        [fid]
-    );
+            console.log(`close docx file id: ${fid}`);
+        };
+    }, [fid]);
 
     useEffect(() => {
         if (!editor_) {

@@ -1,28 +1,30 @@
 import styles from './MenuBar.module.scss';
-import { useState } from 'react';
-import useAsyncEffect from 'use-async-effect';
+import { useState, useEffect } from 'react';
 import { Button } from '../../../../shadcn/components/ui/button';
 import { goto } from '../../utils/route_util';
 
 export function MenuBar({ editor, onNaviSwitch }) {
     const [title, set_title] = useState('');
 
-    useAsyncEffect(
-        async (is_mounted) => {
-            if (!is_mounted() || !editor) {
-                return;
+    useEffect(() => {
+        let is_mounted = true;
+
+        if (!editor) {
+            return;
+        }
+
+        (async () => {
+            if (is_mounted) {
+                const text = await editor.fetch_title();
+                set_title(text);
             }
-            const text = await editor.fetch_title();
-            set_title(text);
-        },
-        () => {
-            if (!editor) {
-                return;
-            }
+        })();
+
+        return () => {
+            is_mounted = false;
             set_title('');
-        },
-        [editor]
-    );
+        };
+    }, [editor]);
 
     return (
         <div className={styles.root}>
