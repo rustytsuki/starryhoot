@@ -4,7 +4,6 @@ export { onRenderClient };
 import ReactDOM from 'react-dom/client';
 import { PageShell } from './PageShell';
 import { getPageTitle } from './getPageTitle';
-import BootstrapSSRProvider from 'react-bootstrap/SSRProvider';
 
 let root;
 function onRenderClient(pageContext) {
@@ -18,11 +17,9 @@ function onRenderClient(pageContext) {
     if (!container) throw new Error('DOM element #react-root not found');
 
     const page = (
-        <BootstrapSSRProvider>
-            <PageShell pageContext={pageContext}>
-                <Page />
-            </PageShell>
-        </BootstrapSSRProvider>
+        <PageShell pageContext={pageContext}>
+            <Page />
+        </PageShell>
     );
     if (pageContext.isHydration) {
         root = ReactDOM.hydrateRoot(container, page);

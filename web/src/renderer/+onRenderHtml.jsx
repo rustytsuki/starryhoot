@@ -6,7 +6,6 @@ import { PageShell } from './PageShell';
 import { escapeInject, dangerouslySkipEscape } from 'vike/server';
 import logoUrl from './logo.svg';
 import { getPageTitle } from './getPageTitle';
-import BootstrapSSRProvider from 'react-bootstrap/SSRProvider';
 
 function onRenderHtml(pageContext) {
     const { Page } = pageContext;
@@ -17,11 +16,9 @@ function onRenderHtml(pageContext) {
 
     // Alternativly, we can use an HTML stream, see https://vike.dev/stream
     const pageHtml = ReactDOMServer.renderToString(
-        <BootstrapSSRProvider>
-            <PageShell pageContext={pageContext}>
-                <Page />
-            </PageShell>
-        </BootstrapSSRProvider>
+        <PageShell pageContext={pageContext}>
+            <Page />
+        </PageShell>
     );
 
     // See https://vike.dev/head
