@@ -98,7 +98,15 @@ export function close_tab(index, need_notify) {
     if (view) {
         delete id_to_view_indexes_[view.id];
         tab_views_.splice(index, 1);
-        set_active_index(0, true);
+        if (1 === tab_views_.length) {
+            set_active_index(0, true);
+        } else if (current_index_ === index) {
+            set_active_index(index > 0 ? index - 1 : 0, true);
+        } else if (current_index_ > index) {
+            set_active_index(current_index_ - 1, true);
+        } else {
+            set_active_index(current_index_, true);
+        }
         view.view.webContents.destroy();
         if (need_notify) {
             main_window_.webContents.send('remove_tab', index);

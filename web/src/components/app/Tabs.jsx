@@ -55,43 +55,32 @@ export function Tabs() {
         if (0 == index) {
             return;
         }
-        const actived_index = tabs_.findIndex((t) => t.value === actived_value_);
+
         const updatedTabs = tabs_.filter((_, i) => i !== index);
         set_tabs(updatedTabs);
-
-        if (1 == updatedTabs.length) {
-            selectTab(0);
-        } else if (actived_index === index) {
-            selectTab(index > 0 ? index - 1 : 0);
-        }
 
         starryhoot.close_tab(index);
     };
 
-    const selectTab = (index) => {
-        if (!tabs_[index]) {
-            return;
-        }
-        const value = tabs_[index].value;
+    const selectTab = (value) => {
         if (value === actived_value_) {
             return;
         }
-
         set_actived_value(value);
-        starryhoot.set_active_tab(index);
-    };
-
-    const selectByValue = (value) => {
-        const index = tabs_.findIndex((t) => t.value === value);
-        if (index < 0) {
-            return;
+        const index = tabsRef.current.findIndex((t) => t.value === value);
+        if (index >= 0) {
+            starryhoot.set_active_tab(index);
         }
-        selectTab(index);
     };
 
     return (
         <div className={styles.root}>
-            <ShadcnTabs value={actived_value_} activationMode="manual" className="max-w-xs w-full" onValueChange={selectByValue}>
+            <ShadcnTabs
+                value={actived_value_}
+                activationMode="manual"
+                className="max-w-xs w-full"
+                onValueChange={selectTab}
+            >
                 <TabsList className="w-full p-0 bg-background justify-start border-b rounded-none gap-1">
                     {tabs_.map((tab, index) => (
                         <TabsTrigger
@@ -99,15 +88,17 @@ export function Tabs() {
                             value={tab.value}
                             className="rounded-none bg-background h-full data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-primary"
                         >
-                            <code className="text-[13px]">{tab.value} </code>{' '}
-                            <span
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    removeTab(index);
-                                }}
-                            >
-                                x
-                            </span>
+                            <code className="text-[13px]">
+                                {tab.value}{" "}
+                                <span
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeTab(index);
+                                    }}
+                                >
+                                    x
+                                </span>
+                            </code>
                         </TabsTrigger>
                     ))}
                 </TabsList>
