@@ -81,23 +81,25 @@ export function Tabs() {
                 className="max-w-xs w-full"
                 onValueChange={selectTab}
             >
-                <TabsList className="w-full p-0 bg-background justify-start border-b rounded-none gap-1">
+                <TabsList className="p-0 h-auto bg-background gap-1">
                     {tabs_.map((tab, index) => (
                         <TabsTrigger
                             key={tab.value}
                             value={tab.value}
-                            className="rounded-none bg-background h-full data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-primary"
+                            className="data-[state=active]:shadow-[0_0_8px_1px_rgba(0,0,0,0.1)] dark:data-[state=active]:shadow-[0_0_8px_1px_rgba(255,255,255,0.2)]"
                         >
                             <code className="text-[13px]">
-                                {tab.value}{" "}
-                                <span
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        removeTab(index);
-                                    }}
-                                >
-                                    x
-                                </span>
+                                {tab.value}{' '}
+                                {index !== 0 && (
+                                    <span
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            removeTab(index);
+                                        }}
+                                    >
+                                        x
+                                    </span>
+                                )}
                             </code>
                         </TabsTrigger>
                     ))}
