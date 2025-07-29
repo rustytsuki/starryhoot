@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import BSTab from 'react-bootstrap/Tab';
-import BSTabs from 'react-bootstrap/Tabs';
-import CloseButton from 'react-bootstrap/CloseButton';
+import { Tabs as ShadcnTabs, TabsList, TabsTrigger } from '../../shadcn/components/ui/tabs.tsx';
 import styles from './Tabs.module.scss';
 
 export function Tabs() {
-    const [tabs_, set_tabs] = useState([{ title: 'Home' }]);
-    const [actived_index_, set_actived_index] = useState(0);
-    const [unlisten_, set_unlisten] = useState(null);
+    const HOME_VALUE = 'Home';
+
+    const [tabs_, set_tabs] = useState([{ value: HOME_VALUE }]);
+    const [actived_value_, set_actived_value] = useState(HOME_VALUE);
 
     const effectRun = useRef(false);
     const tabsRef = useRef(tabs_);
@@ -20,32 +19,35 @@ export function Tabs() {
         if (!effectRun.current) {
             console.log('---------------------register tab event-----------------------');
             starryhoot.on_add_tab((index, title) => {
+                console.log(`on_add_tab: ${index}, ${title}`);
                 if (index > 0 && index <= tabsRef.current.length) {
-                    const newTab = { title: title };
+                    const newTab = { value: title };
                     const updatedTabs = [...tabsRef.current];
                     updatedTabs.splice(index, 0, newTab);
                     set_tabs(updatedTabs);
-                    
                 }
             });
             starryhoot.on_remove_tab((index) => {
+                console.log(`on_remove_tab: ${index}`);
                 if (index > 0 && index < tabsRef.current.length) {
                     const updatedTabs = [...tabsRef.current];
                     updatedTabs.splice(index, 1);
                     set_tabs(updatedTabs);
                 }
             });
-            starryhoot.on_active_tab(index => {
-                set_actived_index(index);
+            starryhoot.on_active_tab((index) => {
+                console.log(`on_active_tab: ${index}`);
+                if (!tabsRef.current[index]) {
+                    return;
+                }
+                set_actived_value(tabsRef.current[index].value);
             });
 
             effectRun.current = true;
         }
 
         return () => {
-            // if (unlisten_) {
-            //     unlisten_();
-            // }
+            // need unregister starryhoot callback?
         };
     }, []);
 
@@ -53,59 +55,63 @@ export function Tabs() {
         if (0 == index) {
             return;
         }
+        const actived_index = tabs_.findIndex((t) => t.value === actived_value_);
         const updatedTabs = tabs_.filter((_, i) => i !== index);
         set_tabs(updatedTabs);
 
         if (1 == updatedTabs.length) {
             selectTab(0);
-        } else if (actived_index_ === index) {
+        } else if (actived_index === index) {
             selectTab(index > 0 ? index - 1 : 0);
-        } else if (actived_index_ > index) {
-            selectTab(actived_index_ - 1);
         }
 
         starryhoot.close_tab(index);
     };
 
     const selectTab = (index) => {
-        if (index == actived_index_) {
+        if (!tabs_[index]) {
+            return;
+        }
+        const value = tabs_[index].value;
+        if (value === actived_value_) {
             return;
         }
 
-        set_actived_index(index);
+        set_actived_value(value);
         starryhoot.set_active_tab(index);
+    };
+
+    const selectByValue = (value) => {
+        const index = tabs_.findIndex((t) => t.value === value);
+        if (index < 0) {
+            return;
+        }
+        selectTab(index);
     };
 
     return (
         <div className={styles.root}>
-            <BSTabs
-                activeKey={actived_index_}
-                transition={false}
-                id="noanim-tab-example"
-                onSelect={(k) => selectTab(Number(k))}
-            >
-                {tabs_.map((item, index) => (
-                    <BSTab
-                        key={index}
-                        eventKey={index}
-                        title={
-                            <span className={styles[`${index === 0 ? 'first-tab' : 'other-tab'}`]}>
-                                {item.title}
-                                {index !== 0 && (
-                                    <CloseButton
-                                        className={styles['close-btn']}
-                                        style={{ fontSize: '0.5rem', width: '16px', height: '16px' }}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            removeTab(index);
-                                        }}
-                                    />
-                                )}
+            <ShadcnTabs value={actived_value_} activationMode="manual" className="max-w-xs w-full" onValueChange={selectByValue}>
+                <TabsList className="w-full p-0 bg-background justify-start border-b rounded-none gap-1">
+                    {tabs_.map((tab, index) => (
+                        <TabsTrigger
+                            key={tab.value}
+                            value={tab.value}
+                            className="rounded-none bg-background h-full data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-primary"
+                        >
+                            <code className="text-[13px]">{tab.value} </code>{' '}
+                            <span
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeTab(index);
+                                }}
+                            >
+                                x
                             </span>
-                        }
-                    ></BSTab>
-                ))}
-            </BSTabs>
+                        </TabsTrigger>
+                    ))}
+                </TabsList>
+            </ShadcnTabs>
         </div>
     );
 }

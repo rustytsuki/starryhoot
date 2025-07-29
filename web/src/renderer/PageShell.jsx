@@ -2,8 +2,8 @@ export { PageShell };
 
 import React from 'react';
 import { PageContextProvider } from './usePageContext';
-import "bootstrap/scss/bootstrap.scss";
-import 'bootstrap-icons/font/bootstrap-icons.scss';
+// import "bootstrap/scss/bootstrap.scss";
+// import 'bootstrap-icons/font/bootstrap-icons.scss';
 import '../shadcn/styles/globals.css'
 
 function PageShell({ pageContext, children }) {
