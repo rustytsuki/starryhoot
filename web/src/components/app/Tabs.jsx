@@ -81,24 +81,24 @@ export function Tabs() {
                 className="max-w-xs w-full"
                 onValueChange={selectTab}
             >
-                <TabsList className="p-0 h-auto bg-background gap-1">
+                <TabsList className="w-full p-0 bg-background justify-start rounded-none">
                     {tabs_.map((tab, index) => (
                         <TabsTrigger
                             key={tab.value}
                             value={tab.value}
-                            className="data-[state=active]:shadow-[0_0_8px_1px_rgba(0,0,0,0.1)] dark:data-[state=active]:shadow-[0_0_8px_1px_rgba(255,255,255,0.2)]"
+                            className="rounded-none bg-background h-full data-[state=active]:shadow-none border border-b-[3px] border-transparent data-[state=active]:border-primary"
                         >
                             <span className="text-[13px]">{tab.value}</span>
                             {index !== 0 && (
-    <div
-    onClick={(e) => {
-        e.stopPropagation();
-        removeTab(index);
-    }}
-    className="ml-1 p-1 rounded-full cursor-pointer hover:bg-muted transition-colors"
->
-    <X className="w-3 h-3 text-muted-foreground hover:text-foreground" />
-</div>
+                                <div
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeTab(index);
+                                    }}
+                                    className="ml-1 p-1 rounded-full cursor-pointer hover:bg-muted transition-colors"
+                                >
+                                    <X className="w-3 h-3 text-muted-foreground hover:text-foreground" />
+                                </div>
                             )}
                         </TabsTrigger>
                     ))}
