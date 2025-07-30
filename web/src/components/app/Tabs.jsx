@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Tabs as ShadcnTabs, TabsList, TabsTrigger } from '../../shadcn/components/ui/tabs.tsx';
-import styles from './Tabs.module.scss';
+import { X } from 'lucide-react';
 
 export function Tabs() {
     const HOME_VALUE = 'Home';
@@ -74,7 +74,7 @@ export function Tabs() {
     };
 
     return (
-        <div className={styles.root}>
+        <div className="h-[46px] flex items-center px-[8px]">
             <ShadcnTabs
                 value={actived_value_}
                 activationMode="manual"
@@ -88,19 +88,18 @@ export function Tabs() {
                             value={tab.value}
                             className="data-[state=active]:shadow-[0_0_8px_1px_rgba(0,0,0,0.1)] dark:data-[state=active]:shadow-[0_0_8px_1px_rgba(255,255,255,0.2)]"
                         >
-                            <code className="text-[13px]">
-                                {tab.value}{' '}
-                                {index !== 0 && (
-                                    <span
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            removeTab(index);
-                                        }}
-                                    >
-                                        x
-                                    </span>
-                                )}
-                            </code>
+                            <span className="text-[13px]">{tab.value}</span>
+                            {index !== 0 && (
+    <div
+    onClick={(e) => {
+        e.stopPropagation();
+        removeTab(index);
+    }}
+    className="ml-1 p-1 rounded-full cursor-pointer hover:bg-muted transition-colors"
+>
+    <X className="w-3 h-3 text-muted-foreground hover:text-foreground" />
+</div>
+                            )}
                         </TabsTrigger>
                     ))}
                 </TabsList>
