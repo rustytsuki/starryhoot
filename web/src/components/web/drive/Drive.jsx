@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { usePageContext } from "../../../renderer/usePageContext.jsx";
 import { MessageBox } from '../../common/utils/MessageBox.jsx';
-import { Navigator } from '../Navigator.jsx';
+import { NavigationBar } from '../navi/NavigationBar.jsx'
 import { goto } from "../../common/utils/route_util.js";
 import { getFileNameFromPath } from "../../common/utils/path_util.js"
 
@@ -36,7 +36,7 @@ class _Drive extends React.Component {
 
         return (
             <>
-                <Navigator />
+                <NavigationBar />
                 <Container style={{ marginTop: "20px" }}>
                     <Row>
                         <Col md={10}>
