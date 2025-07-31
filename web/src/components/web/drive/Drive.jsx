@@ -1,16 +1,16 @@
-import React from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import { usePageContext } from "../../../renderer/usePageContext.jsx";
+import React from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import { usePageContext } from '../../../renderer/usePageContext.jsx';
 import { MessageBox } from '../../common/utils/MessageBox.jsx';
-import { NavigationBar } from '../navi/NavigationBar.jsx'
-import { goto } from "../../common/utils/route_util.js";
-import { getFileNameFromPath } from "../../common/utils/path_util.js"
+import { NavigationBar } from '../navi/NavigationBar.jsx';
+import { goto } from '../../common/utils/route_util.js';
+import { getFileNameFromPath } from '../../common/utils/path_util.js';
 
 class _Drive extends React.Component {
     constructor(props) {
@@ -36,50 +36,62 @@ class _Drive extends React.Component {
 
         return (
             <>
-                <NavigationBar />
-                <Container style={{ marginTop: "20px" }}>
-                    <Row>
-                        <Col md={10}>
-                            <Form id="file_1" ref={this._fileSubmitRef} style={{ display: "none" }} encType="multipart/form-data" onChange={this.onSubmitUpload}>
-                                <Form.Control ref={this._fileInputRef} type="file" name="file" accept=".docx,.pptx,.xlsx" />
-                            </Form>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={10}>
-                            <div style={{ margin: "10px", width: "100%" }}>
-                                {/* <Button variant="outline-primary" size="sm" onClick={this.onBtNewClick}>
+                <NavigationBar>
+                    <Container>
+                        <Row>
+                            <Col md={10}>
+                                <Form
+                                    id="file_1"
+                                    ref={this._fileSubmitRef}
+                                    style={{ display: 'none' }}
+                                    encType="multipart/form-data"
+                                    onChange={this.onSubmitUpload}
+                                >
+                                    <Form.Control
+                                        ref={this._fileInputRef}
+                                        type="file"
+                                        name="file"
+                                        accept=".docx,.pptx,.xlsx"
+                                    />
+                                </Form>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={10}>
+                                <div style={{ margin: '10px', width: '100%' }}>
+                                    {/* <Button variant="outline-primary" size="sm" onClick={this.onBtNewClick}>
                                     New
                                 </Button>{" "} */}
-                                <Button variant="outline-primary" size="sm" onClick={this.onBtUploadClick}>
-                                    Upload
-                                </Button>{" "}
-                                <Button variant="outline-success" size="sm" onClick={this.onBtEditClick}>
-                                    Open
-                                </Button>{" "}
-                                <Button variant="outline-danger" size="sm" onClick={this.onBtDeleteClick}>
-                                    Delete
-                                </Button>{" "}
-                                <Button variant="outline-primary" size="sm" onClick={this.onBtOfdClick}>
-                                    Open Native Folder
-                                </Button>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={10}>
-                            <ListGroup
-                                style={{ margin: "10px", width: "100%" }}
-                                variant="flush"
-                                activeKey={this.state.activeKey}
-                                defaultActiveKey={0}
-                                onSelect={this.onFileSelect}
-                            >
-                                {fileList}
-                            </ListGroup>
-                        </Col>
-                    </Row>
-                </Container>
+                                    <Button variant="outline-primary" size="sm" onClick={this.onBtUploadClick}>
+                                        Upload
+                                    </Button>{' '}
+                                    <Button variant="outline-success" size="sm" onClick={this.onBtEditClick}>
+                                        Open
+                                    </Button>{' '}
+                                    <Button variant="outline-danger" size="sm" onClick={this.onBtDeleteClick}>
+                                        Delete
+                                    </Button>{' '}
+                                    <Button variant="outline-primary" size="sm" onClick={this.onBtOfdClick}>
+                                        Open Native Folder
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={10}>
+                                <ListGroup
+                                    style={{ margin: '10px', width: '100%' }}
+                                    variant="flush"
+                                    activeKey={this.state.activeKey}
+                                    defaultActiveKey={0}
+                                    onSelect={this.onFileSelect}
+                                >
+                                    {fileList}
+                                </ListGroup>
+                            </Col>
+                        </Row>
+                    </Container>
+                </NavigationBar>
 
                 <Modal show={this.state.showConfirm} onHide={this.onCancel}>
                     <Modal.Header closeButton>
@@ -117,13 +129,13 @@ class _Drive extends React.Component {
         const data = new FormData(this._fileSubmitRef.current);
         console.log(JSON.stringify(data));
         this._fileSubmitRef.current.reset();
-        const response = await fetch("/api/drive/upload", {
-            method: "post",
+        const response = await fetch('/api/drive/upload', {
+            method: 'post',
             body: data,
         });
         const content = await response.json();
-        if (content["success"]) {
-            let file = content["payload"];
+        if (content['success']) {
+            let file = content['payload'];
             this.setState({
                 files: [file, ...this.state.files],
             });
@@ -153,17 +165,17 @@ class _Drive extends React.Component {
         if (!id) {
             return;
         }
-        const response = await fetch("/api/drive/ofd", {
-            method: "POST",
+        const response = await fetch('/api/drive/ofd', {
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "id": id }),
+            body: JSON.stringify({ 'id': id }),
         });
 
         const content = await response.json();
-        if (content["success"]) {
+        if (content['success']) {
         }
     };
 
@@ -221,8 +233,8 @@ class _Drive extends React.Component {
     async loadFiles() {
         const response = await fetch(`/api/drive/files`);
         const content = await response.json();
-        if (content["success"]) {
-            let files = content["payload"];
+        if (content['success']) {
+            let files = content['payload'];
             return files;
         } else {
             return [];
@@ -230,20 +242,20 @@ class _Drive extends React.Component {
     }
 
     async createNewFile() {
-        const response = await fetch("/api/drive/new", {
-            method: "POST",
+        const response = await fetch('/api/drive/new', {
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "title": "New File"
+                'title': 'New File',
             }),
         });
 
         const content = await response.json();
-        if (content["success"]) {
-            let file = content["payload"];
+        if (content['success']) {
+            let file = content['payload'];
             return file;
         }
     }
@@ -261,18 +273,18 @@ class _Drive extends React.Component {
     }
 
     async removeFile(id) {
-        const response = await fetch("/api/drive/delete", {
-            method: "POST",
+        const response = await fetch('/api/drive/delete', {
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "id": id }),
+            body: JSON.stringify({ 'id': id }),
         });
 
         const content = await response.json();
-        if (content["success"]) {
-            const fid = content["payload"];
+        if (content['success']) {
+            const fid = content['payload'];
             let files = [];
             this.state.files.forEach((file) => {
                 if (file.id !== fid) {
