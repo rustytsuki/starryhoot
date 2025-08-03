@@ -1,101 +1,79 @@
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
 import { useState, createRef } from 'react';
-import { ROUTE } from '../ROUTE';
-import { redirect, get_full_path } from '../../common/utils/route_util';
-import { MessageBox } from '../../common/utils/MessageBox.jsx';
+import { Button } from "../../../shadcn/components/ui/button.tsx";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../../shadcn/components/ui/form.tsx";
+import { Input } from "../../../shadcn/components/ui/input.tsx";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ROUTE } from '../ROUTE.js';
+import { redirect, get_full_path } from '../../common/utils/route_util.js';
 
 export function SignIn() {
-    const [validated, setValidated] = useState(false);
-    const formUser = createRef();
-    const formPassword = createRef();
-    const messageBox = createRef();
-
-    let onSubmit = async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const form = event.currentTarget;
-        if (form.checkValidity()) {
-            // post signin
-            const user = formUser.current.value;
-            const password = formPassword.current.value;
-
-            const response = await fetch('/api/auth/signin', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+    const form =
+        useForm <
+        z.infer <
+        typeof formSchema >>
+            {
+                defaultValues: {
+                    email: '',
+                    password: '',
                 },
-                body: JSON.stringify({ 'name': user.trim(), 'password': password.trim() }),
-            });
-
-            const content = await response.json();
-            if (content['success']) {
-                redirect(ROUTE.HOME);
-            } else {
-                messageBox.current.show('', 'Sign in error!', false);
-            }
-        }
-
-        setValidated(true);
+                resolver: zodResolver(formSchema),
+            };
+    const onSubmit = (data) => {
+        console.log(data);
     };
-
     return (
-        <>
-            <Container>
-                <Row>
-                    <Col></Col>
-                    <Col xs={6}>
-                        <br />
-                        <h2 style={{ 'textAlign': 'center' }}>Sign in to StarryHoot🦉</h2>
-                        <br />
-                        <Card>
-                            <Card.Body>
-                                <Form noValidate validated={validated} onSubmit={onSubmit}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Username</Form.Label>
-                                        <Form.Control
-                                            ref={formUser}
-                                            type="text"
-                                            required
-                                            placeholder="Enter Username"
-                                        />
-                                    </Form.Group>
-
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            ref={formPassword}
-                                            type="password"
-                                            required
-                                            placeholder="Enter Password"
-                                        />
-                                    </Form.Group>
-                                    <Button variant="outline-primary" type="submit">
-                                        Sign in
-                                    </Button>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                        <br />
-                        <Card>
-                            <Card.Body>
-                                <Form.Label>New to StarryHoot🦉?</Form.Label>
-                                <span>{'\u00A0'}</span>
-                                <a href={get_full_path(ROUTE.SIGN_UP)}>Create an account.</a>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col></Col>
-                </Row>
-            </Container>
-
-            <MessageBox ref={messageBox} />
-        </>
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="max-w-xs w-full flex flex-col items-center">
+                <p className="mt-4 text-xl font-bold tracking-tight">Sign in to StarryHoot🦉</p>
+                <Form {...form}>
+                    <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input type="email" placeholder="Email" className="w-full" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" placeholder="Password" className="w-full" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit" className="mt-4 w-full">
+                            Sign in
+                        </Button>
+                    </form>
+                </Form>
+                <div className="mt-5 space-y-5">
+                    <p className="text-sm text-center">
+                        New to StarryHoot🦉?
+                        <Link href="#" className="ml-1 underline text-muted-foreground">
+                            Create an account.
+                        </Link>
+                    </p>
+                </div>
+            </div>
+        </div>
     );
 }

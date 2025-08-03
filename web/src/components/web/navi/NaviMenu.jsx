@@ -36,7 +36,7 @@ export const NavMenu = (props) => {
                         <NavigationMenuLink
                             asChild
                             className={cn(
-                                'hover:bg-transparent focus:bg-transparent active:bg-transparent',
+                                'focus:bg-transparent active:bg-transparent',
                                 curr_route === item.route ? 'underline' : ''
                             )}
                         >
