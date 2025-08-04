@@ -1,6 +1,15 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '../../../shadcn/components/ui/alert-dialog.tsx';
 
 export class MessageBox extends React.Component {
     constructor(props) {
@@ -16,7 +25,22 @@ export class MessageBox extends React.Component {
     render() {
         return (
             <>
-                <Modal show={this.state.shown} onHide={this.onCancel} backdrop="static" keyboard={false}>
+                <AlertDialog open={this.state.shown}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>{this.state.title}</AlertDialogTitle>
+                            <AlertDialogDescription>{this.state.desc}</AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            {this.state.showCancel && (
+                                <AlertDialogCancel onClick={this.onCancel}>Cancel</AlertDialogCancel>
+                            )}
+                            <AlertDialogAction onClick={this.onConfirm}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
+                {/* <Modal show={this.state.shown} onHide={this.onCancel} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton={this.state.showCancel}>
                         <Modal.Title>{this.state.title}</Modal.Title>
                     </Modal.Header>
@@ -33,7 +57,7 @@ export class MessageBox extends React.Component {
                             </Button>
                         )}
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
             </>
         );
     }
