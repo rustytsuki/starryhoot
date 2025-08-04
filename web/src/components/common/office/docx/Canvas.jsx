@@ -1,5 +1,5 @@
 import { createRef, useEffect } from 'react';
-import styles from './Canvas.module.scss';
+import * as styles from '../../styles';
 
 export function Canvas({ editor }) {
     const canvas_dom_ref_ = createRef();
@@ -19,16 +19,20 @@ export function Canvas({ editor }) {
     }, [editor]);
 
     return (
-        <div id="edit-container" className={styles.root}>
-            <canvas className={styles.canvas} ref={canvas_dom_ref_} />
+        <div id="edit-container" className="absolute w-full h-full">
+            <canvas
+                className="absolute z-0 w-full h-full"
+                style={{ backgroundColor: styles.editor_canvas_bg }}
+                ref={canvas_dom_ref_}
+            />
             <div
-                className={styles.viewport}
+                className="absolute z-0 w-full h-full overflow-scroll"
                 ref={viewport_dom_ref_}
                 onScroll={(e) => {
                     editor.on_scroll(e);
                 }}
             >
-                <div className={styles.area} ref={area_dom_ref_} />
+                <div className="absolute w-full h-full" ref={area_dom_ref_} />
             </div>
         </div>
     );

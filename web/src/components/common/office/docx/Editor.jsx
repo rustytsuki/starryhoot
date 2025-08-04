@@ -1,4 +1,4 @@
-import styles from './Editor.module.scss';
+import * as styles from '../../styles';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Navigation } from './Navigation';
 import { Canvas } from './Canvas';
@@ -84,20 +84,21 @@ export function OfficeEditor({ fid }) {
     }, [resize_]);
 
     return (
-        <div className={styles.root}>
-            <div className={styles.menu}>
+        <div className="absolute w-full h-full">
+            <div className="absolute w-full" style={{ height: styles.top_bar_height }}>
                 <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} />
             </div>
-            <div className={styles.editor}>
+            <div className="absolute w-full" style={{ top: styles.top_bar_height, bottom: styles.status_bar_height }}>
                 <div
-                    className={styles.left}
+                    className="absolute top-0 left-0 bottom-0"
                     style={{ display: is_left_bar_shown_ ? 'block' : 'none', width: `${LEFT_BAR_WIDTH}px` }}
                 >
                     <Navigation />
                 </div>
                 <div
-                    className={styles.canvas}
+                    className="absolute top-0 bottom-0"
                     style={{
+                        backgroundColor: styles.editor_canvas_bg,
                         left: `${is_left_bar_shown_ ? LEFT_BAR_WIDTH : 0}px`,
                         right: `${is_right_bar_shown_ ? RIGHT_BAR_WIDTH : 0}px`,
                     }}
@@ -105,11 +106,11 @@ export function OfficeEditor({ fid }) {
                     <Canvas editor={editor_} />
                 </div>
                 <div
-                    className={styles.right}
+                    className="absolute top-0 right-0 bottom-0"
                     style={{ display: is_right_bar_shown_ ? 'block' : 'none', width: `${RIGHT_BAR_WIDTH}px` }}
                 />
             </div>
-            <div className={styles.statusbar}>
+            <div className="absolute bottom-0 w-full" style={{ height: styles.status_bar_height }}>
                 <StatusBar />
             </div>
         </div>

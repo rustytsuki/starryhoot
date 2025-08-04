@@ -57,7 +57,7 @@ export const NavigationBar = (props) => {
                     <Logo />
 
                     {/* Desktop Menu */}
-                    <NavMenu className="hidden md:block" />
+                    <NavMenu loaded={loaded} user={user} className="hidden md:block" />
 
                     <div className="flex items-center gap-3">
                         {loaded && !user && (
@@ -82,7 +82,7 @@ export const NavigationBar = (props) => {
                         )}
                         {loaded && user && (
                             <>
-                                <DropdownMenu loaded={loaded} user={user}>
+                                <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="outline">{user.name} <ChevronDown className="w-4 h-4" /></Button>
                                     </DropdownMenuTrigger>

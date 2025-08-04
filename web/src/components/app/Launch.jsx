@@ -1,4 +1,5 @@
-import styles from './Launch.module.scss';
+import * as styles from '../common/styles.js';
+import { cn } from '../../shadcn/lib/utils.ts';
 import { Button } from '../../shadcn/components/ui/button.tsx';
 import { goto } from '../common/utils/route_util';
 
@@ -8,7 +9,7 @@ export function Launch() {
     }
 
     return (
-        <div className={styles.root}>
+        <div className="absolute w-full h-full" style={{ backgroundColor: styles.editor_canvas_bg }}>
             <Button onClick={openfile_electron}>Open File</Button>
             <Button
                 variant="link"
