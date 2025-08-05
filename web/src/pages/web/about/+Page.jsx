@@ -1,5 +1,5 @@
 import './code.css';
-import Button from 'react-bootstrap/Button';
+import { Button } from '../../../shadcn/components/ui/button.tsx';
 import { ROUTE } from '../../../components/web/ROUTE';
 import { goto } from '../../../components/common/utils/route_util';
 import { NavigationBar } from '../../../components/web/navi/NavigationBar.jsx';
