@@ -1,5 +1,11 @@
 import React from 'react';
-import { Button } from '../../../shadcn/components/ui/button.js';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import { usePageContext } from '../../../renderer/usePageContext.jsx';
 import { MessageBox } from '../../common/utils/MessageBox.jsx';
 import { NavigationBar } from '../navi/NavigationBar.jsx';
@@ -20,19 +26,90 @@ class _Drive extends React.Component {
     }
 
     render() {
-        // const fileList = this.state.files.map((file, i) => {
-        //     return (
-        //         <ListGroup.Item key={i} eventKey={i} action>
-        //             {file.title}
-        //         </ListGroup.Item>
-        //     );
-        // });
+        const fileList = this.state.files.map((file, i) => {
+            return (
+                <ListGroup.Item key={i} eventKey={i} action>
+                    {file.title}
+                </ListGroup.Item>
+            );
+        });
 
         return (
-            <NavigationBar>
-                <Button>Upload</Button>
+            <>
+                <NavigationBar>
+                    <Container>
+                        <Row>
+                            <Col md={10}>
+                                <Form
+                                    id="file_1"
+                                    ref={this._fileSubmitRef}
+                                    style={{ display: 'none' }}
+                                    encType="multipart/form-data"
+                                    onChange={this.onSubmitUpload}
+                                >
+                                    <Form.Control
+                                        ref={this._fileInputRef}
+                                        type="file"
+                                        name="file"
+                                        accept=".docx,.pptx,.xlsx"
+                                    />
+                                </Form>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={10}>
+                                <div style={{ margin: '10px', width: '100%' }}>
+                                    {/* <Button variant="outline-primary" size="sm" onClick={this.onBtNewClick}>
+                                    New
+                                </Button>{" "} */}
+                                    <Button variant="outline-primary" size="sm" onClick={this.onBtUploadClick}>
+                                        Upload
+                                    </Button>{' '}
+                                    <Button variant="outline-success" size="sm" onClick={this.onBtEditClick}>
+                                        Open
+                                    </Button>{' '}
+                                    <Button variant="outline-danger" size="sm" onClick={this.onBtDeleteClick}>
+                                        Delete
+                                    </Button>{' '}
+                                    <Button variant="outline-primary" size="sm" onClick={this.onBtOfdClick}>
+                                        Open Native Folder
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={10}>
+                                <ListGroup
+                                    style={{ margin: '10px', width: '100%' }}
+                                    variant="flush"
+                                    activeKey={this.state.activeKey}
+                                    defaultActiveKey={0}
+                                    onSelect={this.onFileSelect}
+                                >
+                                    {fileList}
+                                </ListGroup>
+                            </Col>
+                        </Row>
+                    </Container>
+                </NavigationBar>
+
+                <Modal show={this.state.showConfirm} onHide={this.onCancel}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Warning</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Do you really want to delete this file?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="outline-secondary" onClick={this.onCancel}>
+                            Cancel
+                        </Button>
+                        <Button variant="outline-primary" onClick={this.onConfirm}>
+                            Ok
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
                 <MessageBox ref={this._messageBox} />
-            </NavigationBar>
+            </>
         );
     }
 
