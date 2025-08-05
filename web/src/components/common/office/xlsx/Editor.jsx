@@ -1,4 +1,4 @@
-import styles from './Editor.module.scss';
+import * as styles from '../../styles';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
@@ -78,16 +78,21 @@ export function OfficeEditor({ fid }) {
     }, [resize_]);
 
     return (
-        <div className={styles.root}>
-            <div className={styles.menu}>
+        <div className="absolute w-full h-full">
+            <div className="absolute w-full" style={{ height: styles.top_bar_height }}>
                 <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} />
             </div>
-            <div className={styles.editor}>
-                <div className={styles.canvas}>
+            <div className="absolute w-full" style={{ top: styles.top_bar_height, bottom: styles.status_bar_height }}>
+                <div
+                    className="absolute top-0 left-0 bottom-0 right-0"
+                    style={{
+                        backgroundColor: styles.editor_canvas_bg,
+                    }}
+                >
                     <Canvas editor={editor_} />
                 </div>
             </div>
-            <div className={styles.statusbar}>
+            <div className="absolute bottom-0 w-full" style={{ height: styles.status_bar_height }}>
                 <StatusBar />
             </div>
         </div>
