@@ -1,11 +1,11 @@
-import styles from './Faq.module.scss';
-import { Navigator } from '../Navigator';
+import { NavigationBar } from '../navi/NavigationBar';
 
 export function Faq() {
     return (
         <>
-            <Navigator />
-            <h1 className={styles.title}>Frequently Asked Questions</h1>
+            <NavigationBar>
+                <p className="text-center text-2xl">Frequently Asked Questions</p>
+            </NavigationBar>
         </>
     );
 }
