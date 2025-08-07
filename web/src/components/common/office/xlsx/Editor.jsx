@@ -24,25 +24,20 @@ export function OfficeEditor({ fid }) {
     }
 
     useEffect(() => {
-        let is_mounted = true;
-
         if (!fid) {
             return;
         }
 
         (async () => {
-            if (is_mounted) {
-                console.log(`open xlsx file id: ${fid}`);
-                try {
-                    set_editor(new OfficeEditorClass(fid));
-                } catch (error) {
-                    console.error('error fetching file:', error);
-                }
+            console.log(`open xlsx file id: ${fid}`);
+            try {
+                set_editor(new OfficeEditorClass(fid));
+            } catch (error) {
+                console.error('error fetching file:', error);
             }
         })();
 
         return () => {
-            is_mounted = false;
             set_editor(null);
             console.log(`close xlsx file id: ${fid}`);
         };

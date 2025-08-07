@@ -12,21 +12,16 @@ export function MenuBar({ editor, onNaviSwitch }) {
     };
 
     useEffect(() => {
-        let is_mounted = true;
-
         if (!editor) {
             return;
         }
 
         (async () => {
-            if (is_mounted) {
-                const text = await editor.fetch_title();
-                set_title(text);
-            }
+            const text = await editor.fetch_title();
+            set_title(text);
         })();
 
         return () => {
-            is_mounted = false;
             set_title('');
         };
     }, [editor]);
