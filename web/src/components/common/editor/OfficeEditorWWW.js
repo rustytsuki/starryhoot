@@ -1,7 +1,7 @@
-import { OfficeEditorWasm } from "./base/OfficeEditorWasm";
+import { OfficeEditor } from "./OfficeEditor";
 import { load_roffice } from '../office/roffice';
 
-export class OfficeEditorWWW extends OfficeEditorWasm {
+export class OfficeEditorWWW extends OfficeEditor {
     constructor(...args) {
         super(...args);
     }

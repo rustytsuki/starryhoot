@@ -1,6 +1,6 @@
-import { get_roffice } from '../../office/roffice';
+import { get_roffice } from '../office/roffice';
 // #v-ifdef VITE_STARRYHOOT_ELECTRON
-import { render_msgpack } from '../command/RenderMsgpack';
+import { render_msgpack } from './command/RenderMsgpack';
 // #v-endif
 
 export const OfficeEditorType = {
@@ -33,6 +33,16 @@ export class OfficeEditor {
         return OfficeEditorType.XLSX === this.type_;
     }
 
+    file_type_str() {
+        if (this.is_docx()) {
+            return 'docx';
+        } else if (this.is_pptx()) {
+            return 'pptx';
+        } else if (this.is_xlsx()) {
+            return 'xlsx';
+        }
+    }
+
     async load() {
         throw '';
     }
@@ -41,6 +51,36 @@ export class OfficeEditor {
         if (this.handle_) {
             get_roffice().roffice_close_file(this.handle_);
             this.handle_ = 0;
+        }
+    }
+
+    load_file(payload, is_path = false) {
+        const file_type_str = this.file_type_str();
+        let office_open_func;
+        let office_compute_func;
+
+        if (this.is_docx()) {
+            office_open_func = is_path ? get_roffice().roffice_open_docx_file : get_roffice().roffice_open_docx_u8array;
+            office_compute_func = get_roffice().roffice_docx_compute;
+        } else if (this.is_pptx()) {
+            office_open_func = is_path ? get_roffice().roffice_open_pptx_file : get_roffice().roffice_open_pptx_u8array;
+            office_compute_func = get_roffice().roffice_pptx_compute;
+        } else if (this.is_xlsx()) {
+            office_open_func = is_path ? get_roffice().roffice_open_xlsx_file : get_roffice().roffice_open_xlsx_u8array;
+            office_compute_func = get_roffice().roffice_xlsx_compute;
+        }
+
+        try {
+            this.handle_ = office_open_func(payload);
+        } catch (e) {
+            console.error(`${file_type_str} load file error: `, e);
+        }
+
+        // compute
+        try {
+            office_compute_func(this.handle_);
+        } catch (e) {
+            console.error(`${file_type_str} compute error: `, e);
         }
     }
 

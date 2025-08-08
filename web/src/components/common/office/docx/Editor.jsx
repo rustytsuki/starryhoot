@@ -4,7 +4,7 @@ import { Navigation } from './Navigation';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
-import { OfficeEditorType } from '../../editor/base/OfficeEditor';
+import { OfficeEditorType } from '../../editor/OfficeEditor';
 // #v-ifdef VITE_STARRYHOOT_WEB
 import { OfficeEditorWeb as OfficeEditorClass } from '../../editor/OfficeEditorWeb';
 // #v-elif VITE_STARRYHOOT_WWW

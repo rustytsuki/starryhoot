@@ -1,7 +1,7 @@
-import { OfficeEditorWasm } from "./base/OfficeEditorWasm";
+import { OfficeEditor } from "./OfficeEditor";
 import { load_roffice } from '../office/roffice';
 
-export class OfficeEditorWeb extends OfficeEditorWasm {
+export class OfficeEditorWeb extends OfficeEditor {
     constructor(...args) {
         super(...args);
     }
@@ -28,7 +28,7 @@ export class OfficeEditorWeb extends OfficeEditorWasm {
             return;
         }
 
-        this.load_bytes(bytes);
+        this.load_file(bytes);
         this.register_request_anim_frame();
     }
 
