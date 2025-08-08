@@ -5,7 +5,7 @@ import vike from 'vike/plugin';
 import { defineConfig } from 'vite';
 import ConditionalCompile from 'vite-plugin-conditional-compiler';
 import { cjsInterop } from 'vite-plugin-cjs-interop';
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
     console.log(`load vite config: command: ${command}, mode: ${mode}, ssrBuild: ${isSsrBuild}`);
@@ -58,13 +58,8 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         build,
         ssr,
         clearScreen: false,
-        plugins: [
-            react(),
-            ConditionalCompile(),
-            vike(),
-            cjs_interrop,
-            tailwindcss()
-        ],
+        assetsInclude: ['**/*.docx', '**/*.pptx', '**/*.xlsx'],
+        plugins: [react(), ConditionalCompile(), vike(), cjs_interrop, tailwindcss()],
         resolve: {
             alias: {
                 '@': new URL('./', import.meta.url).pathname,
