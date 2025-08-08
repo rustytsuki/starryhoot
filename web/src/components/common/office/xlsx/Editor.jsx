@@ -3,10 +3,13 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
-// #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_WWW
-import { XLSXEditorWeb as OfficeEditorClass } from './editor/XLSXEditorWeb';
+import { OfficeEditorType } from '../../editor/base/OfficeEditor';
+// #v-ifdef VITE_STARRYHOOT_WEB
+import { OfficeEditorWeb as OfficeEditorClass } from '../../editor/OfficeEditorWeb';
+// #v-elif VITE_STARRYHOOT_WWW
+import { OfficeEditorWWW as OfficeEditorClass } from '../../editor/OfficeEditorWWW';
 // #v-elif VITE_STARRYHOOT_ELECTRON
-import { XLSXEditorElectron as OfficeEditorClass } from './editor/XLSXEditorElectron';
+import { OfficeEditorElectron as OfficeEditorClass } from '../../editor/OfficeEditorElectron';
 // #v-endif
 
 export function OfficeEditor({ fid }) {
@@ -31,7 +34,7 @@ export function OfficeEditor({ fid }) {
         (async () => {
             console.log(`open xlsx file id: ${fid}`);
             try {
-                set_editor(new OfficeEditorClass(fid));
+                set_editor(new OfficeEditorClass(OfficeEditorType.XLSX, fid));
             } catch (error) {
                 console.error('error fetching file:', error);
             }

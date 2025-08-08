@@ -4,10 +4,13 @@ import { Navigation } from './Navigation';
 import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
-// #v-ifdef VITE_STARRYHOOT_WEB||VITE_STARRYHOOT_WWW
-import { PPTXEditorWeb as OfficeEditorClass } from './editor/PPTXEditorWeb';
+import { OfficeEditorType } from '../../editor/base/OfficeEditor';
+// #v-ifdef VITE_STARRYHOOT_WEB
+import { OfficeEditorWeb as OfficeEditorClass } from '../../editor/OfficeEditorWeb';
+// #v-elif VITE_STARRYHOOT_WWW
+import { OfficeEditorWWW as OfficeEditorClass } from '../../editor/OfficeEditorWWW';
 // #v-elif VITE_STARRYHOOT_ELECTRON
-import { PPTXEditorElectron as OfficeEditorClass } from './editor/PPTXEditorElectron';
+import { OfficeEditorElectron as OfficeEditorClass } from '../../editor/OfficeEditorElectron';
 // #v-endif
 
 const LEFT_BAR_WIDTH = 300;
@@ -35,7 +38,7 @@ export function OfficeEditor({ fid }) {
         (async () => {
             console.log(`open pptx file id: ${fid}`);
             try {
-                set_editor(new OfficeEditorClass(fid));
+                set_editor(new OfficeEditorClass(OfficeEditorType.PPTX, fid));
             } catch (error) {
                 console.error('error fetching file:', error);
             }

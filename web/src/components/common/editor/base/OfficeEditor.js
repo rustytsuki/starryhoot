@@ -1,17 +1,36 @@
-import { get_roffice } from '../office/roffice';
+import { get_roffice } from '../../office/roffice';
 // #v-ifdef VITE_STARRYHOOT_ELECTRON
-import { render_msgpack } from './command/RenderMsgpack';
+import { render_msgpack } from '../command/RenderMsgpack';
 // #v-endif
 
+export const OfficeEditorType = {
+    DOCX: 1,
+    PPTX: 2,
+    XLSX: 3,
+};
+
 export class OfficeEditor {
-    constructor(fid) {
-        this.fid_ = fid;
+    constructor(editor_type, payload) {
+        this.type_ = editor_type;
+        this.payload_ = payload;
         this.handle_ = 0;
         this.destroyed_ = false;
 
         this.canvas_dom_ = null;
         this.viewport_dom_ = null;
         this.area_dom_ = null;
+    }
+
+    is_docx() {
+        return OfficeEditorType.DOCX === this.type_;
+    }
+
+    is_pptx() {
+        return OfficeEditorType.PPTX === this.type_;
+    }
+
+    is_xlsx() {
+        return OfficeEditorType.XLSX === this.type_;
     }
 
     async load() {
@@ -154,6 +173,5 @@ export class OfficeEditor {
     };
 
     // The *Down happens first, the *Press happens second (when text is entered), and the *Up happens last (when text input is complete)
-    on_keydown = (e) => {
-    };
+    on_keydown = (e) => {};
 }
