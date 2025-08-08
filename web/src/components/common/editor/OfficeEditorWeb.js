@@ -1,20 +1,11 @@
 import { OfficeEditor } from "./OfficeEditor";
-import { load_roffice } from '../office/roffice';
 
 export class OfficeEditorWeb extends OfficeEditor {
     constructor(...args) {
         super(...args);
     }
 
-    async load() {
-        if (this.handle_) {
-            return;
-        }
-
-        // ensure roffice
-        await load_roffice();
-
-        // fetch file data
+    async get_payload() {
         const response = await fetch(`/storage/${this.payload_}/uploaded.docx`);
 
         if (!response.ok) {
@@ -24,12 +15,7 @@ export class OfficeEditorWeb extends OfficeEditor {
         const buffer = await response.arrayBuffer();
         const bytes = new Uint8Array(buffer);
 
-        if (this.destroyed_) {
-            return;
-        }
-
-        this.load_file(bytes);
-        this.register_request_anim_frame();
+        return { payload: bytes, is_path: false };
     }
 
     async fetch_title() {

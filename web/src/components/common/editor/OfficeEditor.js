@@ -1,4 +1,4 @@
-import { get_roffice } from '../office/roffice';
+import { load_roffice, get_roffice } from '../office/roffice';
 // #v-ifdef VITE_STARRYHOOT_ELECTRON
 import { render_msgpack } from './command/RenderMsgpack';
 // #v-endif
@@ -44,7 +44,22 @@ export class OfficeEditor {
     }
 
     async load() {
-        throw '';
+        if (this.handle_) {
+            return;
+        }
+
+        // ensure roffice
+        await load_roffice();
+
+        // fetch file data
+        const { payload, is_path } = await this.get_payload();
+
+        if (this.destroyed_) {
+            return;
+        }
+
+        this.load_file(payload, is_path);
+        this.register_request_anim_frame();
     }
 
     unload() {
@@ -54,7 +69,11 @@ export class OfficeEditor {
         }
     }
 
-    load_file(payload, is_path = false) {
+    async get_payload() {
+        throw '';
+    }
+
+    load_file(payload, is_path) {
         const file_type_str = this.file_type_str();
         let office_open_func;
         let office_compute_func;
