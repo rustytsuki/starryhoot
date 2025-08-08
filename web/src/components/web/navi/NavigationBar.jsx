@@ -100,7 +100,7 @@ export const NavigationBar = (props) => {
                     </div>
                 </div>
             </nav>
-            <div className="flex-1 overflow-auto">{props.children}</div>
+            <div className="relative flex-1 overflow-auto">{props.children}</div>
         </div>
     );
 };

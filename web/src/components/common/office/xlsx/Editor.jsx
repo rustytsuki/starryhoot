@@ -73,7 +73,7 @@ export function OfficeEditor({ fid }) {
     }, [resize_]);
 
     return (
-        <div className="absolute w-full h-full">
+        <div className="absolute left-0 top-0 w-full h-full">
             <div className="absolute w-full" style={{ height: styles.top_bar_height }}>
                 <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} />
             </div>
