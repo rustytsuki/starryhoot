@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { parse_uri_query } from '../../../../components/common/utils/route_util';
-import { OfficeEditor } from '../../../../components/common/office/xlsx/Editor';
+import { XLSXEditor } from '../../../../components/common/office/xlsx/Editor';
 
 export function Page() {
-    const [file_id_, set_file_id] = useState('');
+    const [options_, set_options] = useState(null);
 
     useEffect(() => {
         const query = parse_uri_query();
-        set_file_id(query['id']);
+        set_options({ file_id: query['id'] });
 
         window.document.body.style['overflow'] = "hidden";
 
@@ -16,5 +16,5 @@ export function Page() {
         };
     }, []);
 
-    return <OfficeEditor fid={file_id_} />;
+    return <XLSXEditor options={options_} />;
 }

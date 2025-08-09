@@ -5,18 +5,12 @@ import { Canvas } from './Canvas';
 import { MenuBar } from './MenuBar';
 import { StatusBar } from './StatusBar';
 import { OfficeEditorType } from '../../editor/OfficeEditor';
-// #v-ifdef VITE_STARRYHOOT_WEB
-import { OfficeEditorWeb as OfficeEditorClass } from '../../editor/OfficeEditorWeb';
-// #v-elif VITE_STARRYHOOT_WWW
-import { OfficeEditorWWW as OfficeEditorClass } from '../../editor/OfficeEditorWWW';
-// #v-elif VITE_STARRYHOOT_ELECTRON
-import { OfficeEditorElectron as OfficeEditorClass } from '../../editor/OfficeEditorElectron';
-// #v-endif
+import { OfficeEditorClass } from '../editor';
 
 const LEFT_BAR_WIDTH = 200;
 const RIGHT_BAR_WIDTH = 200;
 
-export function OfficeEditor({ fid }) {
+export function DOCXEditor({ options }) {
     const [is_left_bar_shown_, set_left_bar_shown] = useState(false);
     const [is_right_bar_shown_, set_right_bar_shown] = useState(false);
     const [resize_, set_resize] = useState(false);
@@ -33,14 +27,14 @@ export function OfficeEditor({ fid }) {
     }
 
     useEffect(() => {
-        if (!fid) {
+        if (!options) {
             return;
         }
 
         (async () => {
-            console.log(`open docx file id: ${fid}`);
+            console.log(`open docx file: ${JSON.stringify(options)}`);
             try {
-                set_editor(new OfficeEditorClass(OfficeEditorType.DOCX, fid));
+                set_editor(new OfficeEditorClass(OfficeEditorType.DOCX, options));
             } catch (error) {
                 console.error('error fetching file:', error);
             }
@@ -48,9 +42,9 @@ export function OfficeEditor({ fid }) {
 
         return () => {
             set_editor(null);
-            console.log(`close docx file id: ${fid}`);
+            console.log(`close docx file: ${JSON.stringify(options)}`);
         };
-    }, [fid]);
+    }, [options]);
 
     useEffect(() => {
         if (!editor_) {

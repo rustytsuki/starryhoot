@@ -1,21 +1,19 @@
 import { OfficeEditor } from './OfficeEditor';
-import { base64_to_str } from '../utils/base64';
 import { getFileNameFromPath } from '../utils/path_util';
 import { get_roffice } from '../office/roffice';
 
 export class OfficeEditorElectron extends OfficeEditor {
     constructor(...args) {
         super(...args);
-        this.file_path_ = base64_to_str(this.payload_);
         this.resource_ = {};
     }
 
     async get_payload() {
-        return { payload: this.file_path_, is_path: true };
+        return { payload: this.options_.file_path, is_path: true };
     }
 
     async fetch_title() {
-        const name = getFileNameFromPath(this.file_path_);
+        const name = getFileNameFromPath(this.options_.file_path);
         return `${name.fileName}.${name.extension}`;
     }
 

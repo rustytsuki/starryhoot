@@ -6,7 +6,7 @@ export class OfficeEditorWWW extends OfficeEditor {
     }
 
     async get_payload() {
-        const response = await fetch(this.payload_.url);
+        const response = await fetch(this.options_.file_url);
 
         if (!response.ok) {
             throw new Error('network response was not ok');
@@ -19,6 +19,6 @@ export class OfficeEditorWWW extends OfficeEditor {
     }
 
     async fetch_title() {
-        return this.payload_.title;
+        return this.options_.title;
     }
 }

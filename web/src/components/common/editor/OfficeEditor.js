@@ -10,9 +10,9 @@ export const OfficeEditorType = {
 };
 
 export class OfficeEditor {
-    constructor(editor_type, payload) {
+    constructor(editor_type, options) {
         this.type_ = editor_type;
-        this.payload_ = payload;
+        this.options_ = options;
         this.handle_ = 0;
         this.destroyed_ = false;
 

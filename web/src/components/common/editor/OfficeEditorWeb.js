@@ -1,4 +1,4 @@
-import { OfficeEditor } from "./OfficeEditor";
+import { OfficeEditor } from './OfficeEditor';
 
 export class OfficeEditorWeb extends OfficeEditor {
     constructor(...args) {
@@ -6,7 +6,7 @@ export class OfficeEditorWeb extends OfficeEditor {
     }
 
     async get_payload() {
-        const response = await fetch(`/storage/${this.payload_}/uploaded.docx`);
+        const response = await fetch(`/storage/${this.options_.file_id}/uploaded.docx`);
 
         if (!response.ok) {
             throw new Error('network response was not ok');
@@ -19,13 +19,13 @@ export class OfficeEditorWeb extends OfficeEditor {
     }
 
     async fetch_title() {
-        const response = await fetch("/api/drive/file", {
-            method: "POST",
+        const response = await fetch('/api/drive/file', {
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "id": parseInt(this.payload_) }),
+            body: JSON.stringify({ 'id': parseInt(this.options_.file_id) }),
         });
         const content = await response.json();
         if (content['success']) {
