@@ -42,7 +42,7 @@ export function MenuBar({ editor, onNaviSwitch }) {
             </div>
             <div className="absolute left-1/2 -translate-x-1/2 text-[18px] font-semibold">{title}</div>
             <div className="flex flex-1 justify-end items-center gap-2">
-                <Button>Print</Button>
+                <Button variant="outline" size="sm">Print</Button>
             </div>
         </div>
     );
