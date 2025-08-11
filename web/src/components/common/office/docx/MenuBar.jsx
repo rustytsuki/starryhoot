@@ -37,12 +37,22 @@ export function MenuBar({ editor, onNaviSwitch }) {
                     onClick={() => {
                         // #v-ifdef VITE_STARRYHOOT_WEB
                         goto('/drive');
+                        // #v-elif VITE_STARRYHOOT_WWW
+                        console.log('return');
                         // #v-elif VITE_STARRYHOOT_ELECTRON
                         starryhoot.goto_home_tab();
                         // #v-endif
                     }}
                 >
-                    My Files
+                    {
+                        // #v-ifdef VITE_STARRYHOOT_WEB
+                        "My Files"
+                        // #v-elif VITE_STARRYHOOT_WWW
+                        "Return"
+                        // #v-elif VITE_STARRYHOOT_ELECTRON
+                        "Home"
+                        // #v-endif
+                    }
                 </Button>
             </div>
             <div className="absolute left-1/2 -translate-x-1/2 text-[18px] font-semibold">{title}</div>
