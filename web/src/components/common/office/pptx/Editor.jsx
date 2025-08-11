@@ -9,7 +9,7 @@ import { OfficeEditorClass } from '../editor';
 
 const LEFT_BAR_WIDTH = 300;
 
-export function PPTXEditor({ options }) {
+export function PPTXEditor({ options, onGoBackClick }) {
     const [is_left_bar_shown_, set_left_bar_shown] = useState(false);
     const [resize_, set_resize] = useState(false);
     const [editor_, set_editor] = useState(null);
@@ -76,7 +76,7 @@ export function PPTXEditor({ options }) {
     return (
         <div className="absolute left-0 top-0 w-full h-full">
             <div className="absolute w-full" style={{ height: styles.top_bar_height }}>
-                <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} />
+                <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} onGoBackClick={onGoBackClick} />
             </div>
             <div className="absolute w-full" style={{ top: styles.top_bar_height, bottom: styles.status_bar_height }}>
                 <div

@@ -5,6 +5,14 @@ export function goto(route) {
     navigate(get_full_path(route));
 }
 
+export function go_back() {
+    window.history.back();
+}
+
+export function go_forward() {
+    window.history.forward();
+}
+
 // refresh browser, route is pages route without base in vite.config.js
 export function redirect(route) {
     window.location.href = get_full_path(route);

@@ -6,7 +6,7 @@ import { StatusBar } from './StatusBar';
 import { OfficeEditorType } from '../../editor/OfficeEditor';
 import { OfficeEditorClass } from '../editor';
 
-export function XLSXEditor({ options }) {
+export function XLSXEditor({ options, onGoBackClick }) {
     const [resize_, set_resize] = useState(false);
     const [editor_, set_editor] = useState(null);
     const editor_ref = useRef();
@@ -72,7 +72,7 @@ export function XLSXEditor({ options }) {
     return (
         <div className="absolute left-0 top-0 w-full h-full">
             <div className="absolute w-full" style={{ height: styles.top_bar_height }}>
-                <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} />
+                <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} onGoBackClick={onGoBackClick} />
             </div>
             <div className="absolute w-full" style={{ top: styles.top_bar_height, bottom: styles.status_bar_height }}>
                 <div

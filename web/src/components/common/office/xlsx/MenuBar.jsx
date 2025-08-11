@@ -1,9 +1,9 @@
 import * as styles from '../../styles';
 import { useState, useEffect } from 'react';
 import { Button } from '../../../../shadcn/components/ui/button';
-import { goto } from '../../utils/route_util';
+import { EditorQuitButton } from '../EditorQuitButton.jsx';
 
-export function MenuBar({ editor, onNaviSwitch }) {
+export function MenuBar({ editor, onGoBackClick }) {
     const [title, set_title] = useState('');
 
     useEffect(() => {
@@ -27,22 +27,13 @@ export function MenuBar({ editor, onNaviSwitch }) {
             style={{ height: styles.top_bar_height }}
         >
             <div className="flex flex-1 justify-start items-center gap-2">
-                <Button
-                    variant="link"
-                    onClick={() => {
-                        // #v-ifdef VITE_STARRYHOOT_WEB
-                        goto('/drive');
-                        // #v-elif VITE_STARRYHOOT_ELECTRON
-                        starryhoot.goto_home_tab();
-                        // #v-endif
-                    }}
-                >
-                    My Files
-                </Button>
+                <EditorQuitButton onGoBackClick={onGoBackClick} />
             </div>
             <div className="absolute left-1/2 -translate-x-1/2 text-[18px] font-semibold">{title}</div>
             <div className="flex flex-1 justify-end items-center gap-2">
-                <Button variant="outline" size="sm">Print</Button>
+                <Button variant="outline" size="sm">
+                    Print
+                </Button>
             </div>
         </div>
     );

@@ -10,7 +10,7 @@ import { OfficeEditorClass } from '../editor';
 const LEFT_BAR_WIDTH = 200;
 const RIGHT_BAR_WIDTH = 200;
 
-export function DOCXEditor({ options }) {
+export function DOCXEditor({ options, onGoBackClick }) {
     const [is_left_bar_shown_, set_left_bar_shown] = useState(false);
     const [is_right_bar_shown_, set_right_bar_shown] = useState(false);
     const [resize_, set_resize] = useState(false);
@@ -78,7 +78,7 @@ export function DOCXEditor({ options }) {
     return (
         <div className="absolute left-0 top-0 w-full h-full">
             <div className="absolute w-full" style={{ height: styles.top_bar_height }}>
-                <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} />
+                <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} onGoBackClick={onGoBackClick} />
             </div>
             <div className="absolute w-full" style={{ top: styles.top_bar_height, bottom: styles.status_bar_height }}>
                 <div
