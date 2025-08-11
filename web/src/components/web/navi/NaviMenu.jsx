@@ -46,9 +46,7 @@ export const NavMenu = (props) => {
                         >
                             <Button
                                 variant="link"
-                                onClick={() => {
-                                    goto(item.route);
-                                }}
+                                {...(curr_route === item.route ? {} : { onClick: () => goto(item.route) })}
                             >
                                 {item.title}
                             </Button>

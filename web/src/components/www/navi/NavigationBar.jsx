@@ -1,4 +1,5 @@
 import { Button } from '../../../shadcn/components/ui/button.tsx';
+import { Github, Twitter } from 'lucide-react';
 import { Logo } from './Logo';
 import { NavMenu } from './NaviMenu';
 import { NavigationSheet } from './NavigationSheet';
@@ -17,7 +18,27 @@ export const NavigationBar = (props) => {
                         <NavMenu className="hidden md:block" />
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-0">
+                            <Button
+                                variant="link"
+                                onClick={() => {
+                                    window.open('https://x.com/rustytsuki', '_blank');
+                                }}
+                                title="Follow Me"
+                            >
+                                <Twitter />
+                            </Button>
+                            <Button
+                                variant="link"
+                                onClick={() => {
+                                    window.open('https://github.com/rustytsuki/starryhoot', '_blank');
+                                }}
+                                title="Source Code"
+                            >
+                                <Github />
+                            </Button>
+                        </div>
                         <Button
                             className="sm:inline-flex"
                             onClick={() => {
