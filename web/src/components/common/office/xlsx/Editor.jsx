@@ -26,7 +26,7 @@ export function XLSXEditor({ options, onGoBackClick }) {
         }
 
         (async () => {
-            console.log(`open xlsx file: ${JSON.stringify(options)}`);
+            console.log(`open xlsx file`);
             try {
                 set_editor(new OfficeEditorClass(OfficeEditorType.XLSX, options));
             } catch (error) {
@@ -36,7 +36,7 @@ export function XLSXEditor({ options, onGoBackClick }) {
 
         return () => {
             set_editor(null);
-            console.log(`close xlsx file: ${JSON.stringify(options)}`);
+            console.log(`close xlsx file`);
         };
     }, [options]);
 

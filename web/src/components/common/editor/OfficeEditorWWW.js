@@ -6,6 +6,10 @@ export class OfficeEditorWWW extends OfficeEditor {
     }
 
     async get_payload() {
+        if (this.options_.file_bytes) {
+            return { payload: this.options_.file_bytes, is_path: false };
+        }
+
         const response = await fetch(this.options_.file_url);
 
         if (!response.ok) {

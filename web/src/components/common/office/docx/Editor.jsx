@@ -32,7 +32,7 @@ export function DOCXEditor({ options, onGoBackClick }) {
         }
 
         (async () => {
-            console.log(`open docx file: ${JSON.stringify(options)}`);
+            console.log(`open docx file`);
             try {
                 set_editor(new OfficeEditorClass(OfficeEditorType.DOCX, options));
             } catch (error) {
@@ -42,7 +42,7 @@ export function DOCXEditor({ options, onGoBackClick }) {
 
         return () => {
             set_editor(null);
-            console.log(`close docx file: ${JSON.stringify(options)}`);
+            console.log(`close docx file`);
         };
     }, [options]);
 

@@ -30,7 +30,7 @@ export function PPTXEditor({ options, onGoBackClick }) {
         }
 
         (async () => {
-            console.log(`open pptx file: ${JSON.stringify(options)}`);
+            console.log(`open pptx file`);
             try {
                 set_editor(new OfficeEditorClass(OfficeEditorType.PPTX, options));
             } catch (error) {
@@ -40,7 +40,7 @@ export function PPTXEditor({ options, onGoBackClick }) {
 
         return () => {
             set_editor(null);
-            console.log(`close pptx file: ${JSON.stringify(options)}`);
+            console.log(`close pptx file`);
         };
     }, [options]);
 
