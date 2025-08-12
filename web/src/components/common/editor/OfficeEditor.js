@@ -209,10 +209,14 @@ export class OfficeEditor {
         const w = this.viewport_dom_['clientWidth'];
         const h = this.viewport_dom_['clientHeight'];
 
+        const dpr = window.devicePixelRatio;
+        const width_px  = w * dpr;
+        const height_px = h * dpr;
+
         this.canvas_dom_['style']['width'] = `${w}px`;
         this.canvas_dom_['style']['height'] = `${h}px`;
-        this.canvas_dom_['width'] = Math.round(this.canvas_dom_['clientWidth'] * window.devicePixelRatio);
-        this.canvas_dom_['height'] = Math.round(this.canvas_dom_['clientHeight'] * window.devicePixelRatio);
+        this.canvas_dom_['width'] = (Number.isInteger(dpr) ? Math.round(width_px)  : Math.ceil(width_px));
+        this.canvas_dom_['height'] = (Number.isInteger(dpr) ? Math.round(height_px) : Math.ceil(height_px));
 
         // console.log(`resize canvas to (${this.canvas_dom_.width}, ${this.canvas_dom_.height})`);
 
