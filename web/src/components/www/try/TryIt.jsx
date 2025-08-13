@@ -2,9 +2,7 @@ import { useState, useCallback } from 'react';
 import { NavigationBar } from '../navi/NavigationBar';
 import { useDropzone } from 'react-dropzone';
 import { MIMEType } from '../../common/MimeType';
-import { DOCXEditor } from '../../common/office/docx/Editor.jsx';
-import { PPTXEditor } from '../../common/office/pptx/Editor.jsx';
-import { XLSXEditor } from '../../common/office/xlsx/Editor.jsx';
+import { UniEditor } from '../../common/office/UniEditor';
 
 export function TryIt() {
     const [editor_shown, set_editor_shown] = useState(false);
@@ -52,22 +50,10 @@ export function TryIt() {
         set_editor_options(null);
     };
 
-    const UniEditor = () => {
-        if (MIMEType.DOCX === editor_type) {
-            return <DOCXEditor options={editor_options} onGoBackClick={onCloseEditor} />;
-        } else if (MIMEType.PPTX === editor_type) {
-            return <PPTXEditor options={editor_options} onGoBackClick={onCloseEditor} />;
-        } else if (MIMEType.XLSX === editor_type) {
-            return <XLSXEditor options={editor_options} onGoBackClick={onCloseEditor} />;
-        } else {
-            return <></>;
-        }
-    };
-
     return (
         <NavigationBar>
             {editor_shown ? (
-                UniEditor()
+                <UniEditor editor_type={editor_type} editor_options={editor_options} onGoBackClick={onCloseEditor} />
             ) : (
                 <div className="flex w-full h-full items-center justify-center">
                     <div
