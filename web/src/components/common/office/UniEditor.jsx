@@ -1,4 +1,4 @@
-import { MIMEType } from '../../common/MimeType';
+import { MIMEType } from '../../common/MIMEType';
 import { DOCXEditor } from '../../common/office/docx/Editor.jsx';
 import { PPTXEditor } from '../../common/office/pptx/Editor.jsx';
 import { XLSXEditor } from '../../common/office/xlsx/Editor.jsx';

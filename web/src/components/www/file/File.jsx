@@ -3,7 +3,7 @@ import { NavigationBar } from '../../../components/www/navi/NavigationBar';
 import { UniEditor } from '../../../components/common/office/UniEditor';
 import { go_back } from '../../../components/common/utils/route_util';
 import { getFileNameFromPath } from '../../common/utils/path_util';
-import { MIMEType } from '../../common/MimeType';
+import { MIMEType } from '../../common/MIMEType';
 
 export function File({ payload }) {
     const [editor_type, set_editor_type] = useState('');

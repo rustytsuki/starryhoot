@@ -15,7 +15,7 @@ import { MessageBox } from '../../common/utils/MessageBox.jsx';
 import { NavigationBar } from '../navi/NavigationBar.jsx';
 import { goto } from '../../common/utils/route_util.js';
 import { getFileNameFromPath } from '../../common/utils/path_util.js';
-import { MIMEType } from '../../common/MimeType.js';
+import { MIMEType } from '../../common/MIMEType.js';
 
 export function Drive() {
     const [open, setOpen] = useState(false);

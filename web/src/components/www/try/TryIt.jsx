@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { NavigationBar } from '../navi/NavigationBar';
 import { useDropzone } from 'react-dropzone';
-import { MIMEType } from '../../common/MimeType';
+import { MIMEType } from '../../common/MIMEType';
 import { UniEditor } from '../../common/office/UniEditor';
 
 export function TryIt() {
