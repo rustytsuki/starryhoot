@@ -9,16 +9,16 @@ export function Launch() {
     }
 
     return (
-        <div className="absolute w-full h-full" style={{ backgroundColor: styles.editor_canvas_bg }}>
+        <div className="absolute w-full h-full p-4" style={{ backgroundColor: styles.editor_canvas_bg }}>
             <Button onClick={openfile_electron}>Open File</Button>
-            <Button
+            {/* <Button
                 variant="link"
                 onClick={() => {
                     goto('/about');
                 }}
             >
                 About
-            </Button>
+            </Button> */}
         </div>
     );
 }
