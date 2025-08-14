@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import { SnappySlider } from '../../../shadcn/components/ui/snappy-slider.tsx';
 
-export function ZoomSlider() {
+export function ZoomSlider({ editor }) {
     const [slider_value_, set_slider_value] = useState(50);
 
     const SLIDER_STATIONS = {
@@ -10,6 +10,18 @@ export function ZoomSlider() {
         50: '100%',
         100: '500%',
     };
+
+    useEffect(() => {
+        if (!editor) {
+            return;
+        }
+
+        const zoom_value = editor.get_zoom();
+        const slider_value = zoom_to_slider(zoom_value);
+        set_slider_value(slider_value);
+
+        return () => {};
+    }, [editor]);
 
     const slider_to_zoom = (value) => {
         if (50 == value) {
@@ -38,7 +50,7 @@ export function ZoomSlider() {
             new_zoom_value = 10;
         }
         const new_slider_value = zoom_to_slider(new_zoom_value);
-        set_slider_value(new_slider_value);
+        set_slider_change(new_slider_value);
     };
 
     const increase = () => {
@@ -48,36 +60,52 @@ export function ZoomSlider() {
             new_zoom_value = 500;
         }
         const new_slider_value = zoom_to_slider(new_zoom_value);
-        set_slider_value(new_slider_value);
+        set_slider_change(new_slider_value);
+    };
+
+    const set_slider_change = (value) => {
+        const zoom_value = slider_to_zoom(value);
+        editor.set_zoom(zoom_value);
+        set_slider_value(value);
     };
 
     return (
-        <div className="relative w-[300px] flex items-center gap-1 pl-5 pr-5 ml-auto">
-            <button type="button" className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700" onClick={decrease}>
-                <Minus className="w-3 h-3" />
-            </button>
-            <div className="flex-1">
-                <SnappySlider
-                    values={Object.keys(SLIDER_STATIONS).map(Number)}
-                    defaultValue={50}
-                    value={slider_value_}
-                    onChange={set_slider_value}
-                    min={0}
-                    max={100}
-                    snapping={true}
-                    step={1}
-                    config={{ snappingThreshold: 2 }}
-                />
+        editor && (
+            <div className="relative w-[300px] flex items-center gap-1 pl-5 pr-5 ml-auto">
+                <button
+                    type="button"
+                    className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                    onClick={decrease}
+                >
+                    <Minus className="w-3 h-3" />
+                </button>
+                <div className="flex-1">
+                    <SnappySlider
+                        values={Object.keys(SLIDER_STATIONS).map(Number)}
+                        defaultValue={50}
+                        value={slider_value_}
+                        onChange={set_slider_change}
+                        min={0}
+                        max={100}
+                        snapping={true}
+                        step={1}
+                        config={{ snappingThreshold: 2 }}
+                    />
+                </div>
+                <button
+                    type="button"
+                    className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                    onClick={increase}
+                >
+                    <Plus className="w-3 h-3" />
+                </button>
+                <button
+                    type="button"
+                    className="p-0 rounded hover:bg-gray-200 dark:hover:bg-gray-700 w-8 text-[12px] overflow-hidden"
+                >
+                    {slider_to_zoom(slider_value_)}%
+                </button>
             </div>
-            <button type="button" className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700" onClick={increase}>
-                <Plus className="w-3 h-3" />
-            </button>
-            <button
-                type="button"
-                className="p-0 rounded hover:bg-gray-200 dark:hover:bg-gray-700 w-8 text-[12px] overflow-hidden"
-            >
-                {slider_to_zoom(slider_value_)}%
-            </button>
-        </div>
+        )
     );
 }

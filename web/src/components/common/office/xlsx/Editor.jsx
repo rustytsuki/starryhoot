@@ -28,7 +28,9 @@ export function XLSXEditor({ options, onGoBackClick }) {
         (async () => {
             console.log(`open xlsx file`);
             try {
-                set_editor(new OfficeEditorClass(OfficeEditorType.XLSX, options));
+                const editor = new OfficeEditorClass(OfficeEditorType.XLSX, options);
+                await editor.init();
+                set_editor(editor);
             } catch (error) {
                 console.error('error fetching file:', error);
             }
@@ -45,7 +47,6 @@ export function XLSXEditor({ options, onGoBackClick }) {
             return;
         }
         editor_ref.current = editor_;
-        editor_.init();
 
         return () => {
             editor_.destroy();
@@ -85,7 +86,7 @@ export function XLSXEditor({ options, onGoBackClick }) {
                 </div>
             </div>
             <div className="absolute bottom-0 w-full" style={{ height: styles.status_bar_height }}>
-                <StatusBar />
+                <StatusBar editor={editor_} />
             </div>
         </div>
     );

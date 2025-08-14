@@ -112,6 +112,41 @@ export class OfficeEditor {
         }
     }
 
+    get_zoom() {
+        if (this.handle_) {
+            let roffice = get_roffice();
+            return roffice.roffice_get_zoom(this.handle_);
+        }
+        return 100;
+    }
+
+    set_zoom(value) {
+        if (this.handle_) {
+            let roffice = get_roffice();
+            roffice.roffice_set_zoom(this.handle_, value);
+            this.update_scroll_area();
+        }
+    }
+
+    update_scroll_area() {
+        if (!this.is_dom_ready() || !this.handle_) {
+            return;
+        }
+
+        let roffice = get_roffice();
+        const scroll_bar_x = roffice.roffice_scroll_bar_x(this.handle_);
+        const scroll_bar_y = roffice.roffice_scroll_bar_y(this.handle_);
+
+        // compute scroll size ratio
+        const viewport_w = this.viewport_dom_['clientWidth'];
+        const viewport_h = this.viewport_dom_['clientHeight'];
+        const scale_x = viewport_w / scroll_bar_x.size;
+        const scale_y = viewport_h / scroll_bar_y.size;
+
+        this.area_dom_['style']['width'] = `${scroll_bar_x.total * scale_x}px`;
+        this.area_dom_['style']['height'] = `${scroll_bar_y.total * scale_y}px`;
+    }
+
     update() {
         if (!this.is_dom_ready() || !this.handle_) {
             return;
@@ -134,8 +169,7 @@ export class OfficeEditor {
         const scale_x = viewport_w / scroll_bar_x.size;
         const scale_y = viewport_h / scroll_bar_y.size;
 
-        this.area_dom_['style']['width'] = `${scroll_bar_x.total * scale_x}px`;
-        this.area_dom_['style']['height'] = `${scroll_bar_y.total * scale_y}px`;
+        this.update_scroll_area();
 
         roffice.roffice_scroll_to(this.handle_, scroll_x / scale_x, scroll_y / scale_y);
     }
@@ -175,23 +209,22 @@ export class OfficeEditor {
         return this.canvas_dom_ && this.viewport_dom_ && this.area_dom_;
     }
 
-    init() {
-        this.load()
-            .then(() => {
-                if (this.destroyed_) {
-                    this.set_viewport_dom();
-                    this.unload();
-                    return;
-                }
+    async init() {
+        try {
+            await this.load();
+            if (this.destroyed_) {
+                this.set_viewport_dom();
+                this.unload();
+                return;
+            }
 
-                console.log('office editor init.');
+            console.log('office editor init.');
 
-                // first update
-                this.on_resize();
-            })
-            .catch((e) => {
-                console.error(e);
-            });
+            // first update
+            this.on_resize();
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     destroy() {
@@ -210,13 +243,13 @@ export class OfficeEditor {
         const h = this.viewport_dom_['clientHeight'];
 
         const dpr = window.devicePixelRatio;
-        const width_px  = w * dpr;
+        const width_px = w * dpr;
         const height_px = h * dpr;
 
         this.canvas_dom_['style']['width'] = `${w}px`;
         this.canvas_dom_['style']['height'] = `${h}px`;
-        this.canvas_dom_['width'] = (Number.isInteger(dpr) ? Math.round(width_px)  : Math.ceil(width_px));
-        this.canvas_dom_['height'] = (Number.isInteger(dpr) ? Math.round(height_px) : Math.ceil(height_px));
+        this.canvas_dom_['width'] = Number.isInteger(dpr) ? Math.round(width_px) : Math.ceil(width_px);
+        this.canvas_dom_['height'] = Number.isInteger(dpr) ? Math.round(height_px) : Math.ceil(height_px);
 
         // console.log(`resize canvas to (${this.canvas_dom_.width}, ${this.canvas_dom_.height})`);
 
