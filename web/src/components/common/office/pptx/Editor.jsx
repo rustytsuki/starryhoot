@@ -7,7 +7,7 @@ import { StatusBar } from './StatusBar';
 import { OfficeEditorType } from '../../editor/OfficeEditor';
 import { OfficeEditorClass } from '../editor';
 
-const LEFT_BAR_WIDTH = 300;
+const LEFT_BAR_WIDTH = 200;
 
 export function PPTXEditor({ options, onGoBackClick }) {
     const [is_left_bar_shown_, set_left_bar_shown] = useState(true);

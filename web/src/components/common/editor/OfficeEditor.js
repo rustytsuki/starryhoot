@@ -270,4 +270,37 @@ export class OfficeEditor {
 
     // The *Down happens first, the *Press happens second (when text is entered), and the *Up happens last (when text input is complete)
     on_keydown = (e) => {};
+
+    pptx_get_slides_count() {
+        if (this.handle_) {
+            return get_roffice().roffice_pptx_get_slides_count(this.handle_);
+        }
+        return 0;
+    }
+
+    pptx_select_slide(index) {
+        if (this.handle_) {
+            return get_roffice().roffice_pptx_select_slide(this.handle_, index);
+        }
+    }
+
+    xlsx_get_sheets_count() {
+        if (this.handle_) {
+            return get_roffice().roffice_xlsx_get_sheets_count(this.handle_);
+        }
+        return 0;
+    }
+
+    xlsx_select_sheet(index) {
+        if (this.handle_) {
+            return get_roffice().roffice_xlsx_select_sheet(this.handle_, index);
+        }
+    }
+
+    xlsx_get_sheet_name(index) {
+        if (this.handle_) {
+            return get_roffice().roffice_xlsx_get_sheet_name(this.handle_, index);
+        }
+        return '';
+    }
 }
