@@ -214,10 +214,10 @@ export function render_msgpack(ctx, buf, editor) {
                 if (9 === stack.length - 1) {
                     const image = editor.fetch_resource(stack[1]);
                     if (image) {
-                        const l = img.width * stack[2];
-                        const t = img.height * stack[3];
-                        const r = img.width - img.width * stack[4];
-                        const b = img.height - img.height * stack[5];
+                        const l = image.width * stack[2];
+                        const t = image.height * stack[3];
+                        const r = image.width - image.width * stack[4];
+                        const b = image.height - image.height * stack[5];
 
                         ctx.drawImage(image, l, t, r - l, b - t, stack[6], stack[7], stack[8], stack[9]);
                     }
