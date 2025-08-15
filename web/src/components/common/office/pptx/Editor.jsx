@@ -10,7 +10,7 @@ import { OfficeEditorClass } from '../editor';
 const LEFT_BAR_WIDTH = 300;
 
 export function PPTXEditor({ options, onGoBackClick }) {
-    const [is_left_bar_shown_, set_left_bar_shown] = useState(false);
+    const [is_left_bar_shown_, set_left_bar_shown] = useState(true);
     const [resize_, set_resize] = useState(false);
     const [editor_, set_editor] = useState(null);
     const editor_ref = useRef();
@@ -77,15 +77,15 @@ export function PPTXEditor({ options, onGoBackClick }) {
     return (
         <div className="absolute left-0 top-0 w-full h-full">
             <div className="absolute w-full" style={{ height: styles.top_bar_height }}>
-                <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} onGoBackClick={onGoBackClick} />
+                <MenuBar
+                    editor={editor_}
+                    navi_checked={is_left_bar_shown_}
+                    onNaviSwitch={onNaviSwitch}
+                    onGoBackClick={onGoBackClick}
+                />
             </div>
             <div className="absolute w-full" style={{ top: styles.top_bar_height, bottom: styles.status_bar_height }}>
-                <div
-                    className="absolute top-0 left-0 bottom-0"
-                    style={{ display: is_left_bar_shown_ ? 'block' : 'none', width: `${LEFT_BAR_WIDTH}px` }}
-                >
-                    <Navigation />
-                </div>
+                <Navigation editor={editor_} shown={is_left_bar_shown_} navi_bar_width={LEFT_BAR_WIDTH} />
                 <div
                     className="absolute top-0 bottom-0 right-0"
                     style={{

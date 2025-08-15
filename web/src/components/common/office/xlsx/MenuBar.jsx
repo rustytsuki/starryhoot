@@ -23,7 +23,7 @@ export function MenuBar({ editor, onGoBackClick }) {
 
     return (
         <div
-            className="flex items-center w-full bg-[#f5f5f5] shadow-md px-4 relative border-b border-[#ddd] box-border"
+            className="flex items-center w-full bg-[#f5f5f5] px-4 relative border-b border-[#ddd] box-border"
             style={{ height: styles.top_bar_height }}
         >
             <div className="flex flex-1 justify-start items-center gap-2">

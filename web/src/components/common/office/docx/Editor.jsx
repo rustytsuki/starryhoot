@@ -82,12 +82,7 @@ export function DOCXEditor({ options, onGoBackClick }) {
                 <MenuBar editor={editor_} onNaviSwitch={onNaviSwitch} onGoBackClick={onGoBackClick} />
             </div>
             <div className="absolute w-full" style={{ top: styles.top_bar_height, bottom: styles.status_bar_height }}>
-                <div
-                    className="absolute top-0 left-0 bottom-0"
-                    style={{ display: is_left_bar_shown_ ? 'block' : 'none', width: `${LEFT_BAR_WIDTH}px` }}
-                >
-                    <Navigation />
-                </div>
+                <Navigation editor={editor_} shown={is_left_bar_shown_} navi_bar_width={LEFT_BAR_WIDTH} />
                 <div
                     className="absolute top-0 bottom-0"
                     style={{
