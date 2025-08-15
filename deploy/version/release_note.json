@@ -1,5 +1,5 @@
 {
-    "v0.0.5": "# New Features\nKernel version upgraded to 0.1352.\nPPTX – Added a side navigation panel for selecting individual slides.\nXLSX – Introduced sheet selection tabs for easier navigation between worksheets.",
+    "v0.0.5": "# New Features\nKernel version upgraded to 0.1352.\nAdded zoom control bars to all three editors.\nPPTX – Added a side navigation panel for selecting individual slides.\nXLSX – Introduced sheet selection tabs for easier navigation between worksheets.",
     "v0.0.4": "# A completely refreshed UI\nUse the Office preview engine to generate the website’s homepage content directly—basically bootstrapping the site with itself\nUsers can try out the demo right on the official website.\nUsers can open their local Office files directly on the official website to try it out.",
     "v0.0.3": "# Improving\nHandle kernel node module crash\nPerfect DrawingML Group and sub Shapes transformation",
     "v0.0.2": "# DrawingML Geometry & Image\nSupport PPT Shape and Image",
