@@ -10,7 +10,11 @@ export function Page() {
         const query = parse_uri_query();
         set_payload(JSON.parse(base64_to_str(query['payload'])));
 
-        return () => {};
+        window.document.body.style['overflow'] = 'hidden';
+
+        return () => {
+            window.document.body.style['overflow'] = 'unset';
+        };
     }, []);
 
     return <File payload={payload} />;
